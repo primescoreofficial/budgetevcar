@@ -1,0 +1,295 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+
+export default function CompareClient({ cars }) {
+  const [selectedCar1, setSelectedCar1] = useState('');
+  const [selectedCar2, setSelectedCar2] = useState('');
+  const [selectedCar3, setSelectedCar3] = useState('');
+  
+  // Mobile responsive menu toggle state
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const car1 = cars.find(c => String(c.serial_no) === selectedCar1) || null;
+  const car2 = cars.find(c => String(c.serial_no) === selectedCar2) || null;
+  const car3 = cars.find(c => String(c.serial_no) === selectedCar3) || null;
+
+  const selectedCars = [car1, car2, car3].filter(Boolean);
+
+  const comparisonRows = [
+    { label: 'Brand', key: 'brand' },
+    { label: 'Model', key: 'model_name' },
+    { label: 'Variant', key: 'variant_name' },
+    { label: 'Body Type', key: 'body_type' },
+    { label: 'Battery Capacity', key: 'battery_capacity', suffix: ' kWh' },
+    { label: 'Segment', key: 'segment' },
+  ];
+
+  const navLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/find-ev', label: 'Find EV' },
+    { href: '/compare', label: 'Compare', active: true },
+    { href: '/calculator', label: 'Calculator' },
+  ];
+
+  return (
+    <>
+      {/* ── HEADER ── */}
+      <header className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center space-x-6 md:space-x-12">
+            <Link href="/" className="text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">BudgetEV</Link>
+            
+            {/* Desktop Navigation Link panel */}
+            <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={
+                    link.active
+                      ? "text-[#1e3a8a] border-b-2 border-[#1e3a8a] pb-1 font-semibold"
+                      : "hover:text-slate-900 transition"
+                  }
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          
+          {/* Action Trigger Handles */}
+          <div className="flex items-center gap-3">
+            <Link href="/find-ev" className="hidden md:inline-flex bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm">
+              Get Started
+            </Link>
+
+            {/* Mobile Hamburger Menu Trigger Button */}
+            <button
+              onClick={() => setMenuOpen((p) => !p)}
+              className="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition focus:outline-none"
+              aria-label="Toggle navigation menu"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {menuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Dropdown Drawer Box */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
+            >
+              <nav className="flex flex-col gap-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${
+                      link.active
+                        ? "bg-blue-50 text-[#1e3a8a]"
+                        : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                    <svg className="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                ))}
+              </nav>
+              <div className="mt-4 pt-4 border-t border-slate-100">
+                <Link
+                  href="/find-ev"
+                  onClick={() => setMenuOpen(false)}
+                  className="w-full block text-center bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-3 rounded-xl text-sm transition shadow-sm"
+                >
+                  Get Started
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* ── MAIN CONTENT ── */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-24">
+        <div className="mb-8">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">Compare Electric Vehicles</h1>
+          <p className="text-slate-500 text-sm font-medium mt-2">Select up to 3 cars to compare side by side</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {[
+            { value: selectedCar1, setter: setSelectedCar1, label: 'Select First Car', others: [selectedCar2, selectedCar3] },
+            { value: selectedCar2, setter: setSelectedCar2, label: 'Select Second Car', others: [selectedCar1, selectedCar3] },
+            { value: selectedCar3, setter: setSelectedCar3, label: 'Select Third Car (Optional)', others: [selectedCar1, selectedCar2] },
+          ].map((selector, idx) => (
+            <div key={idx} className="relative">
+              <select
+                value={selector.value}
+                onChange={(e) => selector.setter(e.target.value)}
+                className="w-full bg-white border border-slate-200 text-slate-800 px-4 py-3.5 rounded-xl text-xs font-bold appearance-none focus:outline-none focus:border-[#0249ad] focus:bg-white transition cursor-pointer"
+              >
+                <option value="">{selector.label}</option>
+                {cars.map(car => (
+                  <option
+                    key={car.serial_no}
+                    value={String(car.serial_no)}
+                    disabled={selector.others.includes(String(car.serial_no))}
+                  >
+                    {car.brand} - {car.model_name || car.detailed_name} {car.variant_name ? `(${car.variant_name})` : ''}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {selectedCars.length >= 2 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className={`grid gap-4 mb-8 grid-cols-2 md:grid-cols-${selectedCars.length}`}>
+              {selectedCars.map((car, idx) => (
+                <motion.div
+                  key={car.serial_no}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: idx * 0.1 }}
+                  className="bg-white border border-slate-100 rounded-2xl p-4 text-center shadow-sm"
+                >
+                  <div className="w-full h-28 sm:h-44 bg-slate-50 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
+                    <img src={car.vehicle_image} alt={car.model_name || car.detailed_name} className="w-full h-full object-cover" />
+                  </div>
+                  <h4 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">{car.model_name || car.detailed_name}</h4>
+                  <p className="text-xs text-slate-400 font-medium mt-0.5">{car.brand}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Responsive Table Wrapper element */}
+            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm overflow-x-auto">
+              <table className="w-full min-w-[600px] md:min-w-full">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200">
+                    <th className="text-left px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-40">Specification</th>
+                    {selectedCars.map(car => (
+                      <th key={car.serial_no} className="text-left px-6 py-4 text-xs font-bold text-[#0249ad] uppercase tracking-wider">
+                        {car.model_name || car.detailed_name}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparisonRows.map((row, idx) => (
+                    <tr key={row.key} className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}>
+                      <td className="px-6 py-4 text-xs font-bold text-slate-600">{row.label}</td>
+                      {selectedCars.map(car => (
+                        <td key={car.serial_no} className="px-6 py-4 text-sm font-semibold text-slate-900">
+                          {car[row.key] ? `${car[row.key]}${row.suffix || ''}` : '—'}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                  <tr className="bg-blue-50/50 border-t border-slate-200">
+                    <td className="px-6 py-4 text-xs font-bold text-slate-600">Summary</td>
+                    {selectedCars.map(car => (
+                      <td key={car.serial_no} className="px-6 py-4 text-xs font-medium text-slate-600 leading-relaxed min-w-[200px]">
+                        {car.web_search_summary ? car.web_search_summary.substring(0, 150) + '...' : 'No summary available'}
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className={`grid gap-4 mt-6 grid-cols-2 md:grid-cols-${selectedCars.length}`}>
+              {selectedCars.map(car => (
+                <Link
+                  key={car.serial_no}
+                  href={`/cars/${car.serial_no}`}
+                  className="w-full text-center bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-xs tracking-wide py-3 rounded-xl transition-all duration-200 block"
+                >
+                  View {car.model_name || 'Details'}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        ) : (
+          <div className="text-center py-12 sm:py-20 bg-white border border-slate-200 rounded-2xl px-4">
+            <div className="flex justify-center items-center mb-4">
+              <img
+                src="/cars.png"
+                alt="Cars"
+                className="w-[280px] md:w-[500px] lg:w-[650px] xl:w-[800px] h-auto object-contain"
+              />
+            </div>
+            <h3 className="text-lg sm:text-xl font-bold text-slate-700 mb-2">Select at least 2 cars to compare</h3>
+            <p className="text-slate-400 text-sm font-medium">Use the dropdowns above to pick cars from our database.</p>
+          </div>
+        )}
+      </main>
+
+      {/* ── FOOTER ── */}
+      <footer className="bg-slate-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-xl font-bold text-white mb-4">BudgetEV</h3>
+              <p className="text-slate-400 text-sm font-medium leading-relaxed">
+                India&apos;s most trusted platform for finding and comparing electric vehicles within your budget.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li><Link href="/" className="hover:text-white transition">Home</Link></li>
+                <li><Link href="/find-ev" className="hover:text-white transition">Find EV</Link></li>
+                <li><Link href="/compare" className="hover:text-white transition">Compare</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Resources</h4>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li><a href="#" className="hover:text-white transition">EV Guide</a></li>
+                <li><a href="#" className="hover:text-white transition">Charging Map</a></li>
+                <li><Link href="/calculator" className="hover:text-white transition">Savings Calculator</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Contact</h4>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li>📞 +917852091119</li>
+                <li>📧 mouliksharma618@gmail.com</li>
+                <li>📍 Jodhpur, India</li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-slate-800 mt-8 pt-8 text-center text-xs text-slate-500">
+            <p>© 2026 BudgetEV. All rights reserved. Made with for India&apos;s EV revolution.</p>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+}
