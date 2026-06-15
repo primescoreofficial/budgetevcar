@@ -1,6 +1,7 @@
 'use client';
 
 import { subscribeNewsletter } from '@/lib/newsletter';
+import { getCarUrl } from '@/lib/queries';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
@@ -58,7 +59,7 @@ function CarCard({ car, index, variant = 'grid' }) {
           </p>
         </div>
         <Link
-          href={`/cars/${car.serial_no}`}
+          href={getCarUrl(car)}
           className="w-full mt-4 text-center bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-xs tracking-wide py-2.5 rounded-xl transition-all duration-200 block"
         >
           View Details
@@ -102,7 +103,7 @@ function CarCard({ car, index, variant = 'grid' }) {
           {car.segment && <span className="text-slate-400">• {car.segment}</span>}
         </div>
         <Link
-          href={`/cars/${car.serial_no}`}
+          href={getCarUrl(car)}
           className="mt-3 w-full text-center bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-xs tracking-wide py-2 rounded-xl transition-all duration-200 block"
         >
           View Details

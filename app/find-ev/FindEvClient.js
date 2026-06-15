@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
+import { getCarUrl } from '@/lib/queries';
 
 export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
   const searchParams = useSearchParams();
@@ -373,7 +374,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                     </div>
                     
                     <Link
-                      href={`/cars/${car.serial_no}`}
+                      href={getCarUrl(car)}
                       className="w-full mt-6 text-center bg-white border-2 border-[#0249ad] text-[#0249ad] group-hover:bg-[#0249ad] group-hover:text-white font-black text-xs tracking-wider uppercase py-3 rounded-xl transition-all duration-300 block shadow-sm"
                     >
                       View Full Details

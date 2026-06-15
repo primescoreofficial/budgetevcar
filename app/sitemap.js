@@ -1,4 +1,4 @@
-import { getAllCars } from '@/lib/queries';
+import { getAllCars, getCarUrl } from '@/lib/queries';
 
 export default async function sitemap() {
   const baseUrl = 'https://budgetevcar.com';
@@ -7,7 +7,7 @@ export default async function sitemap() {
   try {
     const cars = await getAllCars();
     carUrls = cars.map((car) => ({
-      url: `${baseUrl}/cars/${car.serial_no}`,
+      url: `${baseUrl}${getCarUrl(car)}`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,

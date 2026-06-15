@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
+import { getCarUrl } from '@/lib/queries';
 
 export default function CarDetailClient({ car, relatedCars }) {
   // Mobile navigation expansion state hook tracker
@@ -209,7 +210,7 @@ export default function CarDetailClient({ car, relatedCars }) {
                         <p className="text-xs font-bold text-[#0249ad] mt-1">{relCar.battery_capacity} kWh</p>
                       )}
                     </div>
-                    <Link href={`/cars/${relCar.serial_no}`} className="w-full mt-4 text-center bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-xs tracking-wide py-2 rounded-xl transition-all duration-200 block">
+                    <Link href={getCarUrl(relCar)} className="w-full mt-4 text-center bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-xs tracking-wide py-2 rounded-xl transition-all duration-200 block">
                       View Details
                     </Link>
                   </motion.div>

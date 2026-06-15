@@ -1,4 +1,4 @@
-import { getCarBySerialNo, getAllCars } from '@/lib/queries';
+import { getCarBySerialNo, getAllCars, getCarUrl } from '@/lib/queries';
 import CarDetailClient from './CarDetailClient';
 import { notFound } from 'next/navigation';
 
@@ -6,7 +6,8 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
   const { serial_no } = await params;
-  const car = await getCarBySerialNo(serial_no);
+  const realSerialNo = serial_no.split('-')[0];
+  const car = await getCarBySerialNo(realSerialNo);
   if (!car) {
     return { title: 'Car Not Found — BudgetEV' };
   }
@@ -18,7 +19,8 @@ export async function generateMetadata({ params }) {
 
 export default async function CarDetailPage({ params }) {
   const { serial_no } = await params;
-  const car = await getCarBySerialNo(serial_no);
+  const realSerialNo = serial_no.split('-')[0];
+  const car = await getCarBySerialNo(realSerialNo);
 
   if (!car) {
     notFound();
@@ -45,7 +47,7 @@ export default async function CarDetailPage({ params }) {
       offers: [
         {
           '@type': 'Offer',
-          url: `https://budgetevcar.com/cars/${car.serial_no}`,
+          url: `https://budgetevcar.com${getCarUrl(car)}`,
         }
       ]
     },

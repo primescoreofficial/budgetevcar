@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
+import { getCarUrl } from '@/lib/queries';
 
 export default function CompareClient({ cars }) {
   const [selectedCar1, setSelectedCar1] = useState('');
@@ -228,7 +229,7 @@ export default function CompareClient({ cars }) {
               {selectedCars.map(car => (
                 <Link
                   key={car.serial_no}
-                  href={`/cars/${car.serial_no}`}
+                  href={getCarUrl(car)}
                   className="w-full text-center bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-xs tracking-wide py-3 rounded-xl transition-all duration-200 block"
                 >
                   View {car.model_name || 'Details'}
