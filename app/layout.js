@@ -3,6 +3,20 @@ import "./globals.css";
 export const metadata = {
   title: "BudgetEV — Find Your Perfect Electric Car",
   description: "Simplify your transition to electric. Compare range, battery life and safety ratings across every EV available in India.",
+  metadataBase: new URL('https://budgetevcar.com'),
+  openGraph: {
+    title: 'BudgetEV — Best Budget Electric Cars in India',
+    description: 'Compare range, specs, and calculate fuel savings.',
+    url: 'https://budgetevcar.com',
+    siteName: 'BudgetEV',
+    locale: 'en_IN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BudgetEV — Find Your Perfect Electric Car',
+    description: 'Compare range, specs, and calculate fuel savings.',
+  },
 };
 
 export default function RootLayout({ children }) {

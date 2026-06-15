@@ -4,6 +4,7 @@ import { subscribeNewsletter } from '@/lib/newsletter';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
+import Footer from '@/components/Footer';
 import {
   IndianRupee,
   Scale,
@@ -527,43 +528,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
       </main>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-slate-900 text-white py-12 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-xl font-bold text-white mb-4">BudgetEV</h3>
-              <p className="text-slate-400 text-sm font-medium leading-relaxed">India&apos;s most trusted platform for finding and comparing electric vehicles within your budget.</p>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-sm text-slate-400">
-                {navLinks.map((link) => (
-                  <li key={link.href}><Link href={link.href} className="hover:text-white transition">{link.label}</Link></li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Popular Brands</h4>
-              <ul className="space-y-2 text-sm text-slate-400">
-                {brands.slice(0, 5).map(brand => (
-                  <li key={brand}><Link href={`/find-ev?brand=${encodeURIComponent(brand)}`} className="hover:text-white transition">{brand}</Link></li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Contact</h4>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li>📞 7852091119</li>
-                <li>📧 mouliksharma618@gmail.com</li>
-                <li>📍 Jodhpur, India</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-slate-800 mt-8 pt-8 text-center text-xs text-slate-600">
-            <p>© 2026 BudgetEV. All rights reserved. Made with for India&apos;s EV revolution.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer brands={brands} bodyTypes={bodyTypes} />
     </>
   );
 }

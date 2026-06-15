@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import Footer from '@/components/Footer';
 
 export default function CompareClient({ cars }) {
   const [selectedCar1, setSelectedCar1] = useState('');
@@ -251,45 +252,7 @@ export default function CompareClient({ cars }) {
       </main>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-slate-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-xl font-bold text-white mb-4">BudgetEV</h3>
-              <p className="text-slate-400 text-sm font-medium leading-relaxed">
-                India&apos;s most trusted platform for finding and comparing electric vehicles within your budget.
-              </p>
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li><Link href="/" className="hover:text-white transition">Home</Link></li>
-                <li><Link href="/find-ev" className="hover:text-white transition">Find EV</Link></li>
-                <li><Link href="/compare" className="hover:text-white transition">Compare</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Resources</h4>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li><a href="#" className="hover:text-white transition">EV Guide</a></li>
-                <li><a href="#" className="hover:text-white transition">Charging Map</a></li>
-                <li><Link href="/calculator" className="hover:text-white transition">Savings Calculator</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Contact</h4>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li>📞 +917852091119</li>
-                <li>📧 mouliksharma618@gmail.com</li>
-                <li>📍 Jodhpur, India</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-slate-800 mt-8 pt-8 text-center text-xs text-slate-500">
-            <p>© 2026 BudgetEV. All rights reserved. Made with for India&apos;s EV revolution.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

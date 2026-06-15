@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import Footer from '@/components/Footer';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -21,25 +22,46 @@ function fmt(n) {
     return '₹' + Math.round(n).toLocaleString('en-IN');
 }
 
-function SliderRow({ label, value, min, max, step, onChange, display }) {
+function SliderRow({ label, value, min, max, step, onChange, prefix = '', suffix = '' }) {
     return (
         <div className="mb-5">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-2 gap-2">
                 <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{label}</span>
-                <span className="text-sm font-extrabold text-[#1e3a8a] bg-blue-50 px-2.5 py-0.5 rounded-lg">{display}</span>
+                <div className="flex items-center gap-1 bg-blue-50 px-2.5 py-0.5 rounded-lg text-[#1e3a8a] text-sm font-extrabold border border-blue-100/60 shadow-sm">
+                    {prefix && <span className="text-xs text-blue-400 font-bold">{prefix}</span>}
+                    <input
+                        type="number"
+                        min={min}
+                        max={max}
+                        step={step}
+                        value={value}
+                        onChange={(e) => {
+                            const val = e.target.value === '' ? '' : Number(e.target.value);
+                            onChange(val);
+                        }}
+                        onBlur={() => {
+                            let val = Number(value);
+                            if (isNaN(val) || val < min) val = min;
+                            if (val > max) val = max;
+                            onChange(val);
+                        }}
+                        className="w-12 bg-transparent text-right outline-none text-[#1e3a8a] font-extrabold focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    />
+                    {suffix && <span className="text-[11px] font-semibold text-slate-400">{suffix}</span>}
+                </div>
             </div>
             <input
                 type="range"
                 min={min}
                 max={max}
                 step={step}
-                value={value}
+                value={value || min}
                 onChange={(e) => onChange(Number(e.target.value))}
                 className="w-full h-1.5 rounded-full appearance-none bg-slate-100 accent-[#1e40af] cursor-pointer"
             />
             <div className="flex justify-between text-[10px] text-slate-300 font-medium mt-1.5">
-                <span>{min}</span>
-                <span>{max}</span>
+                <span>{prefix}{min}{suffix}</span>
+                <span>{prefix}{max}{suffix}</span>
             </div>
         </div>
     );
@@ -293,9 +315,9 @@ export default function SavingsCalculator() {
                                 <h3 className="text-sm font-extrabold text-slate-900 tracking-tight">Your usage</h3>
                             </div>
 
-                            <SliderRow label="Daily commute" value={km} min={5} max={200} step={1} onChange={setKm} display={`${km} km/day`} />
-                            <SliderRow label="Petrol price" value={petrolPrice} min={80} max={130} step={1} onChange={setPetrolPrice} display={`₹${petrolPrice}/L`} />
-                            <SliderRow label="Electricity tariff" value={elecPrice} min={4} max={12} step={0.5} onChange={setElecPrice} display={`₹${elecPrice.toFixed(1)}/kWh`} />
+                            <SliderRow label="Daily commute" value={km} min={5} max={400} step={1} onChange={setKm} suffix=" km/day" />
+                            <SliderRow label="Petrol price" value={petrolPrice} min={80} max={200} step={1} onChange={setPetrolPrice} prefix="₹" suffix="/L" />
+                            <SliderRow label="Electricity tariff" value={elecPrice} min={4} max={25} step={0.5} onChange={setElecPrice} prefix="₹" suffix="/kWh" />
 
                             <div className="mt-5 pt-4 border-t border-slate-50 space-y-2">
                                 <div className="flex justify-between text-[11px]">
@@ -392,38 +414,7 @@ export default function SavingsCalculator() {
             </main>
 
             {/* FOOTER */}
-            <footer className="bg-slate-900 text-white py-10 sm:py-12">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                        <div>
-                            <h3 className="text-lg font-bold text-white mb-3">BudgetEV</h3>
-                            <p className="text-slate-400 text-sm font-medium leading-relaxed">
-                                India&apos;s most trusted platform for finding and comparing electric vehicles within your budget.
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Quick Links</h4>
-                            <ul className="space-y-2 text-sm text-slate-400">
-                                <li><Link href="/" className="hover:text-white transition">Home</Link></li>
-                                <li><Link href="/find-ev" className="hover:text-white transition">Find EV</Link></li>
-                                <li><Link href="/compare" className="hover:text-white transition">Compare</Link></li>
-                                <li><Link href="/calculator" className="hover:text-white transition">Calculator</Link></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Contact</h4>
-                            <ul className="space-y-2 text-sm text-slate-400">
-                                <li>📞 +91 7852085341</li>
-                                <li>📧 mouliksharma618@gmail.com</li>
-                                <li>📍 Jodhpur, India</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="border-t border-slate-800 mt-8 pt-6 text-center text-xs text-slate-600">
-                        <p>© 2026 BudgetEV. All rights reserved. Made with for India&apos;s EV revolution.</p>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }

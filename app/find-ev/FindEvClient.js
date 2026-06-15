@@ -3,6 +3,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import Footer from '@/components/Footer';
 
 export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
   const searchParams = useSearchParams();
@@ -401,49 +402,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
       </main>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-slate-900 text-white py-14 border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
-            <div>
-              <h3 className="text-lg font-black text-white tracking-wide mb-4">BudgetEV</h3>
-              <p className="text-slate-400 text-sm font-medium leading-relaxed">
-                India&apos;s most trusted platform for finding and comparing electric vehicles within your budget.
-              </p>
-            </div>
-            <div>
-              <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4">Quick Links</h4>
-              <ul className="space-y-2.5 text-sm text-slate-400 font-semibold">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="hover:text-white transition-colors">{link.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4">Body Styles</h4>
-              <ul className="space-y-2.5 text-sm text-slate-400 font-semibold">
-                {bodyTypes.slice(0, 5).map(bt => (
-                  <li key={bt}>
-                    <Link href={`/find-ev?bodyType=${encodeURIComponent(bt)}`} className="hover:text-white transition-colors">{bt}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4">Contact Support</h4>
-              <ul className="space-y-2.5 text-sm text-slate-400 font-semibold">
-                <li className="flex items-center gap-1.5">📞 7852091119</li>
-                <li className="flex items-center gap-1.5">📧 mouliksharma618@gmail.com</li>
-                <li className="flex items-center gap-1.5">📍 Jodhpur, India</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-slate-800 mt-10 pt-8 text-center text-xs text-slate-500 font-medium">
-            <p>© 2026 BudgetEV. All rights reserved. Made with for India&apos;s EV revolution.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer brands={brands} bodyTypes={bodyTypes} />
     </div>
   );
 }
