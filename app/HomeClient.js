@@ -513,7 +513,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
         </LazySection>
 
         {/* ── NEWSLETTER ── */}
-        <LazySection className="mt-10">
+        <LazySection className="mt-10 mb-12">
           <section className="bg-white border border-slate-200 rounded-2xl p-8 md:p-12 text-center shadow-sm">
             <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 mb-3">Stay Updated on Indian EVs</h2>
             <p className="text-slate-500 text-sm font-medium max-w-lg mx-auto mb-6">Get the latest news, price updates, and exclusive offers on electric vehicles delivered to your inbox.</p>
