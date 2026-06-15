@@ -9,12 +9,20 @@ import { getCarUrl } from '@/lib/queries';
 export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
   const searchParams = useSearchParams();
   const initialBrand = searchParams.get('brand') || '';
+  const initialBodyType = searchParams.get('bodyType') || '';
+  const initialBudget = searchParams.get('budget') || '';
+
+  let initialBattery = '';
+  if (initialBudget === 'under-10') initialBattery = '0-30';
+  else if (initialBudget === '10-15') initialBattery = '30-50';
+  else if (initialBudget === '15-20') initialBattery = '50-75';
+  else if (initialBudget === 'above-20') initialBattery = '75';
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBrand, setSelectedBrand] = useState(initialBrand);
   const [selectedSegment, setSelectedSegment] = useState('');
-  const [selectedBodyType, setSelectedBodyType] = useState('');
-  const [selectedBattery, setSelectedBattery] = useState('');
+  const [selectedBodyType, setSelectedBodyType] = useState(initialBodyType);
+  const [selectedBattery, setSelectedBattery] = useState(initialBattery);
   const [menuOpen, setMenuOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
 

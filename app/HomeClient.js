@@ -121,6 +121,28 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
   const [visibleCount, setVisibleCount] = useState(4);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const [selectedPrimary, setSelectedPrimary] = useState('all');
+  const [selectedSecondary, setSelectedSecondary] = useState('all');
+
+  useEffect(() => {
+    setSelectedPrimary('all');
+  }, [searchCriteria]);
+
+  const getSearchHref = () => {
+    const params = new URLSearchParams();
+    if (selectedSecondary !== 'all') {
+      params.append('bodyType', selectedSecondary);
+    }
+    if (searchCriteria === 'brand' && selectedPrimary !== 'all') {
+      params.append('brand', selectedPrimary);
+    }
+    if (searchCriteria === 'budget' && selectedPrimary !== 'all') {
+      params.append('budget', selectedPrimary);
+    }
+    const queryString = params.toString();
+    return queryString ? `/find-ev?${queryString}` : '/find-ev';
+  };
+
   // Newsletter Submit State Handlers
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterLoading, setNewsletterLoading] = useState(false);
@@ -304,24 +326,54 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                 </div>
 
                 <div className="space-y-3">
-                  {[
-                    { id: 'primary', options: searchCriteria === 'budget' ? [{ value: 'all', label: 'Select Budget Range' }, { value: 'under-10', label: 'Under ₹10 Lakh' }, { value: '10-15', label: '₹10L – ₹15 Lakh' }, { value: '15-20', label: '₹15L – ₹20 Lakh' }, { value: 'above-20', label: 'Above ₹20 Lakh' }] : [{ value: 'all', label: 'Select Brand' }, ...brands.map(b => ({ value: b, label: b }))] },
-                    { id: 'secondary', options: [{ value: 'all', label: 'Select Body Type' }, ...bodyTypes.map(bt => ({ value: bt, label: bt }))] },
-                  ].map(sel => (
-                    <div key={sel.id} className="relative">
-                      <select className="w-full bg-slate-50 border border-slate-200 text-slate-800 px-4 py-3.5 rounded-xl text-xs font-bold appearance-none focus:outline-none focus:border-[#0249ad] focus:bg-white transition cursor-pointer">
-                        {sel.options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-                      </select>
-                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
-                      </div>
+                  <div className="relative">
+                    <select
+                      value={selectedPrimary}
+                      onChange={(e) => setSelectedPrimary(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 text-slate-800 px-4 py-3.5 rounded-xl text-xs font-bold appearance-none focus:outline-none focus:border-[#0249ad] focus:bg-white transition cursor-pointer"
+                    >
+                      {searchCriteria === 'budget' ? (
+                        <>
+                          <option value="all">Select Budget Range</option>
+                          <option value="under-10">Under ₹10 Lakh</option>
+                          <option value="10-15">₹10L – ₹15 Lakh</option>
+                          <option value="15-20">₹15L – ₹20 Lakh</option>
+                          <option value="above-20">Above ₹20 Lakh</option>
+                        </>
+                      ) : (
+                        <>
+                          <option value="all">Select Brand</option>
+                          {brands.map(b => (
+                            <option key={b} value={b}>{b}</option>
+                          ))}
+                        </>
+                      )}
+                    </select>
+                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
                     </div>
-                  ))}
+                  </div>
+
+                  <div className="relative">
+                    <select
+                      value={selectedSecondary}
+                      onChange={(e) => setSelectedSecondary(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 text-slate-800 px-4 py-3.5 rounded-xl text-xs font-bold appearance-none focus:outline-none focus:border-[#0249ad] focus:bg-white transition cursor-pointer"
+                    >
+                      <option value="all">Select Body Type</option>
+                      {bodyTypes.map(bt => (
+                        <option key={bt} value={bt}>{bt}</option>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <div className="mt-6 space-y-3">
-                <Link href="/find-ev" className="w-full bg-orange-600 hover:bg-orange-500 text-white font-extrabold py-3.5 px-6 rounded-xl shadow-lg text-center text-xs tracking-wider uppercase transition block">Search Available EVs</Link>
+                <Link href={getSearchHref()} className="w-full bg-orange-600 hover:bg-orange-500 text-white font-extrabold py-3.5 px-6 rounded-xl shadow-lg text-center text-xs tracking-wider uppercase transition block">Search Available EVs</Link>
                 <div className="text-center">
                   <Link href="/find-ev" className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-400 hover:text-[#0249ad] transition">Advanced Smart Search <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg></Link>
                 </div>
