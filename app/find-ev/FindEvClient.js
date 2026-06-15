@@ -257,7 +257,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
       {/* Brand Checkboxes */}
       <div>
         <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Brand</h4>
-        <div className="space-y-2.5 max-h-48 overflow-y-auto pr-1">
+        <div className="space-y-2.5 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
           {brands.map(brand => (
             <label key={brand} className="flex items-center gap-3 cursor-pointer select-none text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">
               <input
@@ -511,7 +511,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
         <div className="flex flex-col lg:flex-row gap-8 items-start">
 
           {/* SIDEBAR FILTER CONTAINER */}
-          <aside className="hidden lg:block w-76 flex-shrink-0 sticky top-28 max-h-[calc(100vh-9rem)] overflow-y-auto pr-1">
+          <aside className="hidden lg:block w-76 flex-shrink-0 sticky top-28 max-h-[calc(100vh-9rem)] overflow-y-auto pr-1 custom-scrollbar">
             <div className="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-sm shadow-slate-100/50">
               <FilterPanel />
             </div>
