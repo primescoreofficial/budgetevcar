@@ -534,13 +534,13 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
               </div>
 
               {/* Search input in Listings top bar */}
-              <div className="relative">
+              <div className="relative w-full sm:w-64">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search brand, model, variant..."
-                  className="bg-white border border-slate-200 text-slate-800 pl-4 pr-10 py-2.5 rounded-xl text-xs font-bold focus:outline-none focus:border-[#0249ad] focus:bg-white transition w-64"
+                  className="bg-white border border-slate-200 text-slate-800 pl-4 pr-10 py-2.5 rounded-xl text-xs font-bold focus:outline-none focus:border-[#0249ad] focus:bg-white transition w-full"
                 />
                 <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-slate-400">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
