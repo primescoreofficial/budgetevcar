@@ -12,7 +12,6 @@ function getCarSpecs(car) {
   const model = (car.model_name || '').toLowerCase();
   const detailed = (car.detailed_name || '').toLowerCase();
 
-  // Defaults (Lakhs, km, charging)
   let minPrice = 7.99;
   let maxPrice = 11.89;
   let rangeKm = 315;
@@ -110,7 +109,6 @@ function getCarSpecs(car) {
     chargeTime = "24 min";
     chargeMinutes = 24;
   } else {
-    // Generate realistic proxy values
     const battery = parseFloat(car.battery_capacity) || 30;
     minPrice = Math.round(battery * 0.4 + 4);
     maxPrice = Math.round(battery * 0.45 + 5);
@@ -134,17 +132,13 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
   else if (initialBudget === '15-20') initialBatteryLimit = 75;
   else if (initialBudget === 'above-20') initialBatteryLimit = 150;
 
-  // State hooks mapping to design filters
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBrands, setSelectedBrands] = useState(initialBrand ? [initialBrand] : []);
   const [selectedBodyType, setSelectedBodyType] = useState(initialBodyType);
-  const [priceRange, setPriceRange] = useState(25); // max price filter L (25 means no limit)
-  const [minRange, setMinRange] = useState(0); // minimum range KM
-  const [chargingFilter, setChargingFilter] = useState('all'); // all, fast, normal
-  const [sortBy, setSortBy] = useState('Popularity');
-  const [favorites, setFavorites] = useState([]);
+  const [priceRange, setPriceRange] = useState(25); // Lakhs max limit (25 means Any Price)
+  const [minRange, setMinRange] = useState(0);
+  const [chargingFilter, setChargingFilter] = useState('all');
 
-  // Handle mobile menu/drawer controls
   const [menuOpen, setMenuOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -153,14 +147,6 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
       prev.includes(brandName)
         ? prev.filter(b => b !== brandName)
         : [...prev, brandName]
-    );
-  };
-
-  const toggleFavorite = (serialNo) => {
-    setFavorites(prev =>
-      prev.includes(serialNo)
-        ? prev.filter(id => id !== serialNo)
-        : [...prev, serialNo]
     );
   };
 
@@ -182,11 +168,9 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
     searchQuery
   ].filter(Boolean).length;
 
-  // Filter cars dynamically
   const filteredCars = useMemo(() => {
     let result = [...cars];
 
-    // Search query
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter(car =>
@@ -196,7 +180,6 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
       );
     }
 
-    // Brands
     if (selectedBrands.length > 0) {
       result = result.filter(car => {
         const brandLower = (car.brand || '').toLowerCase();
@@ -207,7 +190,6 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
       });
     }
 
-    // Body Type
     if (selectedBodyType) {
       result = result.filter(car => {
         const bt = (car.body_type || '').toLowerCase();
@@ -219,59 +201,34 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
       });
     }
 
-    // Calculated Specs filters
     result = result.filter(car => {
       const specs = getCarSpecs(car);
-
-      // Price limit
-      if (priceRange < 25) {
-        if (specs.minPrice > priceRange) return false;
-      }
-
-      // Min Range
+      if (priceRange < 25 && specs.minPrice > priceRange) return false;
       if (minRange > 0 && specs.rangeKm < minRange) return false;
-
-      // Charging
       if (chargingFilter === 'fast' && specs.chargeMinutes > 60) return false;
       if (chargingFilter === 'normal' && specs.chargeMinutes <= 60) return false;
-
       return true;
     });
 
-    // Sorting
-    if (sortBy === 'Range') {
-      result.sort((a, b) => getCarSpecs(b).rangeKm - getCarSpecs(a).rangeKm);
-    } else if (sortBy === 'Price: Low to High') {
-      result.sort((a, b) => getCarSpecs(a).minPrice - getCarSpecs(b).minPrice);
-    } else if (sortBy === 'Price: High to Low') {
-      result.sort((a, b) => getCarSpecs(b).minPrice - getCarSpecs(a).minPrice);
-    }
-
     return result;
-  }, [cars, searchQuery, selectedBrands, selectedBodyType, priceRange, minRange, chargingFilter, sortBy]);
+  }, [cars, searchQuery, selectedBrands, selectedBodyType, priceRange, minRange, chargingFilter]);
 
   const navLinks = [
     { href: '/', label: 'Home' },
-    { href: '/find-ev', label: 'Listings', active: true },
+    { href: '/find-ev', label: 'Find EV', active: true },
     { href: '/compare', label: 'Compare' },
     { href: '/calculator', label: 'Calculator' },
   ];
 
   const FilterPanel = () => (
-    <div className="flex flex-col gap-7 text-slate-800">
-      
-      {/* Search Input embedded in panel for mobile convenience */}
-      <div className="lg:hidden">
-        <label className="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">Search Vehicle</label>
-        <div className="relative">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search budget EVs..."
-            className="w-full bg-slate-50 border border-slate-200 text-slate-800 pl-4 pr-10 py-3 rounded-xl text-xs font-bold focus:outline-none focus:border-[#0249ad] focus:bg-white transition"
-          />
-        </div>
+    <div className="flex flex-col gap-6 text-slate-800">
+      <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+        <h3 className="text-base font-black text-slate-900 uppercase tracking-wider">Filters</h3>
+        {activeFilterCount > 0 && (
+          <button onClick={clearFilters} className="text-xs font-extrabold text-[#0249ad] hover:text-blue-800 transition">
+            Clear All ({activeFilterCount})
+          </button>
+        )}
       </div>
 
       {/* Price Range Slider */}
@@ -315,7 +272,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
         </div>
       </div>
 
-      {/* Body Type Selectors */}
+      {/* Body Type Grid Cards */}
       <div>
         <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Body Type</h4>
         <div className="grid grid-cols-2 gap-2">
@@ -372,7 +329,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                 onClick={() => setSelectedBodyType(active ? '' : type.id)}
                 className={`flex flex-col items-center gap-2 p-3 rounded-xl border text-center transition-all ${
                   active
-                    ? 'border-[#0249ad] bg-amber-500/5 text-[#0249ad] font-bold shadow-sm ring-1 ring-[#0249ad]'
+                    ? 'border-[#0249ad] bg-[#0249ad]/5 text-[#0249ad] font-bold shadow-sm ring-1 ring-[#0249ad]'
                     : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700'
                 }`}
               >
@@ -384,7 +341,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
         </div>
       </div>
 
-      {/* Range Pills */}
+      {/* Range Pills (Brand Blue) */}
       <div>
         <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Range (KM)</h4>
         <div className="flex flex-wrap gap-1.5">
@@ -396,7 +353,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                 onClick={() => setMinRange(active ? 0 : range)}
                 className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${
                   active
-                    ? 'bg-amber-600 border-amber-600 text-white shadow-sm'
+                    ? 'bg-[#0249ad] border-[#0249ad] text-white shadow-sm'
                     : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
                 }`}
               >
@@ -407,7 +364,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
         </div>
       </div>
 
-      {/* Charging Time Radios */}
+      {/* Charging Time Radios (Brand Blue) */}
       <div>
         <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Charging Time</h4>
         <div className="space-y-2.5">
@@ -429,20 +386,17 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
           ))}
         </div>
       </div>
-
     </div>
   );
 
   return (
     <div className="min-h-screen bg-slate-50/50">
       
-      {/* ── HEADER ── */}
-      <header className="w-full bg-white sticky top-0 z-50 border-b border-slate-100 shadow-sm">
+      {/* ── HEADER (Original layout without yellow banners or search inputs) ── */}
+      <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm shadow-slate-100/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
           <div className="flex items-center gap-6 sm:gap-12">
-            <Link href="/" className="text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">
-              BudgetEV
-            </Link>
+            <Link href="/" className="text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">BudgetEV</Link>
 
             <nav className="hidden md:flex items-center space-x-8 text-[14px] font-bold text-slate-500">
               {navLinks.map((link) => (
@@ -461,23 +415,14 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
             </nav>
           </div>
 
-          <div className="flex items-center gap-4">
-            
-            {/* Search Input Bar (Mockup top right) */}
-            <div className="hidden lg:relative lg:block">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search budget EVs..."
-                className="bg-slate-100 border-none text-slate-800 pl-4 pr-10 py-2 rounded-xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition w-60"
-              />
-              <svg className="w-4 h-4 text-slate-400 absolute right-3 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/find-ev"
+              className="hidden md:inline-flex bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm shadow-blue-900/10"
+            >
+              Get Started
+            </Link>
 
-            {/* Filter Toggle — mobile only */}
             <button
               onClick={() => { setFilterOpen(p => !p); setMenuOpen(false); }}
               className="md:hidden relative p-2.5 rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition focus:outline-none"
@@ -493,7 +438,6 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
               )}
             </button>
 
-            {/* Hamburger Menu Toggle — mobile only */}
             <button
               onClick={() => { setMenuOpen(p => !p); setFilterOpen(false); }}
               className="md:hidden p-2.5 rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition focus:outline-none"
@@ -509,7 +453,6 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
         <AnimatePresence>
           {menuOpen && (
             <motion.div
@@ -542,7 +485,6 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
           )}
         </AnimatePresence>
 
-        {/* Mobile Filter Drawer */}
         <AnimatePresence>
           {filterOpen && (
             <motion.div
@@ -564,163 +506,113 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
         </AnimatePresence>
       </header>
 
-      {/* ── LIMITED OFFER HEADER BANNER ── */}
-      <div className="bg-[#d97706] text-white py-2 px-4 text-center text-xs font-bold flex items-center justify-center gap-2">
-        <span>⚡</span>
-        <span>LIMITED OFFER: Get up to ₹1.5L subsidy on select EV models this month. Check eligibility now!</span>
-        <svg className="w-4 h-4 stroke-current shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-        </svg>
-      </div>
-
       {/* ── MAIN LAYOUT LAYER ── */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-24">
-        <div className="flex flex-col lg:flex-row gap-10 items-start">
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
 
           {/* SIDEBAR FILTER CONTAINER */}
-          <aside className="hidden lg:block w-64 shrink-0 sticky top-28 max-h-[calc(100vh-9rem)] overflow-y-auto pr-1">
-            <div className="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-sm">
+          <aside className="hidden lg:block w-76 flex-shrink-0 sticky top-28 max-h-[calc(100vh-9rem)] overflow-y-auto pr-1">
+            <div className="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-sm shadow-slate-100/50">
               <FilterPanel />
             </div>
           </aside>
 
           {/* PRODUCT DIRECTORY RESULTS MATRIX */}
           <div className="flex-1 w-full">
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between justify-start gap-4 mb-8 pb-4 border-b border-slate-200/40">
+            
+            {/* Header / Search bar */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between justify-start gap-4 mb-8 pb-4 border-b border-slate-200/40">
               <div>
-                <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-                  Budget EV Listings
-                </h1>
-                <p className="text-xs text-slate-400 font-extrabold uppercase tracking-wider mt-1.5">
-                  Showing {filteredCars.length} vehicles matching your criteria
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                  {searchQuery || selectedBrands.length > 0 || selectedBodyType
+                    ? 'Search Results'
+                    : 'All Electric Vehicles'}
+                </h2>
+                <p className="text-xs text-slate-400 font-extrabold uppercase tracking-wider mt-1">
+                  {filteredCars.length} vehicles matching
                 </p>
               </div>
 
-              {/* Sort Dropdown */}
-              <div className="flex items-center gap-3">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Sort by:</span>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-white border border-slate-200 text-slate-800 text-xs font-extrabold py-2 px-3 rounded-lg focus:outline-none focus:border-[#0249ad] cursor-pointer"
-                >
-                  <option>Popularity</option>
-                  <option>Range</option>
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                </select>
+              {/* Search input in Listings top bar */}
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search brand, model, variant..."
+                  className="bg-white border border-slate-200 text-slate-800 pl-4 pr-10 py-2.5 rounded-xl text-xs font-bold focus:outline-none focus:border-[#0249ad] focus:bg-white transition w-64"
+                />
+                <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-slate-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
               </div>
             </div>
 
-            {/* Unified Page Scrolling Matrix Block */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            {/* Unified Page Scrolling Matrix Block (Original Card Layouts Restored) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
               <AnimatePresence>
-                {filteredCars.map((car, index) => {
-                  const specs = getCarSpecs(car);
-                  const isFavorited = favorites.includes(car.serial_no);
-                  return (
-                    <motion.div
-                      key={car.serial_no}
-                      layout
-                      initial={{ opacity: 0, scale: 0.96 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.96 }}
-                      transition={{ duration: 0.25, ease: 'easeInOut', delay: Math.min(index, 5) * 0.03 }}
-                      className="group bg-white border border-slate-200/60 rounded-3xl overflow-hidden hover:shadow-xl hover:border-blue-100 transition-all duration-300 flex flex-col justify-between"
-                    >
-                      <div>
-                        {/* Enforced premium proportional image thumbnail frame */}
-                        <div className="w-full aspect-[16/10] bg-slate-50 overflow-hidden relative">
-                          <img
-                            src={car.vehicle_image}
-                            alt={car.model_name || car.detailed_name}
-                            className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
-                            loading="lazy"
-                          />
-                          
-                          {/* "Top Rated" pill overlay */}
-                          <span className="absolute top-3 left-3 bg-[#15803d]/90 text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm backdrop-blur-sm">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-ping inline-block shrink-0" />
-                            Top Rated
+                {filteredCars.map((car, index) => (
+                  <motion.div
+                    key={car.serial_no}
+                    layout
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.3, ease: 'easeInOut', delay: Math.min(index, 5) * 0.03 }}
+                    className="group bg-white border border-slate-200/60 rounded-2xl p-4 hover:border-blue-300 hover:shadow-xl hover:shadow-slate-200/30 transition-all duration-300 flex flex-col justify-between"
+                  >
+                    <div>
+                      {/* Enforced premium proportional image thumbnail frame */}
+                      <div className="w-full aspect-[16/10] bg-slate-50 rounded-xl overflow-hidden mb-4 relative">
+                        <img
+                          src={car.vehicle_image}
+                          alt={car.model_name || car.detailed_name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                          loading="lazy"
+                        />
+                      </div>
+                      
+                      <h4 className="text-base font-black text-slate-900 tracking-tight leading-snug group-hover:text-[#0249ad] transition-colors duration-200">
+                        {car.model_name || car.detailed_name}
+                      </h4>
+                      
+                      <p className="text-[11px] text-slate-400 font-extrabold uppercase tracking-wider mt-1">
+                        {car.brand}{car.variant_name ? ` • ${car.variant_name}` : ''}
+                      </p>
+                      
+                      {/* Specification Pill Badges */}
+                      <div className="flex items-center flex-wrap gap-1.5 text-xs text-slate-500 font-bold mt-4">
+                        {car.battery_capacity && (
+                          <span className="flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-100/60 px-2.5 py-1 rounded-lg text-[11px]">
+                            <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                              <path d="M11 21l-1-7H4l9-11 1 7h6l-9 11z" />
+                            </svg>
+                            {car.battery_capacity} kWh
                           </span>
-                        </div>
-
-                        {/* Text / Stats Area */}
-                        <div className="p-5">
-                          <div className="flex items-start justify-between gap-2">
-                            <div>
-                              <h4 className="text-lg font-black text-slate-900 tracking-tight leading-snug group-hover:text-[#0249ad] transition-colors duration-200">
-                                {car.model_name || car.detailed_name}
-                              </h4>
-                              <p className="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest mt-0.5">
-                                {car.brand}
-                              </p>
-                            </div>
-                            
-                            {/* Wishlist Heart Icon */}
-                            <button
-                              onClick={() => toggleFavorite(car.serial_no)}
-                              className="p-1.5 rounded-full hover:bg-slate-100 transition shrink-0"
-                            >
-                              <svg
-                                className={`w-5 h-5 ${isFavorited ? 'fill-rose-500 stroke-rose-500' : 'stroke-slate-400 hover:stroke-slate-600'} transition-all`}
-                                fill={isFavorited ? 'currentColor' : 'none'}
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                              >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                              </svg>
-                            </button>
-                          </div>
-
-                          {/* Bold Pricing display */}
-                          <div className="mt-3.5 mb-4">
-                            <span className="text-amber-600 font-black text-lg">
-                              ₹{specs.minPrice}L{specs.maxPrice !== specs.minPrice ? ` - ${specs.maxPrice}L` : ''}
-                            </span>
-                          </div>
-
-                          {/* Spec display cards */}
-                          <div className="grid grid-cols-2 gap-2.5">
-                            
-                            {/* Range */}
-                            <div className="bg-slate-50 border border-slate-100 rounded-xl p-2.5 flex items-center gap-2">
-                              <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                              </svg>
-                              <div>
-                                <span className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Range</span>
-                                <span className="block text-[11px] font-black text-slate-800">{specs.rangeKm} km</span>
-                              </div>
-                            </div>
-
-                            {/* Charge Time */}
-                            <div className="bg-slate-50 border border-slate-100 rounded-xl p-2.5 flex items-center gap-2">
-                              <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              <div>
-                                <span className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Charge</span>
-                                <span className="block text-[11px] font-black text-slate-800">{specs.chargeTime}</span>
-                              </div>
-                            </div>
-
-                          </div>
-                        </div>
+                        )}
+                        {car.body_type && (
+                          <span className="bg-slate-50 text-slate-600 border border-slate-100 px-2.5 py-1 rounded-lg text-[11px] whitespace-nowrap">
+                            {car.body_type}
+                          </span>
+                        )}
+                        {car.segment && (
+                          <span className="bg-blue-50/40 text-blue-700 border border-blue-100/30 px-2.5 py-1 rounded-lg text-[11px] whitespace-nowrap">
+                            Class {car.segment}
+                          </span>
+                        )}
                       </div>
-
-                      <div className="px-5 pb-5">
-                        <Link
-                          href={getCarUrl(car)}
-                          className="w-full text-center bg-[#072448] hover:bg-[#0249ad] text-white font-black text-xs tracking-wider uppercase py-3.5 rounded-xl transition-all duration-300 block shadow-sm"
-                        >
-                          View Details
-                        </Link>
-                      </div>
-                    </motion.div>
-                  );
-                })}
+                    </div>
+                    
+                    <Link
+                      href={getCarUrl(car)}
+                      className="w-full mt-6 text-center bg-white border-2 border-[#0249ad] text-[#0249ad] group-hover:bg-[#0249ad] group-hover:text-white font-black text-xs tracking-wider uppercase py-3 rounded-xl transition-all duration-300 block shadow-sm"
+                    >
+                      View Full Details
+                    </Link>
+                  </motion.div>
+                ))}
               </AnimatePresence>
             </div>
 
