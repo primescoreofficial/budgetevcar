@@ -169,14 +169,69 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
 
   const carsByBodyType = useMemo(() => {
     const grouped = { SUV: [], Hatchback: [], Sedan: [], Luxury: [] };
+    
+    // Luxury brand matching set
+    const luxuryBrands = new Set([
+      'bmw', 'mercedes-benz', 'audi', 'porsche', 'volvo', 'mini', 'jaguar'
+    ]);
+
+    // Track uniqueness per category (brand + model_name) to avoid duplicate variants
+    const seenSUV = new Set();
+    const seenHatchback = new Set();
+    const seenSedan = new Set();
+    const seenLuxury = new Set();
+
     cars.forEach(car => {
+      const brandLower = (car.brand || '').toLowerCase();
+      const modelLower = (car.model_name || '').toLowerCase();
+      const detailedLower = (car.detailed_name || '').toLowerCase();
       const bt = (car.body_type || '').toLowerCase();
-      if (bt.includes('suv') || bt.includes('crossover')) grouped['SUV'].push(car);
-      else if (bt.includes('hatchback') || bt.includes('compact')) grouped['Hatchback'].push(car);
-      else if (bt.includes('sedan') || bt.includes('saloon')) grouped['Sedan'].push(car);
-      else if (bt.includes('luxury') || bt.includes('premium') || bt.includes('coupe')) grouped['Luxury'].push(car);
-      else grouped['SUV'].push(car);
+      const segmentLower = (car.segment || '').toLowerCase();
+
+      const modelKey = `${brandLower}-${modelLower}`;
+
+      // Check if the car is luxury
+      const isLuxury =
+        luxuryBrands.has(brandLower) ||
+        (brandLower === 'kia' && (modelLower.includes('ev9') || detailedLower.includes('ev9'))) ||
+        (brandLower === 'hyundai' && (modelLower.includes('ioniq 5') || detailedLower.includes('ioniq 5'))) ||
+        segmentLower.includes('luxury') ||
+        segmentLower.includes('premium') ||
+        bt.includes('luxury') ||
+        bt.includes('premium');
+
+      if (isLuxury) {
+        if (!seenLuxury.has(modelKey)) {
+          seenLuxury.add(modelKey);
+          grouped['Luxury'].push(car);
+        }
+      }
+
+      // Categorize under body types (a car can belong to both Luxury and its body type)
+      if (bt.includes('suv') || bt.includes('crossover')) {
+        if (!seenSUV.has(modelKey)) {
+          seenSUV.add(modelKey);
+          grouped['SUV'].push(car);
+        }
+      } else if (bt.includes('hatchback') || bt.includes('compact')) {
+        if (!seenHatchback.has(modelKey)) {
+          seenHatchback.add(modelKey);
+          grouped['Hatchback'].push(car);
+        }
+      } else if (bt.includes('sedan') || bt.includes('saloon')) {
+        if (!seenSedan.has(modelKey)) {
+          seenSedan.add(modelKey);
+          grouped['Sedan'].push(car);
+        }
+      } else {
+        // Fallback to SUV if no other body type matches
+        if (!seenSUV.has(modelKey)) {
+          seenSUV.add(modelKey);
+          grouped['SUV'].push(car);
+        }
+      }
     });
+
     return grouped;
   }, [cars]);
 
