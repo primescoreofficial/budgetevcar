@@ -83,10 +83,6 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
                   info@budgetevcar.com
                 </a>
               </li>
-              <li className="flex items-center gap-3 text-slate-400">
-                <MapPin className="w-4 h-4 text-blue-500 shrink-0" />
-                <span>Jodhpur, India</span>
-              </li>
             </ul>
           </div>
 

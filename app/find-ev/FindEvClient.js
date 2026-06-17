@@ -327,11 +327,10 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
               <button
                 key={type.id}
                 onClick={() => setSelectedBodyType(active ? '' : type.id)}
-                className={`flex flex-col items-center gap-2 p-3 rounded-xl border text-center transition-all ${
-                  active
+                className={`flex flex-col items-center gap-2 p-3 rounded-xl border text-center transition-all ${active
                     ? 'border-[#0249ad] bg-[#0249ad]/5 text-[#0249ad] font-bold shadow-sm ring-1 ring-[#0249ad]'
                     : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700'
-                }`}
+                  }`}
               >
                 {type.icon}
                 <span className="text-[10px] tracking-wide uppercase font-bold">{type.label}</span>
@@ -351,11 +350,10 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
               <button
                 key={range}
                 onClick={() => setMinRange(active ? 0 : range)}
-                className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${
-                  active
+                className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${active
                     ? 'bg-[#0249ad] border-[#0249ad] text-white shadow-sm'
                     : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
-                }`}
+                  }`}
               >
                 {range}+
               </button>
@@ -391,7 +389,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
 
   return (
     <div className="min-h-screen bg-slate-50/50">
-      
+
       {/* ── HEADER (Original layout without yellow banners or search inputs) ── */}
       <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm shadow-slate-100/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
@@ -468,11 +466,10 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${
-                      link.active
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${link.active
                         ? "bg-blue-50 text-[#1e3a8a]"
                         : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"
-                    }`}
+                      }`}
                   >
                     <span>{link.label}</span>
                     <svg className="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -516,10 +513,9 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
               <FilterPanel />
             </div>
           </aside>
-
           {/* PRODUCT DIRECTORY RESULTS MATRIX */}
           <div className="flex-1 w-full">
-            
+
             {/* Header / Search bar */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between justify-start gap-4 mb-8 pb-4 border-b border-slate-200/40">
               <div>
@@ -573,15 +569,15 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                           loading="lazy"
                         />
                       </div>
-                      
+
                       <h4 className="text-base font-black text-slate-900 tracking-tight leading-snug group-hover:text-[#0249ad] transition-colors duration-200">
                         {car.model_name || car.detailed_name}
                       </h4>
-                      
+
                       <p className="text-[11px] text-slate-400 font-extrabold uppercase tracking-wider mt-1">
                         {car.brand}{car.variant_name ? ` • ${car.variant_name}` : ''}
                       </p>
-                      
+
                       {/* Specification Pill Badges */}
                       <div className="flex items-center flex-wrap gap-1.5 text-xs text-slate-500 font-bold mt-4">
                         {car.battery_capacity && (
@@ -604,7 +600,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                         )}
                       </div>
                     </div>
-                    
+
                     <Link
                       href={getCarUrl(car)}
                       className="w-full mt-6 text-center bg-white border-2 border-[#0249ad] text-[#0249ad] group-hover:bg-[#0249ad] group-hover:text-white font-black text-xs tracking-wider uppercase py-3 rounded-xl transition-all duration-300 block shadow-sm"

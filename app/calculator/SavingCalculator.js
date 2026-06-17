@@ -15,7 +15,7 @@ import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-const PETROL_MILEAGE = 50;
+const PETROL_MILEAGE = 12;
 const EV_EFFICIENCY = 6;
 
 function fmt(n) {
@@ -322,7 +322,7 @@ export default function SavingsCalculator() {
                             <div className="mt-5 pt-4 border-t border-slate-50 space-y-2">
                                 <div className="flex justify-between text-[11px]">
                                     <span className="text-slate-400 font-medium">Petrol mileage</span>
-                                    <span className="text-slate-500 font-bold">50 km/litre</span>
+                                    <span className="text-slate-500 font-bold">12 km/litre</span>
                                 </div>
                                 <div className="flex justify-between text-[11px]">
                                     <span className="text-slate-400 font-medium">EV efficiency</span>

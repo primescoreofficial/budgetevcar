@@ -10,6 +10,59 @@ export default function CarDetailClient({ car, relatedCars }) {
   // Mobile navigation expansion state hook tracker
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // 10 different EV/car demo images
+  const demoPlaceholders = [
+    'https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1525609004556-c46c7d6cf0a3?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1200&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=1200&auto=format&fit=crop',
+  ];
+
+  const images = car.vehicle_image
+    ? [car.vehicle_image, ...demoPlaceholders.slice(0, 9)]
+    : demoPlaceholders;
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+
+  const slideVariants = {
+    enter: (dir) => ({
+      x: dir > 0 ? 300 : -300,
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (dir) => ({
+      x: dir < 0 ? 300 : -300,
+      opacity: 0
+    })
+  };
+
+  const navigate = (newDirection) => {
+    let nextIndex = currentIndex + newDirection;
+    if (nextIndex < 0) nextIndex = images.length - 1;
+    if (nextIndex >= images.length) nextIndex = 0;
+    setDirection(newDirection);
+    setCurrentIndex(nextIndex);
+  };
+
+  const handleDragEnd = (event, info) => {
+    const swipeThreshold = 50;
+    if (info.offset.x < -swipeThreshold) {
+      navigate(1);
+    } else if (info.offset.x > swipeThreshold) {
+      navigate(-1);
+    }
+  };
+
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/find-ev', label: 'Find EV' },
@@ -113,13 +166,68 @@ export default function CarDetailClient({ car, relatedCars }) {
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-7">
-              <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-                <div className="w-full h-[240px] sm:h-[400px] bg-slate-50 flex items-center justify-center">
-                  <img
-                    src={car.vehicle_image}
-                    alt={car.model_name || car.detailed_name}
-                    className="w-full h-full object-cover"
-                  />
+              <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm relative group">
+                <div className="w-full h-[240px] sm:h-[400px] bg-slate-50 relative flex items-center justify-center overflow-hidden touch-pan-y">
+                  <AnimatePresence initial={false} custom={direction}>
+                    <motion.img
+                      key={currentIndex}
+                      src={images[currentIndex]}
+                      alt={`${car.model_name || car.detailed_name} - View ${currentIndex + 1}`}
+                      custom={direction}
+                      variants={slideVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{
+                        x: { type: "spring", stiffness: 300, damping: 30 },
+                        opacity: { duration: 0.2 }
+                      }}
+                      drag="x"
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={1}
+                      onDragEnd={handleDragEnd}
+                      className="absolute w-full h-full object-cover cursor-grab active:cursor-grabbing select-none"
+                    />
+                  </AnimatePresence>
+
+                  {/* Left Arrow Button */}
+                  <button
+                    onClick={() => navigate(-1)}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur-md border border-slate-200 text-slate-800 hover:bg-white hover:scale-105 transition-all duration-200 shadow-md z-10"
+                    aria-label="Previous image"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+
+                  {/* Right Arrow Button */}
+                  <button
+                    onClick={() => navigate(1)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur-md border border-slate-200 text-slate-800 hover:bg-white hover:scale-105 transition-all duration-200 shadow-md z-10"
+                    aria-label="Next image"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+
+                  {/* Indicators / Pagination Dots */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 bg-slate-900/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                    {images.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setDirection(idx > currentIndex ? 1 : -1);
+                          setCurrentIndex(idx);
+                        }}
+                        className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                          idx === currentIndex ? 'bg-white w-4' : 'bg-white/50 hover:bg-white/80'
+                        }`}
+                        aria-label={`Go to slide ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
