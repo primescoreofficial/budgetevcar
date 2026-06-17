@@ -1,5 +1,6 @@
 import { getAllCars } from '@/lib/queries';
 import CompareClient from './CompareClient';
+import { enrichCarsWithLocalImages } from '@/lib/imageResolver';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,6 +10,7 @@ export const metadata = {
 };
 
 export default async function ComparePage() {
-  const cars = await getAllCars();
+  const rawCars = await getAllCars();
+  const cars = enrichCarsWithLocalImages(rawCars);
   return <CompareClient cars={cars} />;
 }

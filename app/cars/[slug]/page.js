@@ -1,12 +1,14 @@
 import { getCarBySlug, getAllCars, getCarUrl } from '@/lib/queries';
 import CarDetailClient from './CarDetailClient';
 import { notFound } from 'next/navigation';
+import { getCarLocalImages, enrichCarWithLocalImage, enrichCarsWithLocalImages } from '@/lib/imageResolver';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const car = await getCarBySlug(slug);
+  const rawCar = await getCarBySlug(slug);
+  const car = enrichCarWithLocalImage(rawCar);
   if (!car) {
     return { title: 'Car Not Found — BudgetEV' };
   }
@@ -18,16 +20,20 @@ export async function generateMetadata({ params }) {
 
 export default async function CarDetailPage({ params }) {
   const { slug } = await params;
-  const car = await getCarBySlug(slug);
+  const rawCar = await getCarBySlug(slug);
+  const car = enrichCarWithLocalImage(rawCar);
 
   if (!car) {
     notFound();
   }
 
   const allCars = await getAllCars();
-  const relatedCars = allCars
+  const rawRelatedCars = allCars
     .filter(c => c.brand === car.brand && c.serial_no !== car.serial_no)
     .slice(0, 4);
+  const relatedCars = enrichCarsWithLocalImages(rawRelatedCars);
+
+  const localImages = getCarLocalImages(car.brand, car.model_name || car.detailed_name);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -74,7 +80,7 @@ export default async function CarDetailPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <CarDetailClient car={car} relatedCars={relatedCars} />
+      <CarDetailClient car={car} relatedCars={relatedCars} localImages={localImages} />
     </>
   );
 }

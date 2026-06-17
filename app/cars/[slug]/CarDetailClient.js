@@ -6,27 +6,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
 import { getCarUrl } from '@/lib/queries';
 
-export default function CarDetailClient({ car, relatedCars }) {
+export default function CarDetailClient({ car, relatedCars, localImages = [] }) {
   // Mobile navigation expansion state hook tracker
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // 10 different EV/car demo images
-  const demoPlaceholders = [
-    'https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1525609004556-c46c7d6cf0a3?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=1200&auto=format&fit=crop',
-  ];
-
-  const images = car.vehicle_image
-    ? [car.vehicle_image, ...demoPlaceholders.slice(0, 9)]
-    : demoPlaceholders;
+  const images = localImages && localImages.length > 0
+    ? localImages
+    : [car.vehicle_image || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=400&q=80'];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -191,43 +177,49 @@ export default function CarDetailClient({ car, relatedCars }) {
                   </AnimatePresence>
 
                   {/* Left Arrow Button */}
-                  <button
-                    onClick={() => navigate(-1)}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur-md border border-slate-200 text-slate-800 hover:bg-white hover:scale-105 transition-all duration-200 shadow-md z-10"
-                    aria-label="Previous image"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </button>
+                  {images.length > 1 && (
+                    <button
+                      onClick={() => navigate(-1)}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur-md border border-slate-200 text-slate-800 hover:bg-white hover:scale-105 transition-all duration-200 shadow-md z-10"
+                      aria-label="Previous image"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                  )}
 
                   {/* Right Arrow Button */}
-                  <button
-                    onClick={() => navigate(1)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur-md border border-slate-200 text-slate-800 hover:bg-white hover:scale-105 transition-all duration-200 shadow-md z-10"
-                    aria-label="Next image"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
+                  {images.length > 1 && (
+                    <button
+                      onClick={() => navigate(1)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur-md border border-slate-200 text-slate-800 hover:bg-white hover:scale-105 transition-all duration-200 shadow-md z-10"
+                      aria-label="Next image"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  )}
 
                   {/* Indicators / Pagination Dots */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 bg-slate-900/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                    {images.map((_, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => {
-                          setDirection(idx > currentIndex ? 1 : -1);
-                          setCurrentIndex(idx);
-                        }}
-                        className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                          idx === currentIndex ? 'bg-white w-4' : 'bg-white/50 hover:bg-white/80'
-                        }`}
-                        aria-label={`Go to slide ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
+                  {images.length > 1 && (
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 bg-slate-900/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                      {images.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            setDirection(idx > currentIndex ? 1 : -1);
+                            setCurrentIndex(idx);
+                          }}
+                          className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                            idx === currentIndex ? 'bg-white w-4' : 'bg-white/50 hover:bg-white/80'
+                          }`}
+                          aria-label={`Go to slide ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
