@@ -97,10 +97,12 @@
       "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9e-pack-one-59-kwh.png",
       "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9e-pack-three-79kwh.png",
       "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9e-pack-two-59-kwh.png",
-      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9e-pack-two-79kwh.png",
-      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9s-pack-one-59-kwh.png",
-      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9s-pack-three-79-kwh.png",
-      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9s-pack-two-70-kwh.png"
+      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9e-pack-two-79kwh.png"
+    ],
+    "xev-9s": [
+      "/EV Cars/EV Cars/Mahindra/xev-9s/mahindra-xev-9s-pack-one-59-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/xev-9s/mahindra-xev-9s-pack-three-79-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/xev-9s/mahindra-xev-9s-pack-two-70-kwh.png"
     ],
     "xuv400-ev": [
       "/EV Cars/EV Cars/Mahindra/xuv400-ev/mahindra-xuv400-ev-ec-pro-39-4-kwh.png",
@@ -140,10 +142,12 @@
     "windsor-ev": [
       "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-essence.png",
       "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-excite-38-kwh.png",
-      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-exclusive.png",
-      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-pro-essence.png",
-      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-pro-excite-52-9-kwh.png",
-      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-pro-exclusive.png"
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-exclusive.png"
+    ],
+    "windsor-ev-pro": [
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev-pro/mg-jsw-mg-motor-windsor-ev-pro-essence.png",
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev-pro/mg-jsw-mg-motor-windsor-ev-pro-excite-52-9-kwh.png",
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev-pro/mg-jsw-mg-motor-windsor-ev-pro-exclusive.png"
     ],
     "zs-ev": [
       "/EV Cars/EV Cars/mg-jsw-mg-motor/zs-ev/mg-jsw-mg-motor-zs-ev-excite-50-3-kwh.png",
