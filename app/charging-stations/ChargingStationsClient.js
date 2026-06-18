@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,6 +19,17 @@ const ChargingMap = dynamic(() => import("./ChargingMap"), {
   )
 });
 
+const POPULAR_INDIAN_CITIES = [
+  "Delhi", "Mumbai", "Bengaluru", "Hyderabad", "Chennai", "Kolkata", 
+  "Pune", "Jaipur", "Udaipur", "Jalandhar", "Jamnagar", "Udupi", 
+  "Lucknow", "Ahmedabad", "Surat", "Patna", "Bhopal", "Indore", 
+  "Vadodara", "Kochi", "Coimbatore", "Nagpur", "Visakhapatnam", 
+  "Chandigarh", "Amritsar", "Dehradun", "Shimla", "Guwahati", 
+  "Bhubaneswar", "Ranchi", "Raipur", "Thiruvananthapuram", "Noida", 
+  "Gurugram", "Faridabad", "Ghaziabad", "Kanpur", "Agra", "Varanasi", 
+  "Agartala", "Imphal", "Shillong", "Aizawl", "Kohima"
+];
+
 export default function ChargingStationsClient() {
   const [cityInput, setCityInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,6 +41,132 @@ export default function ChargingStationsClient() {
   const [activeTab, setActiveTab] = useState("all"); // Filters: "all", "fast"
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchFeedback, setSearchFeedback] = useState("");
+
+  // Autocomplete states
+  const [suggestions, setSuggestions] = useState([]);
+  const [focusedSuggestionIndex, setFocusedSuggestionIndex] = useState(-1);
+  const [showDropdown, setShowDropdown] = useState(false);
+  
+  const wrapperRef = useRef(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Debounced autocomplete suggestions fetching logic
+  useEffect(() => {
+    if (!cityInput.trim()) {
+      setSuggestions([]);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      // Filter local popular cities
+      const localMatches = POPULAR_INDIAN_CITIES.filter(c =>
+        c.toLowerCase().includes(cityInput.toLowerCase())
+      ).map(name => ({ name, source: "local" }));
+
+      let remoteMatches = [];
+      try {
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cityInput)}&countrycodes=in&featuretype=settlement&limit=5`,
+          { headers: { "User-Agent": "BudgetEV-Charging-Locator-App" } }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          remoteMatches = data.map(item => ({
+            name: item.display_name.split(",")[0] || item.name,
+            fullName: item.display_name,
+            lat: parseFloat(item.lat),
+            lon: parseFloat(item.lon),
+            source: "nominatim"
+          }));
+        }
+      } catch (e) {
+        console.warn("Nominatim suggestion fetch failed:", e);
+      }
+
+      // Merge local & remote lists, prioritising local and checking duplicates
+      const seen = new Set();
+      const merged = [];
+
+      localMatches.forEach(item => {
+        seen.add(item.name.toLowerCase());
+        merged.push(item);
+      });
+
+      remoteMatches.forEach(item => {
+        if (!seen.has(item.name.toLowerCase())) {
+          seen.add(item.name.toLowerCase());
+          merged.push(item);
+        }
+      });
+
+      setSuggestions(merged);
+    }, 250); // Debounce duration
+
+    return () => clearTimeout(timer);
+  }, [cityInput]);
+
+  const selectSuggestion = async (suggestion) => {
+    setCityInput(suggestion.name);
+    setShowDropdown(false);
+    setLoading(true);
+    setError(null);
+    setSelectedStation(null);
+
+    if (suggestion.lat && suggestion.lon) {
+      setMapCenter([suggestion.lat, suggestion.lon]);
+      setSearchFeedback(`Showing results for "${suggestion.fullName || suggestion.name}"`);
+      try {
+        const results = await fetchChargingStations(suggestion.lat, suggestion.lon);
+        setStations(results);
+      } catch (err) {
+        setError("Unable to retrieve charging station data.");
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      await handleSearch(suggestion.name);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (!showDropdown || suggestions.length === 0) {
+      if (e.key === "Enter") {
+        handleSearch(cityInput);
+      }
+      return;
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setFocusedSuggestionIndex(prev => 
+        prev < suggestions.length - 1 ? prev + 1 : 0
+      );
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setFocusedSuggestionIndex(prev => 
+        prev > 0 ? prev - 1 : suggestions.length - 1
+      );
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (focusedSuggestionIndex >= 0 && focusedSuggestionIndex < suggestions.length) {
+        selectSuggestion(suggestions[focusedSuggestionIndex]);
+      } else {
+        handleSearch(cityInput);
+      }
+    } else if (e.key === "Escape") {
+      setShowDropdown(false);
+    }
+  };
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -60,10 +197,6 @@ export default function ChargingStationsClient() {
 
       const results = await fetchChargingStations(coords.lat, coords.lon);
       setStations(results);
-
-      if (results.length === 0) {
-        setError("No charging stations found within 100km of this location.");
-      }
     } catch (err) {
       console.error(err);
       setError("Unable to retrieve charging station data. Please check connection and try again.");
@@ -234,22 +367,54 @@ export default function ChargingStationsClient() {
           </div>
 
           {/* Search Controls */}
-          <div className="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto">
+          <div ref={wrapperRef} className="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto relative">
             <div className="relative flex-1 sm:w-64">
               <input
                 type="text"
                 value={cityInput}
-                onChange={(e) => setCityInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch(cityInput)}
+                onChange={(e) => {
+                  setCityInput(e.target.value);
+                  setShowDropdown(true);
+                  setFocusedSuggestionIndex(-1);
+                }}
+                onFocus={() => setShowDropdown(true)}
+                onKeyDown={handleKeyDown}
                 placeholder="Search City (e.g. Delhi,Mumbai...)"
                 className="w-full bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-slate-800 placeholder-slate-450 pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:outline-none transition text-xs font-semibold"
               />
               <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
+
+              {/* Autocomplete Dropdown List */}
+              {showDropdown && suggestions.length > 0 && (
+                <div className="absolute left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-lg z-50 max-h-60 overflow-y-auto custom-scrollbar">
+                  {suggestions.map((suggestion, index) => (
+                    <div
+                      key={index}
+                      onClick={() => selectSuggestion(suggestion)}
+                      className={`px-4 py-2.5 text-xs font-semibold text-slate-700 cursor-pointer transition-colors duration-150 flex items-center justify-between ${
+                        index === focusedSuggestionIndex
+                          ? "bg-blue-50 text-blue-700"
+                          : "hover:bg-slate-50"
+                      }`}
+                    >
+                      <span>{suggestion.name}</span>
+                      {suggestion.source === "local" ? (
+                        <span className="text-[9px] text-slate-400 font-bold bg-slate-100 px-1.5 py-0.5 rounded">Popular</span>
+                      ) : (
+                        <span className="text-[9px] text-slate-400 font-bold bg-slate-50 px-1.5 py-0.5 rounded">OSM</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="flex gap-2 shrink-0">
               <button
-                onClick={() => handleSearch(cityInput)}
+                onClick={() => {
+                  setShowDropdown(false);
+                  handleSearch(cityInput);
+                }}
                 className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-500 text-white font-extrabold px-5 py-2.5 rounded-xl transition text-xs shadow-sm cursor-pointer active:scale-95 duration-100"
               >
                 Search
@@ -310,9 +475,11 @@ export default function ChargingStationsClient() {
           
           <div className="border-b border-slate-100 pb-3 mb-3 flex items-center justify-between">
             <h3 className="text-base font-extrabold text-slate-900">Charging Points</h3>
-            <span className="bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full text-xs font-bold">
-              {filteredStations.length} found
-            </span>
+            {filteredStations.length > 0 && (
+              <span className="bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full text-xs font-bold">
+                {filteredStations.length} found
+              </span>
+            )}
           </div>
 
           {/* List Content */}
@@ -345,10 +512,24 @@ export default function ChargingStationsClient() {
                 </button>
               </div>
             ) : filteredStations.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center p-6">
-                <AlertTriangle className="w-8 h-8 text-slate-400 mb-2" />
-                <h4 className="text-xs font-bold text-slate-600">No matching stations found</h4>
-                <p className="text-[11px] text-slate-400 mt-1">Try switching back to "All Stations" filter.</p>
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 bg-slate-50/50 rounded-xl border border-dashed border-slate-200 py-10">
+                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-3 mx-auto">
+                  <MapPin className="w-6 h-6 text-slate-400" />
+                </div>
+                <h4 className="text-sm font-extrabold text-slate-800 mb-1 leading-snug">
+                  No EV charging stations found in this area from our live data.
+                </h4>
+                <p className="text-xs text-slate-500 max-w-[260px] leading-relaxed mb-5 mx-auto">
+                  You can still explore stations using Google Maps.
+                </p>
+                <a
+                  href={`https://www.google.com/maps/search/EV+Charging+Station+in+${encodeURIComponent(cityInput || "India")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-3 px-6 rounded-xl text-xs transition shadow-md hover:shadow-blue-500/10 active:scale-95 duration-100"
+                >
+                  Search on Google Maps
+                </a>
               </div>
             ) : (
               // List Cards
