@@ -54,6 +54,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [] }) 
     { href: '/find-ev', label: 'Find EV' },
     { href: '/compare', label: 'Compare' },
     { href: '/calculator', label: 'Calculator' },
+    { href: '/charging-stations', label: 'Charging Stations' },
   ];
 
   return (

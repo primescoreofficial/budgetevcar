@@ -218,6 +218,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
     { href: '/find-ev', label: 'Find EV', active: true },
     { href: '/compare', label: 'Compare' },
     { href: '/calculator', label: 'Calculator' },
+    { href: '/charging-stations', label: 'Charging Stations' },
   ];
 
   const FilterPanel = () => (

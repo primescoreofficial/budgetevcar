@@ -34,6 +34,7 @@ export default function CompareClient({ cars }) {
     { href: '/find-ev', label: 'Find EV' },
     { href: '/compare', label: 'Compare', active: true },
     { href: '/calculator', label: 'Calculator' },
+    { href: '/charging-stations', label: 'Charging Stations' },
   ];
 
   return (

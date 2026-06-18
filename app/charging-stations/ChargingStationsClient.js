@@ -1,0 +1,438 @@
+"use client";
+
+import { useState, useEffect, useMemo } from "react";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import Footer from "@/components/Footer";
+import { geocodeCity, fetchChargingStations, getDistanceKm } from "@/lib/chargingApi";
+import { MapPin, Navigation, Search, Info, AlertTriangle, Compass, RotateCcw } from "lucide-react";
+
+// Dynamically import ChargingMap to completely avoid server-side rendering issues
+const ChargingMap = dynamic(() => import("./ChargingMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-slate-100 flex flex-col items-center justify-center gap-3 animate-pulse">
+      <Compass className="w-12 h-12 text-blue-500 animate-spin" />
+      <span className="text-sm font-bold text-slate-500">Initializing Interactive Map...</span>
+    </div>
+  )
+});
+
+export default function ChargingStationsClient() {
+  const [cityInput, setCityInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [stations, setStations] = useState([]);
+  const [mapCenter, setMapCenter] = useState([26.9124, 75.7873]); // Jaipur default center
+  const [userLocation, setUserLocation] = useState(null);
+  const [selectedStation, setSelectedStation] = useState(null);
+  const [activeTab, setActiveTab] = useState("all"); // Filters: "all", "fast"
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchFeedback, setSearchFeedback] = useState("");
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/find-ev", label: "Find EV" },
+    { href: "/compare", label: "Compare" },
+    { href: "/calculator", label: "Calculator" },
+    { href: "/charging-stations", label: "Charging Stations", active: true },
+  ];
+
+  // Default setup - Fetch Jaipur stations initially
+  useEffect(() => {
+    handleSearch("Jaipur", true);
+  }, []);
+
+  const handleSearch = async (queryStr, isInitial = false) => {
+    if (!queryStr.trim()) return;
+    setLoading(true);
+    setError(null);
+    setSearchFeedback("");
+    setSelectedStation(null);
+
+    try {
+      const coords = await geocodeCity(queryStr);
+      setMapCenter([coords.lat, coords.lon]);
+      if (!isInitial) {
+        setSearchFeedback(`Showing results for "${coords.displayName}"`);
+      }
+
+      const results = await fetchChargingStations(coords.lat, coords.lon);
+      setStations(results);
+
+      if (results.length === 0) {
+        setError("No charging stations found within 100km of this location.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Unable to retrieve charging station data. Please check connection and try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUseLocation = () => {
+    if (!navigator.geolocation) {
+      setError("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setSelectedStation(null);
+    setSearchFeedback("");
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        setUserLocation({ lat, lon });
+        setMapCenter([lat, lon]);
+        setSearchFeedback("📍 Showing nearest charging stations based on your location");
+
+        try {
+          const results = await fetchChargingStations(lat, lon);
+          // Recalculate and sort precisely by distance from user location
+          const sorted = results.map(st => ({
+            ...st,
+            distance: getDistanceKm(lat, lon, st.latitude, st.longitude)
+          })).sort((a, b) => a.distance - b.distance);
+
+          setStations(sorted);
+        } catch (err) {
+          setError("Failed to fetch charging stations for your location.");
+        } finally {
+          setLoading(false);
+        }
+      },
+      (geoError) => {
+        setLoading(false);
+        if (geoError.code === geoError.PERMISSION_DENIED) {
+          setError("Location permission denied. Please search by city name instead.");
+        } else {
+          setError("Unable to retrieve your location. Try searching for a city.");
+        }
+      },
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  };
+
+  const handleSelectStation = (station) => {
+    setSelectedStation(station);
+    setMapCenter([station.latitude, station.longitude]);
+
+    // Scroll details card into view on mobile
+    if (window.innerWidth < 1024) {
+      const el = document.getElementById(`station-card-${station.id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }
+  };
+
+  // Filter stations by type if "fast" is selected
+  const filteredStations = useMemo(() => {
+    if (activeTab === "fast") {
+      return stations.filter(st =>
+        st.chargerTypes.some(type =>
+          type.toLowerCase().includes("fast") || type.toLowerCase().includes("kw") && parseFloat(type.match(/\d+/)?.[0]) >= 30
+        )
+      );
+    }
+    return stations;
+  }, [stations, activeTab]);
+
+  return (
+    <div className="min-h-screen bg-slate-50/50 flex flex-col font-['Plus_Jakarta_Sans',sans-serif]">
+      
+      {/* ── HEADER ── */}
+      <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm shadow-slate-100/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+          <div className="flex items-center gap-6 sm:gap-12">
+            <Link href="/" className="text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">BudgetEV</Link>
+            
+            <nav className="hidden md:flex items-center space-x-8 text-[14px] font-bold text-slate-500">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={
+                    link.active
+                      ? "text-[#1e3a8a] border-b-2 border-[#1e3a8a] pb-1"
+                      : "hover:text-slate-900 transition"
+                  }
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Link
+              href="/find-ev"
+              className="hidden md:inline-flex bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm shadow-blue-900/10"
+            >
+              Find my EV
+            </Link>
+            
+            <button
+              onClick={() => setMenuOpen(p => !p)}
+              className="md:hidden p-2.5 rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition"
+              aria-label="Toggle menu"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {menuOpen
+                  ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                  : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+                }
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
+            >
+              <nav className="flex flex-col gap-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${link.active
+                        ? "bg-blue-50 text-[#1e3a8a]"
+                        : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"
+                      }`}
+                  >
+                    <span>{link.label}</span>
+                    <svg className="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                ))}
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* ── COMPACT UTILITY HEADER ── */}
+      <div className="bg-white border-b border-slate-200/60 py-6 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">EV Charging Stations</h1>
+            <p className="text-xs text-slate-400 font-semibold mt-0.5">Locate nearby charging stations, explore charger types, and navigate instantly.</p>
+          </div>
+
+          {/* Search Controls */}
+          <div className="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto">
+            <div className="relative flex-1 sm:w-64">
+              <input
+                type="text"
+                value={cityInput}
+                onChange={(e) => setCityInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch(cityInput)}
+                placeholder="Search City (e.g. Delhi,Mumbai...)"
+                className="w-full bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-slate-800 placeholder-slate-450 pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:outline-none transition text-xs font-semibold"
+              />
+              <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
+            </div>
+
+            <div className="flex gap-2 shrink-0">
+              <button
+                onClick={() => handleSearch(cityInput)}
+                className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-500 text-white font-extrabold px-5 py-2.5 rounded-xl transition text-xs shadow-sm cursor-pointer active:scale-95 duration-100"
+              >
+                Search
+              </button>
+
+              <button
+                onClick={handleUseLocation}
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold px-4 py-2.5 rounded-xl transition text-xs shadow-sm cursor-pointer active:scale-95 duration-100"
+              >
+                <MapPin className="w-3.5 h-3.5" />
+                <span>Use My Location</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── SEARCH FEEDBACK AND FILTERS ── */}
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-200/50">
+        <div className="text-xs font-bold text-slate-500 flex items-center gap-1.5 uppercase tracking-wider">
+          <Info className="w-4 h-4 text-blue-500" />
+          <span>{searchFeedback || `Showing stations near center`}</span>
+        </div>
+
+        {/* Charger Speed Filter */}
+        <div className="flex bg-slate-100 p-1 rounded-xl w-fit">
+          <button
+            onClick={() => setActiveTab("all")}
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition ${activeTab === "all" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
+          >
+            All Stations ({stations.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("fast")}
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition ${activeTab === "fast" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-800"}`}
+          >
+            Fast Chargers Only
+          </button>
+        </div>
+      </div>
+
+      {/* ── MAIN MAP & LISTING CONTENT ── */}
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 flex flex-col lg:flex-row gap-6 items-stretch min-h-[500px]">
+        
+        {/* Map Container - LEFT (Desktop), TOP (Mobile) */}
+        <div className="w-full flex-shrink-0 h-[350px] sm:h-[400px] lg:h-auto lg:flex-1 lg:min-h-[550px] rounded-2xl overflow-hidden shadow-md">
+          <ChargingMap
+            stations={filteredStations}
+            center={mapCenter}
+            userLocation={userLocation}
+            selectedStation={selectedStation}
+            onSelectStation={handleSelectStation}
+          />
+        </div>
+
+        {/* Station Info List Panel - RIGHT (Desktop), BOTTOM (Mobile) */}
+        <div className="w-full lg:w-[400px] flex-shrink-0 flex flex-col max-h-[600px] lg:max-h-[700px] bg-white border border-slate-200/60 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+          
+          <div className="border-b border-slate-100 pb-3 mb-3 flex items-center justify-between">
+            <h3 className="text-base font-extrabold text-slate-900">Charging Points</h3>
+            <span className="bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full text-xs font-bold">
+              {filteredStations.length} found
+            </span>
+          </div>
+
+          {/* List Content */}
+          <div className="flex-1 overflow-y-auto pr-1 space-y-3 custom-scrollbar">
+            {loading ? (
+              // Loading Skeleton State
+              Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="p-4 border border-slate-100 rounded-xl space-y-3 animate-pulse">
+                  <div className="h-4 bg-slate-200 rounded w-3/4"></div>
+                  <div className="h-3 bg-slate-100 rounded w-5/6"></div>
+                  <div className="h-3 bg-slate-100 rounded w-1/2"></div>
+                  <div className="flex gap-2 pt-2">
+                    <div className="h-8 bg-slate-200 rounded-lg w-1/2"></div>
+                    <div className="h-8 bg-slate-200 rounded-lg w-1/2"></div>
+                  </div>
+                </div>
+              ))
+            ) : error ? (
+              // Error State / Empty State
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 bg-slate-50/50 rounded-xl border border-dashed border-slate-200">
+                <AlertTriangle className="w-10 h-10 text-orange-500 mb-3" />
+                <h4 className="text-sm font-bold text-slate-800 mb-1">{error}</h4>
+                <p className="text-xs text-slate-500 max-w-[250px] leading-relaxed mb-4">Try searching another nearby city or reset coordinates.</p>
+                <button
+                  onClick={() => handleSearch("Jaipur")}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl transition"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Reset to Jaipur</span>
+                </button>
+              </div>
+            ) : filteredStations.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center text-center p-6">
+                <AlertTriangle className="w-8 h-8 text-slate-400 mb-2" />
+                <h4 className="text-xs font-bold text-slate-600">No matching stations found</h4>
+                <p className="text-[11px] text-slate-400 mt-1">Try switching back to "All Stations" filter.</p>
+              </div>
+            ) : (
+              // List Cards
+              filteredStations.map((station) => {
+                const isSelected = selectedStation?.id === station.id;
+                return (
+                  <motion.div
+                    key={station.id}
+                    id={`station-card-${station.id}`}
+                    layout
+                    onClick={() => handleSelectStation(station)}
+                    className={`p-4 rounded-xl border cursor-pointer transition-all duration-300 ${
+                      isSelected
+                        ? "border-orange-500 bg-orange-50/20 shadow-md ring-1 ring-orange-400/20"
+                        : "border-slate-100 hover:border-blue-200 hover:shadow-sm"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2 mb-1.5">
+                      <h4 className="text-sm font-extrabold text-slate-900 tracking-tight leading-tight group-hover:text-blue-600 transition">
+                        {station.name}
+                      </h4>
+                      <span className="text-[10px] font-extrabold text-blue-700 bg-blue-50 px-2 py-0.5 rounded whitespace-nowrap">
+                        {station.operator}
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-slate-500 leading-snug mb-3">{station.address}</p>
+
+                    {/* Charger Info */}
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {station.chargerTypes.map((type, idx) => {
+                        const isFast = type.toLowerCase().includes("fast") || type.includes("60kW") || type.includes("120kW") || type.includes("150kW");
+                        return (
+                          <span
+                            key={idx}
+                            className={`text-[9px] font-bold px-2 py-1 rounded-md border ${
+                              isFast
+                                ? "bg-emerald-50 text-emerald-700 border-emerald-100/60"
+                                : "bg-slate-50 text-slate-600 border-slate-100"
+                            }`}
+                          >
+                            {type}
+                          </span>
+                        );
+                      })}
+                    </div>
+
+                    <div className="flex items-center justify-between gap-4 pt-2 border-t border-slate-100/60 text-xs">
+                      <span className="text-[11px] text-slate-400 font-bold">
+                        {station.distance !== undefined ? `📍 ${station.distance} km away` : `🔌 ${station.points} charging points`}
+                      </span>
+
+                      <div className="flex gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSelectStation(station);
+                          }}
+                          className="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold px-3 py-1.5 rounded-lg text-[10px] transition cursor-pointer"
+                        >
+                          View on Map
+                        </button>
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${station.latitude},${station.longitude}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 text-white font-bold px-3 py-1.5 rounded-lg text-[10px] transition cursor-pointer"
+                        >
+                          <Navigation className="w-3 h-3" />
+                          <span>Navigate</span>
+                        </a>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })
+            )}
+          </div>
+        </div>
+      </main>
+
+      {/* ── FOOTER ── */}
+      <Footer brands={[]} bodyTypes={[]} />
+    </div>
+  );
+}

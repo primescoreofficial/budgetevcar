@@ -247,6 +247,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
     { href: '/find-ev', label: 'Find EV' },
     { href: '/compare', label: 'Compare' },
     { href: '/calculator', label: 'Calculator' },
+    { href: '/charging-stations', label: 'Charging Stations' },
   ];
 
   return (

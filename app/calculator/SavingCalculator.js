@@ -173,6 +173,7 @@ export default function SavingsCalculator() {
         { href: '/find-ev', label: 'Find EV' },
         { href: '/compare', label: 'Compare' },
         { href: '/calculator', label: 'Calculator', active: true },
+        { href: '/charging-stations', label: 'Charging Stations' },
     ];
 
     return (
