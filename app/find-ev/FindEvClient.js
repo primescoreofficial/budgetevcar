@@ -329,8 +329,8 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                 key={type.id}
                 onClick={() => setSelectedBodyType(active ? '' : type.id)}
                 className={`flex flex-col items-center gap-2 p-3 rounded-xl border text-center transition-all ${active
-                    ? 'border-[#0249ad] bg-[#0249ad]/5 text-[#0249ad] font-bold shadow-sm ring-1 ring-[#0249ad]'
-                    : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700'
+                  ? 'border-[#0249ad] bg-[#0249ad]/5 text-[#0249ad] font-bold shadow-sm ring-1 ring-[#0249ad]'
+                  : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700'
                   }`}
               >
                 {type.icon}
@@ -352,8 +352,8 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                 key={range}
                 onClick={() => setMinRange(active ? 0 : range)}
                 className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${active
-                    ? 'bg-[#0249ad] border-[#0249ad] text-white shadow-sm'
-                    : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
+                  ? 'bg-[#0249ad] border-[#0249ad] text-white shadow-sm'
+                  : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
                   }`}
               >
                 {range}+
@@ -468,8 +468,8 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
                     className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${link.active
-                        ? "bg-blue-50 text-[#1e3a8a]"
-                        : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"
+                      ? "bg-blue-50 text-[#1e3a8a]"
+                      : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"
                       }`}
                   >
                     <span>{link.label}</span>
@@ -505,7 +505,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
       </header>
 
       {/* ── MAIN LAYOUT LAYER ── */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-5 pb-24">
         <div className="flex flex-col lg:flex-row gap-8 items-start">
 
           {/* SIDEBAR FILTER CONTAINER */}
@@ -518,7 +518,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
           <div className="flex-1 w-full">
 
             {/* Header / Search bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between justify-start gap-4 mb-8 pb-4 border-b border-slate-200/40">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between justify-start gap-3 mb-5 pb-3 border-b border-slate-200/40">
               <div>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                   {searchQuery || selectedBrands.length > 0 || selectedBodyType
