@@ -1,0 +1,220 @@
+{
+  "Audi": {
+    "e-tron-gt": [
+      "/EV Cars/EV Cars/Audi/e-tron-gt/audi-e-tron-gt-quattro-93-4-kwh.png",
+      "/EV Cars/EV Cars/Audi/e-tron-gt/audi-e-tron-gt-rs-e-tron-gt-93-4-kwh.png"
+    ],
+    "q8-e-tron": [
+      "/EV Cars/EV Cars/Audi/q8-e-tron/audi-q8-e-tron-55-quattro-114-kwh.png",
+      "/EV Cars/EV Cars/Audi/q8-e-tron/audi-q8-e-tron-55-sportback-quattro-114-kwh.png",
+      "/EV Cars/EV Cars/Audi/q8-e-tron/audi-q8-e-tron-sq8-quattro-114-kwh.png"
+    ]
+  },
+  "BMW": {
+    "i4": [
+      "/EV Cars/EV Cars/BMW/i4/bmw-i4-edrive35-m-sport.png",
+      "/EV Cars/EV Cars/BMW/i4/bmw-i4-m50-xdrive-83-9-kwh.png"
+    ],
+    "i5": [
+      "/EV Cars/EV Cars/BMW/i5/bmw-i5-m60-xdrive-81-2-kwh.png"
+    ],
+    "i7": [
+      "/EV Cars/EV Cars/BMW/i7/bmw-i7-m70-xdrive-101-7-kwh.png",
+      "/EV Cars/EV Cars/BMW/i7/bmw-i7-xdrive50-excellence-101-7-kwh.png"
+    ],
+    "iX": [
+      "/EV Cars/EV Cars/BMW/iX/bmw-ix-xdrive50-sport-111-5-kwh.png"
+    ],
+    "iX1": [
+      "/EV Cars/EV Cars/BMW/iX1/bmw-iz1-edrive20l-m-sport-64-7.png",
+      "/EV Cars/EV Cars/BMW/iX1/bmw-iz1-xdrive30-m-sport-70-2.png"
+    ]
+  },
+  "BYD": {
+    "atto-3": [
+      "/EV Cars/EV Cars/BYD/atto-3/byd-atto-3-extended.png",
+      "/EV Cars/EV Cars/BYD/atto-3/byd-atto-3-standard.png",
+      "/EV Cars/EV Cars/BYD/atto-3/byd-atto-3-superior.png"
+    ],
+    "emax-7": [
+      "/EV Cars/EV Cars/BYD/emax-7/byd-emax-7-premium-55-4-kwh.png",
+      "/EV Cars/EV Cars/BYD/emax-7/byd-emax-7-superior-71-8-kwh.png"
+    ],
+    "Seal": [
+      "/EV Cars/EV Cars/BYD/Seal/byd-seal-dynamic-82-5-kwh.png",
+      "/EV Cars/EV Cars/BYD/Seal/byd-seal-excellence-awd-82-5-kwh.png",
+      "/EV Cars/EV Cars/BYD/Seal/byd-seal-premium-82-5-kwh.png"
+    ],
+    "sealion-7": [
+      "/EV Cars/EV Cars/BYD/sealion-7/byd-sealion-7-performance-awd-82-5-kwh.png",
+      "/EV Cars/EV Cars/BYD/sealion-7/byd-sealion-7-premium-82-5-kwh.png"
+    ]
+  },
+  "Citroen": {
+    "eC3": [
+      "/EV Cars/EV Cars/Citroen/eC3/citroen-ec3-feel-29-2-kwh.png",
+      "/EV Cars/EV Cars/Citroen/eC3/citroen-ec3-shine-29-2-kwh.png",
+      "/EV Cars/EV Cars/Citroen/eC3/citroen-ec3-you-29-2-kwh.png"
+    ]
+  },
+  "hyundai": {
+    "creta-electric": [
+      "/EV Cars/EV Cars/hyundai/creta-electric/hyundai-creta-electric-e-42-kwh.png",
+      "/EV Cars/EV Cars/hyundai/creta-electric/hyundai-creta-electric-ex-42-kwh.png",
+      "/EV Cars/EV Cars/hyundai/creta-electric/hyundai-creta-electric-knight-51-4-kwh.png",
+      "/EV Cars/EV Cars/hyundai/creta-electric/hyundai-creta-electric-s-51-4-kwh.png",
+      "/EV Cars/EV Cars/hyundai/creta-electric/hyundai-creta-electric-s-o-51-4-kwh.png",
+      "/EV Cars/EV Cars/hyundai/creta-electric/hyundai-creta-electric-sx-51-4-kwh.png",
+      "/EV Cars/EV Cars/hyundai/creta-electric/hyundai-creta-electric-sx-tech-51-4-kwh.png"
+    ],
+    "ioniq-5": [
+      "/EV Cars/EV Cars/hyundai/ioniq-5/hyundai-ioniq-5-single-motor-rwd-84-kwh.png"
+    ]
+  },
+  "Kia": {
+    "carens-clavis-ev": [
+      "/EV Cars/EV Cars/Kia/carens-clavis-ev/kia-carens-clavis-ev-gtx-51-4-kwh.png",
+      "/EV Cars/EV Cars/Kia/carens-clavis-ev/kia-carens-clavis-ev-gtx-plus-51-4-kwh.png",
+      "/EV Cars/EV Cars/Kia/carens-clavis-ev/kia-carens-clavis-ev-htk-42-kwh.png",
+      "/EV Cars/EV Cars/Kia/carens-clavis-ev/kia-carens-clavis-ev-htk-plus-42-kwh.png",
+      "/EV Cars/EV Cars/Kia/carens-clavis-ev/kia-carens-clavis-ev-x-line-51-4-kwh.png"
+    ],
+    "EV6": [
+      "/EV Cars/EV Cars/Kia/EV6/kia-ev6-gt-line-awd-84kwh.png"
+    ],
+    "EV9": [
+      "/EV Cars/EV Cars/Kia/EV9/kia-ev9-gt-line-6-seater-99-8-kwh.png"
+    ]
+  },
+  "Mahindra": {
+    "be-6": [
+      "/EV Cars/EV Cars/Mahindra/be-6/mahindra-be-6-pack-one-59-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/be-6/mahindra-be-6-pack-three-79-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/be-6/mahindra-be-6-pack-two-59-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/be-6/mahindra-be-6-pack-two-79-kwh.png"
+    ],
+    "xev-9e": [
+      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9e-pack-one-59-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9e-pack-three-79kwh.png",
+      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9e-pack-two-59-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9e-pack-two-79kwh.png",
+      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9s-pack-one-59-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9s-pack-three-79-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/xev-9e/mahindra-xev-9s-pack-two-70-kwh.png"
+    ],
+    "xuv400-ev": [
+      "/EV Cars/EV Cars/Mahindra/xuv400-ev/mahindra-xuv400-ev-ec-pro-39-4-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/xuv400-ev/mahindra-xuv400-ev-el-pro-34-5-kwh.png",
+      "/EV Cars/EV Cars/Mahindra/xuv400-ev/mahindra-xuv400-ev-el-pro-39-4-kwh.png"
+    ]
+  },
+  "maruti-suzuki": {
+    "e-vitara": [
+      "/EV Cars/EV Cars/maruti-suzuki/e-vitara/maruti-suzuki-e-vitara-alpha-61-kwh.png",
+      "/EV Cars/EV Cars/maruti-suzuki/e-vitara/maruti-suzuki-e-vitara-alpha.png",
+      "/EV Cars/EV Cars/maruti-suzuki/e-vitara/maruti-suzuki-e-vitara-delta-49-kwh.png",
+      "/EV Cars/EV Cars/maruti-suzuki/e-vitara/maruti-suzuki-e-vitara-zeta.png"
+    ]
+  },
+  "Mercedes-Benz": {
+    "cla-ev": [
+      "/EV Cars/EV Cars/Mercedes-Benz/cla-ev/mercedes-benz-cla-ev-cla-250-85-kwh.png"
+    ],
+    "EQA": [
+      "/EV Cars/EV Cars/Mercedes-Benz/EQA/mercedes-benz-eqa-250-70-5-kwh.png"
+    ],
+    "EQB": [
+      "/EV Cars/EV Cars/Mercedes-Benz/EQB/mercedes-benz-eqb-250-70-5-kwh.png",
+      "/EV Cars/EV Cars/Mercedes-Benz/EQB/mercedes-benz-eqb-350-4matic-amg-line-66-5-kwh.png"
+    ],
+    "EQS": [
+      "/EV Cars/EV Cars/Mercedes-Benz/EQS/mercedes-benz-eqs-350-4matic-amg-line-66-5-kwh.png"
+    ]
+  },
+  "mg-jsw-mg-motor": {
+    "comet-ev": [
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/comet-ev/mg-jsw-mg-motor-comet-ev-blackstrom-17-3-kwh.png",
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/comet-ev/mg-jsw-mg-motor-comet-ev-excite-17-3-kwh.png",
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/comet-ev/mg-jsw-mg-motor-comet-ev-exclusive-17-3-kwh.png"
+    ],
+    "windsor-ev": [
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-essence.png",
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-excite-38-kwh.png",
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-exclusive.png",
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-pro-essence.png",
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-pro-excite-52-9-kwh.png",
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/windsor-ev/mg-jsw-mg-motor-windsor-ev-pro-exclusive.png"
+    ],
+    "zs-ev": [
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/zs-ev/mg-jsw-mg-motor-zs-ev-excite-50-3-kwh.png",
+      "/EV Cars/EV Cars/mg-jsw-mg-motor/zs-ev/mg-jsw-mg-motor-zs-ev-exclusive.png"
+    ]
+  },
+  "tata-motors": {
+    "curvv-ev": [
+      "/EV Cars/EV Cars/tata-motors/curvv-ev/tata-motors-curvv-ev-accomplished-45-kwh.png",
+      "/EV Cars/EV Cars/tata-motors/curvv-ev/tata-motors-curvv-ev-creative-45-kwh.png",
+      "/EV Cars/EV Cars/tata-motors/curvv-ev/tata-motors-curvv-ev-empowered-55-kwh.png"
+    ],
+    "harrier-ev": [
+      "/EV Cars/EV Cars/tata-motors/harrier-ev/tata-motors-harrier-ev-adventure-65-kwh.png",
+      "/EV Cars/EV Cars/tata-motors/harrier-ev/tata-motors-harrier-ev-empowered-75-kwh.png",
+      "/EV Cars/EV Cars/tata-motors/harrier-ev/tata-motors-harrier-ev-empowered-stealth-edition-75-kwh.png",
+      "/EV Cars/EV Cars/tata-motors/harrier-ev/tata-motors-harrier-ev-fearless-65-kwh.png"
+    ],
+    "nexon-ev": [
+      "/EV Cars/EV Cars/tata-motors/nexon-ev/tata-motors-nexon-ev-creative-30-kwh.png",
+      "/EV Cars/EV Cars/tata-motors/nexon-ev/tata-motors-nexon-ev-fearless-40-5-kwh.png",
+      "/EV Cars/EV Cars/tata-motors/nexon-ev/tata-motors-nexon-ev-smart-30-kwh.png"
+    ],
+    "punch-ev": [
+      "/EV Cars/EV Cars/tata-motors/punch-ev/tata-motors-punch-ev-adventure-25-kwh.png",
+      "/EV Cars/EV Cars/tata-motors/punch-ev/tata-motors-punch-ev-empowered-35-kwh.png",
+      "/EV Cars/EV Cars/tata-motors/punch-ev/tata-motors-punch-ev-smart-25kwh.png",
+      "/EV Cars/EV Cars/tata-motors/punch-ev/tata-mototrs-punch-ev-smart-25-kwh.png"
+    ],
+    "tiago-ev": [
+      "/EV Cars/EV Cars/tata-motors/tiago-ev/tata-motors-tiago-ev-xe-medium-range.png",
+      "/EV Cars/EV Cars/tata-motors/tiago-ev/tata-motors-tiago-ev-xt-long-range.png",
+      "/EV Cars/EV Cars/tata-motors/tiago-ev/tata-motors-tiago-ev-xt-medium-range.png",
+      "/EV Cars/EV Cars/tata-motors/tiago-ev/tata-motors-tiago-ev-xz-tech-lux-lr.png"
+    ]
+  },
+  "Tesla": {
+    "model-y": [
+      "/EV Cars/EV Cars/Tesla/model-y/tesla-model-y-long-range-awd-75-kwh.png",
+      "/EV Cars/EV Cars/Tesla/model-y/tesla-model-y-rwd-standard-57-5-kwh.png"
+    ]
+  },
+  "Toyota": {
+    "urban-cruiser-ebella": [
+      "/EV Cars/EV Cars/Toyota/urban-cruiser-ebella/toyota-urban-cruiser-ebella-e1-49-kwh.png",
+      "/EV Cars/EV Cars/Toyota/urban-cruiser-ebella/toyota-urban-cruiser-ebella-e2.png",
+      "/EV Cars/EV Cars/Toyota/urban-cruiser-ebella/toyota-urban-cruiser-ebella-e3.png"
+    ]
+  },
+  "VinFast": {
+    "vf-6": [
+      "/EV Cars/EV Cars/VinFast/vf-6/vinfast-vf-6-earth-59-6-kwh.png",
+      "/EV Cars/EV Cars/VinFast/vf-6/vinfast-vf-6-wind-59-6-kwh.png",
+      "/EV Cars/EV Cars/VinFast/vf-6/vinfast-vf-6-wind-infinity-59-6-kwh.png"
+    ],
+    "vf-7": [
+      "/EV Cars/EV Cars/VinFast/vf-7/vinfast-vf-7-earth-59-6-kwh.png",
+      "/EV Cars/EV Cars/VinFast/vf-7/vinfast-vf-7-sky-infinity.png",
+      "/EV Cars/EV Cars/VinFast/vf-7/vinfast-vf-7-sky.png"
+    ]
+  },
+  "Volvo": {
+    "EC40": [
+      "/EV Cars/EV Cars/Volvo/EC40/volvo-ec40-twin-motor-awd-78-kwh.png"
+    ],
+    "EX30": [
+      "/EV Cars/EV Cars/Volvo/EX30/volvo-ex30-single-motor-extended-range-69-kwh.png"
+    ],
+    "EX40": [
+      "/EV Cars/EV Cars/Volvo/EX40/volvo-ex40-single-motor-extended-range-69-kwh.png",
+      "/EV Cars/EV Cars/Volvo/EX40/volvo-ex40-twin-motor-awd-78-kwh.png"
+    ]
+  }
+}
