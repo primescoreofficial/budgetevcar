@@ -764,7 +764,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
         <LazySection className="mb-16">
           <section className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
             <h3 className="text-xs font-extrabold text-slate-900 text-center uppercase tracking-widest mb-6">Explore Top EV Brands</h3>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-9 lg:gap-4">
+            <div className="grid grid-cols-3 gap-3 md:grid-cols-4 lg:grid-cols-9 lg:gap-4">
               {[
                 { name: 'Tata', slug: 'tata-motors' },
                 { name: 'Mahindra', slug: 'mahindra' },
