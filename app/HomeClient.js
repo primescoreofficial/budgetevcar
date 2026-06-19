@@ -435,7 +435,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
               </button>
 
               {/* Custom pagination dots */}
-              <div className="swiper-pagination-hero absolute bottom-4 left-0 right-0 mx-auto z-30 flex gap-1.5 justify-center items-center w-max bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-full shadow-sm" />
+              <div className="swiper-pagination-hero absolute bottom-4 left-0 right-0 mx-auto z-30 flex gap-1.5 justify-center items-center w-max px-3 py-1.5 rounded-full shadow-sm" />
             </div>
           </div>
         </section>
@@ -764,7 +764,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
         <LazySection className="mb-16">
           <section className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
             <h3 className="text-xs font-extrabold text-slate-900 text-center uppercase tracking-widest mb-6">Explore Top EV Brands</h3>
-            <div className="flex overflow-x-auto gap-3 pb-3 w-full scrollbar-none lg:grid lg:grid-cols-9 lg:gap-4 lg:pb-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-9 lg:gap-4">
               {[
                 { name: 'Tata', slug: 'tata-motors' },
                 { name: 'Mahindra', slug: 'mahindra' },
@@ -776,7 +776,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                 { name: 'Mercedes', slug: 'mercedes-benz' },
                 { name: 'Toyota', slug: 'toyota' }
               ].map((b, i) => (
-                <Link key={i} href={`/find-ev?brand=${b.slug}`} className="w-full min-w-[100px] shrink-0 lg:min-w-0 lg:shrink bg-slate-50 hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-700 hover:text-[#0249ad] py-4 rounded-xl text-center text-xs font-extrabold transition-all duration-200 shadow-sm block">
+                <Link key={i} href={`/find-ev?brand=${b.slug}`} className="w-full bg-slate-50 hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-700 hover:text-[#0249ad] py-4 rounded-xl text-center text-xs font-extrabold transition-all duration-200 shadow-sm block">
                   {b.name}
                 </Link>
               ))}
