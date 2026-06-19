@@ -24,7 +24,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-slate-900">
           
           {/* Brand Column */}
-          <div className="md:col-span-4 space-y-4">
+          <div className="md:col-span-3 space-y-4">
             <Link href="/" className="flex items-center gap-2 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity">
               <Zap className="w-6 h-6 text-blue-500 fill-blue-500/20 animate-pulse" />
               <span>BudgetEV</span>
@@ -32,6 +32,14 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-sm">
               India's most trusted platform for finding, comparing, and analyzing electric vehicles within your budget. Simplifying your switch to green energy.
             </p>
+            {/* Social Links */}
+            <div className="flex items-center gap-3.5 pt-2">
+              {['twitter', 'facebook', 'linkedin', 'instagram'].map((platform) => (
+                <a key={platform} href={`#${platform}`} className="text-slate-500 hover:text-white transition-colors duration-200" aria-label={platform}>
+                  <span className="capitalize text-xs font-bold">{platform}</span>
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Quick Links Column */}
@@ -51,24 +59,46 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             </ul>
           </div>
 
-          {/* Popular Brands Column */}
-          <div className="md:col-span-3 space-y-4">
-            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Popular Brands</h4>
+          {/* EV Categories Column */}
+          <div className="md:col-span-2 space-y-4">
+            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">EV Categories</h4>
             <ul className="space-y-2.5 text-sm font-semibold">
-              {displayBrands.map((brand) => (
-                <li key={brand}>
+              {displayBodyTypes.map((type) => (
+                <li key={type}>
                   <Link 
-                    href={`/find-ev?brand=${encodeURIComponent(brand)}`} 
+                    href={`/find-ev?bodyType=${encodeURIComponent(type)}`} 
                     className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
                   >
-                    {brand}
+                    {type}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact Support Column */}
+          {/* Useful Resources Column */}
+          <div className="md:col-span-2 space-y-4">
+            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Useful Resources</h4>
+            <ul className="space-y-2.5 text-sm font-semibold">
+              {[
+                { href: '/calculator', label: 'Savings Calculator' },
+                { href: '/charging-stations', label: 'Charging Maps' },
+                { href: '/#discover-section', label: 'EV Catalog' },
+                { href: '#guides', label: 'Buying Guide' }
+              ].map((res) => (
+                <li key={res.label}>
+                  <Link 
+                    href={res.href} 
+                    className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
+                  >
+                    {res.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Column */}
           <div className="md:col-span-3 space-y-4">
             <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Contact Support</h4>
             <ul className="space-y-3.5 text-sm font-semibold">

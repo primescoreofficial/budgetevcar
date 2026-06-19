@@ -4,6 +4,7 @@ import { subscribeNewsletter } from '@/lib/newsletter';
 import { getCarUrl } from '@/lib/queries';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Footer from '@/components/Footer';
 import {
@@ -11,6 +12,12 @@ import {
   Scale,
   ShieldCheck,
 } from "lucide-react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 // ─── Dynamic Scroll Reveal Section Wrapper ─────────────────────────────────
 function LazySection({ children, className = '' }) {
@@ -34,6 +41,7 @@ function LazySection({ children, className = '' }) {
 // ─── Car Card ───────────────────────────────────────────────────────────────
 function CarCard({ car, index, variant = 'grid' }) {
   if (variant === 'category') {
+    const isTrending = index % 3 === 0; // Show trending badge on some cards
     return (
       <motion.div
         key={car.serial_no}
@@ -41,14 +49,19 @@ function CarCard({ car, index, variant = 'grid' }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -8 }}
         transition={{ duration: 0.25, delay: index * 0.05 }}
-        className="bg-white border border-slate-100 rounded-2xl p-4 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+        className="bg-white border border-slate-100 rounded-2xl p-4 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between snap-start w-[280px] shrink-0 md:w-auto relative group/card"
       >
+        {isTrending && (
+          <span className="absolute top-6 right-6 bg-orange-50 text-orange-600 text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md flex items-center gap-0.5 z-10 shadow-sm">
+            <span>🔥</span> Trending
+          </span>
+        )}
         <div>
-          <div className="w-full h-40 bg-slate-50 rounded-xl overflow-hidden mb-4">
+          <div className="w-full h-40 bg-slate-50 rounded-xl overflow-hidden mb-4 relative">
             <img
               src={car.vehicle_image}
               alt={car.model_name || car.detailed_name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
               loading="lazy"
             />
           </div>
@@ -112,6 +125,33 @@ function CarCard({ car, index, variant = 'grid' }) {
     </motion.div>
   );
 }
+
+const ads = [
+  {
+    image: "/ad/be6ad.webp",
+    slug: "mahindra-be-6",
+    href: "/cars/mahindra-be-6",
+    title: "Mahindra BE 6"
+  },
+  {
+    image: "/ad/i4ad.webp",
+    slug: "bmw-i4",
+    href: "/cars/bmw-i4",
+    title: "BMW i4"
+  },
+  {
+    image: "/ad/punchad.jpg",
+    slug: "tata-motors-punch-ev",
+    href: "/cars/tata-motors-punch-ev",
+    title: "Tata Motors Punch EV"
+  },
+  {
+    image: "/ad/windsorad.jpg",
+    slug: "mg-jsw-mg-motor--windsor-ev",
+    href: "/cars/mg-jsw-mg-motor--windsor-ev",
+    title: "MG Windsor EV"
+  }
+];
 
 // ─── Main Component ─────────────────────────────────────────────────────────
 export default function HomeClient({ cars, brands, bodyTypes }) {
@@ -317,7 +357,18 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
               </Link>
               <Link href="/compare" className="inline-flex items-center bg-transparent hover:bg-slate-100 text-slate-700 border border-slate-300 px-6 py-3 rounded-full font-semibold transition text-sm">Compare Cars</Link>
             </div>
-            <div className="pt-5 grid grid-cols-3 gap-4 max-w-sm border-t border-slate-200/60">
+            <div className="flex flex-wrap items-center gap-y-2 gap-x-6 pt-1 text-[13px] font-bold text-slate-500">
+              <span className="flex items-center gap-1.5">
+                <span className="text-emerald-600 font-black">✓</span> 100+ EV Models
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="text-emerald-600 font-black">✓</span> Live Charging Stations
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="text-emerald-600 font-black">✓</span> Updated Specifications
+              </span>
+            </div>
+            <div className="pt-5 text-center grid grid-cols-3 gap-4 max-w-sm border-t border-slate-200/60">
               {[
                 { val: `${cars.length}+`, label: 'EV Models' },
                 { val: '₹0', label: 'Fuel Cost' },
@@ -332,30 +383,59 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
           </div>
 
           <div className="lg:col-span-6">
-            <div className="bg-[#0b131f] rounded-[2rem] p-4 shadow-2xl overflow-hidden aspect-[4/3] flex flex-col justify-between relative">
-              <img
-                src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1200&q=80"
-                alt="Electric Car Charging"
-                className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-700"
-                loading="eager"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-teal-500/10 via-transparent to-black/80 pointer-events-none" />
-              <div className="mt-auto relative z-10 bg-white/90 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between shadow-lg">
-                <div className="flex items-center space-x-4">
-                  <div className="bg-emerald-100 text-emerald-600 p-2.5 rounded-xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 fill-current" viewBox="0 0 24 24">
-                      <path d="M11 21l-1-7H4l9-11 1 7h6l-9 11z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-900 text-sm">Fast Charging</h4>
-                    <p className="text-xs text-slate-500 font-medium uppercase tracking-wide mt-0.5">80% in 45 mins</p>
-                  </div>
-                </div>
-                <span className="bg-emerald-50 text-emerald-600 border border-emerald-200/60 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                  Eco Friendly
-                </span>
+            <div className="bg-transparent rounded-[2rem] shadow-2xl overflow-hidden aspect-[4/3] relative group">
+              <div className="absolute inset-0 w-full h-full z-0">
+                <Swiper
+                  modules={[Autoplay, Navigation, Pagination]}
+                  autoplay={{
+                    delay: 4000,
+                    disableOnInteraction: false,
+                  }}
+                  loop={true}
+                  navigation={{
+                    nextEl: '.swiper-button-next-hero',
+                    prevEl: '.swiper-button-prev-hero',
+                  }}
+                  pagination={{
+                    clickable: true,
+                    el: '.swiper-pagination-hero',
+                    bulletClass: 'swiper-pagination-bullet-custom',
+                    bulletActiveClass: 'swiper-pagination-bullet-active-custom',
+                  }}
+                  className="w-full h-full"
+                >
+                  {ads.map((ad, index) => (
+                    <SwiperSlide key={index} className="relative w-full h-full">
+                      <Link href={ad.href} className="block w-full h-full cursor-pointer relative overflow-hidden group/slide">
+                        <Image
+                          src={ad.image}
+                          alt={ad.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          priority={index === 0}
+                          loading={index === 0 ? undefined : "lazy"}
+                          className="object-contain w-full h-full bg-[#0b131f] transition-all duration-500 hover:scale-[1.02] hover:brightness-105"
+                        />
+                      </Link>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
+
+              {/* Custom navigation arrows (Desktop only) */}
+              <button className="swiper-button-prev-hero hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-[#0249ad] shadow-lg backdrop-blur-sm transition-all cursor-pointer opacity-0 group-hover:opacity-100">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button className="swiper-button-next-hero hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-[#0249ad] shadow-lg backdrop-blur-sm transition-all cursor-pointer opacity-0 group-hover:opacity-100">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* Custom pagination dots */}
+              <div className="swiper-pagination-hero absolute bottom-4 left-0 right-0 mx-auto z-30 flex gap-2 justify-center items-center w-max" />
             </div>
           </div>
         </section>
@@ -469,16 +549,73 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
         {/* ── CATEGORY TABS — Most Searched ── */}
         <LazySection className="mb-12">
           <div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
-            <div className="border-b border-slate-100 pb-5 mb-6">
-              <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight mb-4">The most searched electric cars</h3>
-              <div className="flex flex-wrap gap-2">
-                {['SUV', 'Hatchback', 'Sedan', 'Luxury'].map(cat => (
-                  <button key={cat} onClick={() => handleCategoryChange(cat)} className={`px-5 py-2 text-xs font-extrabold tracking-wide rounded-lg transition-all duration-200 ${activeCategory === cat ? 'bg-[#0249ad] text-white shadow-md shadow-blue-100' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}>{cat}</button>
-                ))}
+            <div className="border-b border-slate-100 pb-5 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">The most searched electric cars</h3>
+                <p className="text-slate-500 text-xs font-medium mt-1">Explore current trending electric vehicles by body style</p>
               </div>
+              <Link href="/find-ev" className="text-xs font-bold text-[#0249ad] hover:underline whitespace-nowrap self-start sm:self-center">
+                View All Cars →
+              </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Premium Category Cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              {[
+                {
+                  id: 'SUV',
+                  name: 'SUV & Crossover',
+                  svg: (
+                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2 17h20M5 17a2 2 0 100-4 2 2 0 000 4zm14 0a2 2 0 100-4 2 2 0 000 4zM4 13h16l-2-5H6L4 13z" />
+                    </svg>
+                  )
+                },
+                {
+                  id: 'Hatchback',
+                  name: 'Hatchback & Compact',
+                  svg: (
+                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 15h18M6 15a2 2 0 100-4 2 2 0 000 4zm12 0a2 2 0 100-4 2 2 0 000 4zM5 11l2-4h10l2 4H5z" />
+                    </svg>
+                  )
+                },
+                {
+                  id: 'Sedan',
+                  name: 'Sedan & Saloon',
+                  svg: (
+                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2 16h20M5 16a2 2 0 100-4 2 2 0 000 4zm14 0a2 2 0 100-4 2 2 0 000 4zM3 12l3-5h12l3 5H3z" />
+                    </svg>
+                  )
+                },
+                {
+                  id: 'Luxury',
+                  name: 'Luxury & Premium',
+                  svg: (
+                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M2 17h20M5 17a2 2 0 100-4 2 2 0 000 4zm14 0a2 2 0 100-4 2 2 0 000 4zM4 13h16l-1-6H5l-1 6z" />
+                    </svg>
+                  )
+                }
+              ].map(cat => {
+                const isActive = activeCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => handleCategoryChange(cat.id)}
+                    className={`flex flex-col items-center justify-center p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${isActive ? 'bg-[#0249ad] text-white border-[#0249ad] shadow-md shadow-blue-100' : 'bg-slate-50/50 border-slate-100 text-slate-700 hover:border-blue-200 hover:bg-slate-50'}`}
+                  >
+                    <div className={`mb-3 transition-transform duration-300 ${isActive ? 'scale-110 text-white' : 'text-[#0249ad]'}`}>
+                      {cat.svg}
+                    </div>
+                    <span className="text-xs font-extrabold tracking-wide">{cat.name}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="flex overflow-x-auto gap-4 pb-4 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-4 scroll-smooth snap-x snap-mandatory" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               <AnimatePresence mode="wait">
                 {currentCategoryCars.slice(0, 4).map((car, i) => (
                   <CarCard key={car.serial_no} car={car} index={i} variant="category" />
@@ -487,6 +624,27 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
               {currentCategoryCars.length === 0 && (
                 <div className="col-span-4 text-center py-12 text-slate-400 text-sm font-medium">No cars found in this category.</div>
               )}
+            </div>
+
+            {/* ── QUICK COMPARE STRIP ── */}
+            <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="flex items-center gap-2 text-sm font-extrabold text-slate-800">
+                <span className="text-[#0249ad]">⚡</span> Compare Top EVs
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <Link href="/compare?car1=tata-motors-nexon-ev" className="bg-slate-50 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-[#0249ad] hover:border-blue-200 text-xs font-bold px-4 py-2 rounded-xl transition">
+                  Tata Nexon EV
+                </Link>
+                <Link href="/compare?car1=mg-jsw-mg-motor--windsor-ev" className="bg-slate-50 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-[#0249ad] hover:border-blue-200 text-xs font-bold px-4 py-2 rounded-xl transition">
+                  MG Windsor EV
+                </Link>
+                <Link href="/compare?car1=mahindra-be-6" className="bg-slate-50 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-[#0249ad] hover:border-blue-200 text-xs font-bold px-4 py-2 rounded-xl transition">
+                  Mahindra BE 6
+                </Link>
+                <Link href="/compare" className="bg-[#0249ad] text-white hover:bg-blue-800 text-xs font-extrabold px-5 py-2.5 rounded-xl transition shadow-sm ml-0 md:ml-4">
+                  Compare
+                </Link>
+              </div>
             </div>
           </div>
         </LazySection>
@@ -519,6 +677,165 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
             {!hasMore && cars.length > 4 && (
               <p className="text-center mt-8 text-xs font-bold text-slate-300 uppercase tracking-wider">✓ All {cars.length} EVs loaded</p>
             )}
+          </section>
+        </LazySection>
+
+        {/* ── WHY CHOOSE BUDGETEV ── */}
+        <LazySection className="mb-16">
+          <section className="bg-slate-50 border border-slate-100 rounded-3xl p-8 md:p-12">
+            <div className="text-center max-w-2xl mx-auto mb-10">
+              <span className="text-[#0249ad] uppercase tracking-wider text-xs font-bold bg-blue-50 px-3 py-1.5 rounded-lg">Why Choose BudgetEV</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-4 leading-tight">Your Complete EV Transition Partner</h2>
+              <p className="text-slate-50 text-xs font-semibold mt-2">We simplify electric mobility with smart tools and unbiased data.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  title: 'Smart Comparison',
+                  desc: 'Compare charging speeds, battery capacities, safety ratings, and price side-by-side.',
+                  icon: (
+                    <svg className="w-6 h-6 text-[#0249ad]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Charging Maps',
+                  desc: 'Locate nearby charging stations across major Indian highway corridors easily.',
+                  icon: (
+                    <svg className="w-6 h-6 text-[#0249ad]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Savings Calculator',
+                  desc: 'Calculate exact daily commuting fuel savings compared to petrol/diesel ICE cars.',
+                  icon: (
+                    <svg className="w-6 h-6 text-[#0249ad]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 11h.01M9 11h.01M12 7h.01M15 11h.01M12 14h.01M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Battery Tech Insights',
+                  desc: 'Understand chemistry (LFP vs NMC), lifecycle health, and smart charging habits.',
+                  icon: (
+                    <svg className="w-6 h-6 text-[#0249ad]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  )
+                }
+              ].map((feat, i) => (
+                <div key={i} className="bg-white border border-slate-100 hover:border-blue-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-blue-50/50 flex items-center justify-center mb-4">
+                    {feat.icon}
+                  </div>
+                  <h3 className="font-extrabold text-slate-900 text-sm mb-2">{feat.title}</h3>
+                  <p className="text-slate-500 text-xs font-semibold leading-relaxed">{feat.desc}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </LazySection>
+
+        {/* ── EV STATISTICS ── */}
+        <LazySection className="mb-16">
+          <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-10 shadow-sm">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
+              {[
+                { val: `${cars.length}+`, label: 'EV Models Available' },
+                { val: `${brands.length}+`, label: 'Top Trusted Brands' },
+                { val: '5,000+', label: 'Charging Stations' },
+                { val: '4.8 / 5', label: 'Average User Rating' }
+              ].map((stat, i) => (
+                <div key={i} className="pt-4 lg:pt-0 lg:px-4 space-y-1">
+                  <div className="text-3xl md:text-4xl font-black text-[#0249ad] tracking-tight">{stat.val}</div>
+                  <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </LazySection>
+
+        {/* ── FEATURED BRANDS ── */}
+        <LazySection className="mb-16">
+          <section className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
+            <h3 className="text-xs font-extrabold text-slate-900 text-center uppercase tracking-widest mb-6">Explore Top EV Brands</h3>
+            <div className="flex overflow-x-auto gap-3 pb-3 w-full scrollbar-none lg:grid lg:grid-cols-9 lg:gap-4 lg:pb-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {[
+                { name: 'Tata', slug: 'tata-motors' },
+                { name: 'Mahindra', slug: 'mahindra' },
+                { name: 'MG', slug: 'mg-jsw-mg-motor-' },
+                { name: 'BYD', slug: 'byd' },
+                { name: 'Hyundai', slug: 'hyundai' },
+                { name: 'Kia', slug: 'kia' },
+                { name: 'BMW', slug: 'bmw' },
+                { name: 'Mercedes', slug: 'mercedes-benz' },
+                { name: 'Toyota', slug: 'toyota' }
+              ].map((b, i) => (
+                <Link key={i} href={`/find-ev?brand=${b.slug}`} className="w-full min-w-[100px] shrink-0 lg:min-w-0 lg:shrink bg-slate-50 hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-700 hover:text-[#0249ad] py-4 rounded-xl text-center text-xs font-extrabold transition-all duration-200 shadow-sm block">
+                  {b.name}
+                </Link>
+              ))}
+            </div>
+          </section>
+        </LazySection>
+
+        {/* ── EV BUYING GUIDE ── */}
+        <LazySection id="guides" className="mb-16">
+          <section>
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">New to Electric Vehicles?</h2>
+                <p className="text-slate-500 text-sm font-medium mt-1">Our comprehensive guides help simplify the switch to electric mobility</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  title: 'How EV Charging Works',
+                  desc: 'Understand DC fast charging vs AC home wallbox charging, connection types, and speeds.',
+                  tag: 'Charging Guide',
+                  time: '5 min read'
+                },
+                {
+                  title: 'Understanding Range',
+                  desc: 'Learn about WLTP vs MIDC certification range, battery efficiency, and real-world range factors.',
+                  tag: 'Range Guide',
+                  time: '4 min read'
+                },
+                {
+                  title: 'Battery Health Tips',
+                  desc: 'Best practices for NMC and LFP batteries, depth of discharge, temperature impact, and degradation.',
+                  tag: 'Battery Life',
+                  time: '6 min read'
+                },
+                {
+                  title: 'EV Ownership Cost',
+                  desc: 'A breakdown of electricity costs, maintenance, parts replacement, and long-term savings.',
+                  tag: 'Cost Analysis',
+                  time: '5 min read'
+                }
+              ].map((guide, i) => (
+                <div key={i} className="bg-white border border-slate-100 hover:border-blue-100 rounded-2xl p-6 hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+                  <div>
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-[10px] font-extrabold text-[#0249ad] bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider">{guide.tag}</span>
+                      <span className="text-[10px] font-semibold text-slate-400">{guide.time}</span>
+                    </div>
+                    <h3 className="font-extrabold text-slate-900 text-sm mb-2">{guide.title}</h3>
+                    <p className="text-slate-500 text-xs font-semibold leading-relaxed mb-4">{guide.desc}</p>
+                  </div>
+                  <button className="text-xs font-bold text-[#0249ad] hover:text-blue-800 transition flex items-center gap-1 mt-auto cursor-pointer">
+                    Read Guide <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                  </button>
+                </div>
+              ))}
+            </div>
           </section>
         </LazySection>
 
@@ -618,6 +935,28 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
               </div>
 
             </div>
+          </section>
+        </LazySection>
+
+        {/* ── STRONG CTA ── */}
+        <LazySection className="mb-12">
+          <section className="bg-gradient-to-r from-[#1e40af] to-[#0249ad] text-white rounded-3xl p-8 md:p-12 text-center shadow-xl relative overflow-hidden">
+            <div className="max-w-2xl mx-auto relative z-10 space-y-6">
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Ready to Find Your Perfect EV?</h2>
+              <p className="text-blue-100 text-sm sm:text-base font-semibold leading-relaxed">
+                Compare models, find charging networks, and see fuel cost savings instantly. No commitment, just pure electric data.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4 pt-2">
+                <Link href="/find-ev" className="bg-white hover:bg-slate-50 text-[#0249ad] px-8 py-3.5 rounded-xl font-bold transition shadow-sm text-sm">
+                  Explore Cars
+                </Link>
+                <Link href="/compare" className="bg-transparent hover:bg-white/10 text-white border border-white/20 px-8 py-3.5 rounded-xl font-bold transition text-sm">
+                  Compare EVs
+                </Link>
+              </div>
+            </div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none -mr-32 -mt-32" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none -ml-32 -mb-32" />
           </section>
         </LazySection>
 
