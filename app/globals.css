@@ -69,17 +69,17 @@ div::-webkit-scrollbar{display: none;}
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.25) !important;
+  background: rgba(255, 255, 255, 0.45) !important;
   opacity: 1 !important;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
   cursor: pointer;
   display: inline-block;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
 }
 
 .swiper-pagination-bullet-active-custom {
-  background: #0249ad !important;
-  width: 20px !important;
+  background: #ffffff !important;
+  width: 24px !important;
   border-radius: 4px !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35) !important;
 }

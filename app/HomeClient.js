@@ -128,25 +128,25 @@ function CarCard({ car, index, variant = 'grid' }) {
 
 const ads = [
   {
-    image: "/ad/be6ad.webp",
+    image: "/ad/be6.webp",
     slug: "mahindra-be-6",
     href: "/cars/mahindra-be-6",
     title: "Mahindra BE 6"
   },
   {
-    image: "/ad/i4ad.webp",
+    image: "/ad/i4.webp",
     slug: "bmw-i4",
     href: "/cars/bmw-i4",
     title: "BMW i4"
   },
   {
-    image: "/ad/punchad.jpg",
+    image: "/ad/punch.jpg",
     slug: "tata-motors-punch-ev",
     href: "/cars/tata-motors-punch-ev",
     title: "Tata Motors Punch EV"
   },
   {
-    image: "/ad/windsorad.jpg",
+    image: "/ad/windsor.jpg",
     slug: "mg-jsw-mg-motor--windsor-ev",
     href: "/cars/mg-jsw-mg-motor--windsor-ev",
     title: "MG Windsor EV"
@@ -209,7 +209,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
 
   const carsByBodyType = useMemo(() => {
     const grouped = { SUV: [], Hatchback: [], Sedan: [], Luxury: [] };
-    
+
     // Luxury brand matching set
     const luxuryBrands = new Set([
       'bmw', 'mercedes-benz', 'audi', 'porsche', 'volvo', 'mini', 'jaguar'
@@ -435,7 +435,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
               </button>
 
               {/* Custom pagination dots */}
-              <div className="swiper-pagination-hero absolute bottom-4 left-0 right-0 mx-auto z-30 flex gap-2 justify-center items-center w-max" />
+              <div className="swiper-pagination-hero absolute bottom-4 left-0 right-0 mx-auto z-30 flex gap-1.5 justify-center items-center w-max bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-full shadow-sm" />
             </div>
           </div>
         </section>
@@ -688,7 +688,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-4 leading-tight">Your Complete EV Transition Partner</h2>
               <p className="text-slate-50 text-xs font-semibold mt-2">We simplify electric mobility with smart tools and unbiased data.</p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 {
