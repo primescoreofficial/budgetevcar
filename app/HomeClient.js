@@ -5,7 +5,7 @@ import { getCarUrl } from '@/lib/queries';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useInView, useScroll, useTransform, useMotionValue, useSpring, useVelocity, useAnimationFrame } from 'framer-motion';
 import Footer from '@/components/Footer';
 import {
   IndianRupee,
@@ -346,6 +346,40 @@ function ReviewCard({ review }) {
 
 function ReviewsSection() {
   const containerRef = useRef(null);
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 50,
+    stiffness: 400
+  });
+
+  const baseX1 = useMotionValue(0);
+  const baseX2 = useMotionValue(0);
+
+  // Wrap function to repeat horizontal scroll seamlessly.
+  // The layout spans from -50% to 0%. When it goes beyond, wrap it.
+  const wrap = (min, max, v) => {
+    const range = max - min;
+    return ((((v - min) % range) + range) % range) + min;
+  };
+
+  useAnimationFrame((t, delta) => {
+    const velocity = smoothVelocity.get();
+    if (Math.abs(velocity) > 0.01) {
+      // Normalizing movement rate.
+      const clampedDelta = Math.min(delta, 100);
+      const moveBy = velocity * 0.005 * (clampedDelta / 16);
+
+      // Top row scrolls left on scroll down (positive velocity)
+      baseX1.set(wrap(-50, 0, baseX1.get() - moveBy));
+      // Bottom row scrolls right on scroll down (positive velocity)
+      baseX2.set(wrap(-50, 0, baseX2.get() + moveBy));
+    }
+  });
+
+  const x1 = useTransform(baseX1, v => `${v}%`);
+  const x2 = useTransform(baseX2, v => `${v}%`);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -370,38 +404,13 @@ function ReviewsSection() {
           </p>
         </div>
 
-        {/* Style injection for seamless CSS Marquee */}
+        {/* Style injection for prefers-reduced-motion fallback */}
         <style>{`
-          @keyframes marquee-left {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          @keyframes marquee-right {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0); }
-          }
-          .animate-marquee-left-track {
-            animation: marquee-left 25s linear infinite;
-            will-change: transform;
-          }
-          .animate-marquee-right-track {
-            animation: marquee-right 25s linear infinite;
-            will-change: transform;
-          }
-          @media (max-width: 640px) {
-            .animate-marquee-left-track {
-              animation-duration: 33s;
-            }
-            .animate-marquee-right-track {
-              animation-duration: 33s;
-            }
-          }
           @media (prefers-reduced-motion: reduce) {
-            .animate-marquee-left-track,
-            .animate-marquee-right-track {
-              animation: none;
-              overflow-x: auto;
-              white-space: nowrap;
+            .reviews-track {
+              transform: none !important;
+              overflow-x: auto !important;
+              white-space: nowrap !important;
             }
           }
         `}</style>
@@ -413,26 +422,26 @@ function ReviewsSection() {
         >
           {/* Top Row: Scrolls Left */}
           <div className="w-full overflow-hidden">
-            <div 
-              className="flex gap-6 py-2 animate-marquee-left-track whitespace-nowrap hover:[animation-play-state:paused] touch-pan-x"
-              style={{ display: 'flex', width: 'max-content' }}
+            <motion.div 
+              style={{ x: x1, display: 'flex', width: 'max-content' }}
+              className="reviews-track flex gap-6 py-2 whitespace-nowrap touch-pan-x"
             >
               {doubledRow1.map((review, i) => (
                 <ReviewCard key={i} review={review} />
               ))}
-            </div>
+            </motion.div>
           </div>
 
           {/* Bottom Row: Scrolls Right */}
           <div className="w-full overflow-hidden">
-            <div 
-              className="flex gap-6 py-2 animate-marquee-right-track whitespace-nowrap hover:[animation-play-state:paused] touch-pan-x"
-              style={{ display: 'flex', width: 'max-content' }}
+            <motion.div 
+              style={{ x: x2, display: 'flex', width: 'max-content' }}
+              className="reviews-track flex gap-6 py-2 whitespace-nowrap touch-pan-x"
             >
               {doubledRow2.map((review, i) => (
                 <ReviewCard key={i} review={review} />
               ))}
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </section>
