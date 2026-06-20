@@ -207,6 +207,73 @@ function VideoThumbnail({ videoId, alt }) {
   );
 }
 
+function SplashScreen({ onComplete }) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onComplete();
+    }, 1700); // 1.7 seconds total before starting the exit animation
+    return () => clearTimeout(timer);
+  }, [onComplete]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className="fixed inset-0 z-[999] bg-white flex flex-col items-center justify-center select-none"
+    >
+      <div className="relative flex flex-col items-center">
+        {/* Blue Glow Backdrop Pulse */}
+        <motion.div
+          initial={{ opacity: 0.15, scale: 0.95 }}
+          animate={{ opacity: [0.15, 0.3, 0.15], scale: [0.95, 1.05, 0.95] }}
+          transition={{
+            repeat: Infinity,
+            duration: 2,
+            ease: "easeInOut"
+          }}
+          className="absolute w-40 h-40 rounded-full bg-blue-100/50 blur-2xl -z-10"
+        />
+
+        {/* Logo/Brand Name & Subtitle */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ 
+            opacity: { duration: 0.5 },
+            scale: { duration: 0.5 },
+            y: { duration: 0.5, ease: "easeIn" }
+          }}
+          className="flex flex-col items-center gap-1.5 text-center"
+        >
+          <span className="text-4xl sm:text-5xl font-extrabold text-[#0249ad] tracking-tight">
+            BudgetEV
+          </span>
+          <span className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-widest mt-1">
+            Discover Electric Mobility
+          </span>
+
+          {/* Thin, elegant charging line animation */}
+          <div className="w-24 h-[1px] bg-slate-100 overflow-hidden relative mt-4">
+            <motion.div
+              initial={{ left: "-100%" }}
+              animate={{ left: "100%" }}
+              transition={{
+                duration: 1.2,
+                ease: "easeInOut",
+                repeat: Infinity
+              }}
+              className="absolute h-full w-1/2 bg-[#0249ad]"
+            />
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
 // ─── Main Component ─────────────────────────────────────────────────────────
 export default function HomeClient({ cars, brands, bodyTypes }) {
   const [activeCategory, setActiveCategory] = useState('SUV');
@@ -221,9 +288,32 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
   const [activeVideo, setActiveVideo] = useState(null);
   const modalRef = useRef(null);
 
-  // Prevent scroll when modal is open
+  const [showSplash, setShowSplash] = useState(false);
+
   useEffect(() => {
-    if (activeVideo) {
+    try {
+      const hasSeenSplash = localStorage.getItem('budgetev_splash_seen');
+      if (!hasSeenSplash) {
+        setShowSplash(true);
+      }
+    } catch (e) {
+      // Fallback if localStorage is unavailable
+      setShowSplash(true);
+    }
+  }, []);
+
+  const handleSplashComplete = () => {
+    try {
+      localStorage.setItem('budgetev_splash_seen', 'true');
+    } catch (e) {
+      // ignore
+    }
+    setShowSplash(false);
+  };
+
+  // Prevent scroll when modal or splash is open
+  useEffect(() => {
+    if (activeVideo || showSplash) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -231,7 +321,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [activeVideo]);
+  }, [activeVideo, showSplash]);
 
   // Escape key closes modal
   useEffect(() => {
@@ -382,6 +472,11 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
 
   return (
     <>
+      {/* ── SPLASH SCREEN ── */}
+      <AnimatePresence>
+        {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+      </AnimatePresence>
+
       {/* ── HEADER ── */}
       <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
