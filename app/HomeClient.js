@@ -5,7 +5,7 @@ import { getCarUrl } from '@/lib/queries';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
 import Footer from '@/components/Footer';
 import {
   IndianRupee,
@@ -184,6 +184,261 @@ const guides = [
     videoId: 'DJUk8zNMq6U'
   }
 ];
+
+// ─── EV reviews data ────────────────────────────────────────────────────────
+const reviewsRow1 = [
+  {
+    name: "Rahul Sharma",
+    initials: "RS",
+    city: "Jaipur",
+    profession: "Software Engineer",
+    label: "EV Enthusiast",
+    rating: 5,
+    review: "BudgetEV helped me compare charging costs and range before buying my EV.",
+    model: "Tata Nexon EV"
+  },
+  {
+    name: "Priya Verma",
+    initials: "PV",
+    city: "Pune",
+    profession: "Doctor",
+    label: "Community Member",
+    rating: 5,
+    review: "The comparison tools made choosing the right electric SUV much easier.",
+    model: "MG Windsor EV"
+  },
+  {
+    name: "Arjun Patel",
+    initials: "AP",
+    city: "Ahmedabad",
+    profession: "Business Owner",
+    label: "EV Buyer",
+    rating: 5,
+    review: "I discovered charging stations during a long trip using BudgetEV.",
+    model: "BYD Atto 3"
+  },
+  {
+    name: "Sneha Kapoor",
+    initials: "SK",
+    city: "Delhi",
+    profession: "Teacher",
+    label: "BudgetEV User",
+    rating: 5,
+    review: "The EV guides explained battery health in a very simple way.",
+    model: "Mahindra BE 6"
+  },
+  {
+    name: "Amit Mishra",
+    initials: "AM",
+    city: "Indore",
+    profession: "Consultant",
+    label: "Community Member",
+    rating: 5,
+    review: "The charging station finder is highly accurate and saved me multiple times.",
+    model: "Tata Punch EV"
+  }
+];
+
+const reviewsRow2 = [
+  {
+    name: "Vikram Singh",
+    initials: "VS",
+    city: "Udaipur",
+    profession: "Chartered Accountant",
+    label: "EV Enthusiast",
+    rating: 5,
+    review: "Clean design, accurate information, and excellent EV comparisons.",
+    model: "Hyundai Ioniq 5"
+  },
+  {
+    name: "Neha Joshi",
+    initials: "NJ",
+    city: "Bengaluru",
+    profession: "Product Manager",
+    label: "Community Member",
+    rating: 5,
+    review: "The ownership cost calculator was surprisingly useful.",
+    model: "Tata Punch EV"
+  },
+  {
+    name: "Rohan Mehta",
+    initials: "RM",
+    city: "Hyderabad",
+    profession: "Consultant",
+    label: "EV Buyer",
+    rating: 5,
+    review: "A must-visit tool before planning any EV purchase in India.",
+    model: "Kia EV6"
+  },
+  {
+    name: "Karan Johar",
+    initials: "KJ",
+    city: "Chandigarh",
+    profession: "Student",
+    label: "BudgetEV User",
+    rating: 5,
+    review: "Calculated my daily college commute savings in seconds. Brilliant tool!",
+    model: "Tata Tiago EV"
+  },
+  {
+    name: "Suresh Raina",
+    initials: "SR",
+    city: "Surat",
+    profession: "Business Owner",
+    label: "EV Buyer",
+    rating: 5,
+    review: "Comparing multiple battery packs side by side made my choice extremely clear.",
+    model: "MG Windsor EV"
+  }
+];
+
+function ReviewCard({ review }) {
+  return (
+    <div
+      className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between w-[320px] sm:w-[350px] shrink-0 whitespace-normal select-none"
+    >
+      <div>
+        <div className="flex items-center gap-3.5 mb-4">
+          {/* Avatar Circle */}
+          <div className="w-10 h-10 rounded-full bg-blue-50 text-[#0249ad] font-bold text-xs flex items-center justify-center border border-blue-100 shrink-0">
+            {review.initials}
+          </div>
+          <div>
+            <h4 className="font-extrabold text-slate-900 text-sm leading-tight">{review.name}</h4>
+            <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+              <span className="text-[9px] font-extrabold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md whitespace-nowrap">
+                {review.profession}
+              </span>
+              <span className="text-[9px] font-extrabold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md whitespace-nowrap">
+                {review.city}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Rating Stars */}
+        <div className="flex gap-0.5 text-amber-400 mb-3">
+          {[...Array(review.rating)].map((_, idx) => (
+            <svg key={idx} className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          ))}
+        </div>
+
+        <p className="text-slate-600 text-xs font-medium leading-relaxed mb-4">
+          &ldquo;{review.review}&rdquo;
+        </p>
+      </div>
+
+      <div className="mt-auto pt-3 border-t border-slate-50 flex justify-between items-center">
+        <span className="text-[9px] font-extrabold text-[#0249ad] bg-blue-50 px-2 py-0.5 rounded uppercase tracking-wider">
+          {review.label}
+        </span>
+        {review.model && (
+          <span className="text-[10px] text-slate-400 font-bold">
+            {review.model}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ReviewsSection() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Subtle Y translation and rotation based on viewport scroll progress
+  const y = useTransform(scrollYProgress, [0, 1], [10, 0]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [-1, 1]);
+
+  const doubledRow1 = [...reviewsRow1, ...reviewsRow1];
+  const doubledRow2 = [...reviewsRow2, ...reviewsRow2];
+
+  return (
+    <LazySection id="reviews" className="mb-16">
+      <section ref={containerRef} className="overflow-hidden py-12 bg-slate-50/50 rounded-[2.5rem] border border-slate-100/80">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+            Trusted by EV Buyers Across India
+          </h2>
+          <p className="text-slate-500 text-sm font-medium mt-2 max-w-xl mx-auto leading-relaxed">
+            Real experiences from professionals, families, and daily commuters exploring electric mobility.
+          </p>
+        </div>
+
+        {/* Style injection for seamless CSS Marquee */}
+        <style>{`
+          @keyframes marquee-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          @keyframes marquee-right {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+          .animate-marquee-left-track {
+            animation: marquee-left 25s linear infinite;
+            will-change: transform;
+          }
+          .animate-marquee-right-track {
+            animation: marquee-right 25s linear infinite;
+            will-change: transform;
+          }
+          @media (max-width: 640px) {
+            .animate-marquee-left-track {
+              animation-duration: 33s;
+            }
+            .animate-marquee-right-track {
+              animation-duration: 33s;
+            }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .animate-marquee-left-track,
+            .animate-marquee-right-track {
+              animation: none;
+              overflow-x: auto;
+              white-space: nowrap;
+            }
+          }
+        `}</style>
+
+        {/* Marquee Rows wrapper */}
+        <motion.div 
+          style={{ y, rotate }}
+          className="w-full overflow-hidden flex flex-col gap-6"
+        >
+          {/* Top Row: Scrolls Left */}
+          <div className="w-full overflow-hidden">
+            <div 
+              className="flex gap-6 py-2 animate-marquee-left-track whitespace-nowrap hover:[animation-play-state:paused] touch-pan-x"
+              style={{ display: 'flex', width: 'max-content' }}
+            >
+              {doubledRow1.map((review, i) => (
+                <ReviewCard key={i} review={review} />
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom Row: Scrolls Right */}
+          <div className="w-full overflow-hidden">
+            <div 
+              className="flex gap-6 py-2 animate-marquee-right-track whitespace-nowrap hover:[animation-play-state:paused] touch-pan-x"
+              style={{ display: 'flex', width: 'max-content' }}
+            >
+              {doubledRow2.map((review, i) => (
+                <ReviewCard key={i} review={review} />
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </section>
+    </LazySection>
+  );
+}
 
 function VideoThumbnail({ videoId, alt }) {
   const [imgSrc, setImgSrc] = useState(`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`);
@@ -996,6 +1251,9 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
             </div>
           </section>
         </LazySection>
+
+        {/* ── CUSTOMER REVIEWS MARQUEE ── */}
+        <ReviewsSection />
 
         {/* ── EV BUYING GUIDE ── */}
         <LazySection id="guides" className="mb-16">
