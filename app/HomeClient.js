@@ -349,8 +349,8 @@ function ReviewsSection() {
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
   const smoothVelocity = useSpring(scrollVelocity, {
-    damping: 50,
-    stiffness: 400
+    damping: 60,
+    stiffness: 80
   });
 
   const baseX1 = useMotionValue(0);
