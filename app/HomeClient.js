@@ -804,12 +804,29 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Mobile Swipe Indicator */}
+            <div className="flex justify-center items-center gap-1.5 text-[11px] font-bold text-slate-400 sm:hidden mb-4 uppercase tracking-wider">
+              <motion.span
+                animate={{ x: [-3, 0, -3] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              >
+                ←
+              </motion.span>
+              <span>Swipe for more guides</span>
+              <motion.span
+                animate={{ x: [3, 0, 3] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              >
+                →
+              </motion.span>
+            </div>
+
+            <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:px-0 sm:mx-0 sm:pb-0">
               {guides.map((guide) => (
                 <div
                   key={guide.id}
                   onClick={() => setActiveVideo(guide)}
-                  className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-1"
+                  className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-1 min-w-[82vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center"
                 >
                   <div>
                     {/* 16:9 Video Thumbnail Wrapper */}
