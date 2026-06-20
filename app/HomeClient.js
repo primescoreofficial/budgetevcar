@@ -280,6 +280,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
 
   const [activeVideo, setActiveVideo] = useState(null);
   const modalRef = useRef(null);
+  const discoverContainerRef = useRef(null);
 
   const [showSplash, setShowSplash] = useState(null);
   const [hasScrolledSearched, setHasScrolledSearched] = useState(false);
@@ -463,7 +464,18 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
   const visibleCars = cars.slice(0, visibleCount);
   const hasMore = visibleCount < cars.length;
 
-  const handleLoadMore = () => setVisibleCount(prev => prev + 4);
+  const handleLoadMore = () => {
+    const currentCount = visibleCars.length;
+    setVisibleCount(prev => prev + 4);
+    setTimeout(() => {
+      if (discoverContainerRef.current) {
+        const children = discoverContainerRef.current.children;
+        if (children && children[currentCount]) {
+          children[currentCount].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        }
+      }
+    }, 100);
+  };
   const handleCategoryChange = (cat) => setActiveCategory(cat);
 
   const navLinks = [
@@ -918,6 +930,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
             )}
 
             <div
+              ref={discoverContainerRef}
               onScroll={handleScrollDiscover}
               className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-5 sm:px-0 sm:mx-0 sm:pb-0"
             >
@@ -926,10 +939,30 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                   <CarCard key={car.serial_no} car={car} index={i} variant="grid" />
                 ))}
               </AnimatePresence>
+
+              {/* Mobile Load More Card */}
+              {hasMore && (
+                <div
+                  onClick={handleLoadMore}
+                  className="sm:hidden group/loadmore flex flex-col items-center justify-center bg-white border-2 border-dashed border-blue-200 hover:border-[#0249ad] rounded-3xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer min-w-[82vw] max-w-[340px] snap-center hover:scale-[1.02] active:scale-[0.98] text-center"
+                >
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-[#0249ad] text-white flex items-center justify-center transition-transform duration-300 group-hover/loadmore:scale-110 mb-4 shadow-md">
+                    <svg className="w-6 h-6 transform group-hover/loadmore:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </div>
+                  <h3 className="font-extrabold text-slate-900 text-sm mb-1">
+                    Load More Vehicles
+                  </h3>
+                  <p className="text-slate-400 text-xs font-semibold leading-relaxed">
+                    Explore additional EV options
+                  </p>
+                </div>
+              )}
             </div>
 
             {hasMore && (
-              <div className="flex justify-center mt-10">
+              <div className="hidden sm:flex justify-center mt-10">
                 <button onClick={handleLoadMore} className="inline-flex items-center gap-2 bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-sm px-8 py-3.5 rounded-xl transition-all duration-200"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>Load More ({cars.length - visibleCount} remaining)</button>
               </div>
             )}
