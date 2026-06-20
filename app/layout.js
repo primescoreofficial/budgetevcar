@@ -3,6 +3,19 @@ import "./globals.css";
 export const metadata = {
   title: "BudgetEV — Find Your Perfect Electric Car",
   description: "Simplify your transition to electric. Compare range, battery life and safety ratings across every EV available in India.",
+  keywords: [
+    "electric vehicles India",
+    "compare electric cars",
+    "budget EV",
+    "EV charging locator",
+    "EV cost savings calculator",
+    "best EV in India",
+    "electric car specification",
+    "EV range calculator",
+    "Tata Nexon EV specs",
+    "Mahindra BE 6",
+    "MG Windsor EV specs"
+  ],
   metadataBase: new URL('https://budgetevcar.com'),
   openGraph: {
     title: 'BudgetEV — Best Budget Electric Cars in India',

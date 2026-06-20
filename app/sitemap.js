@@ -16,7 +16,7 @@ export default async function sitemap() {
     console.error('Failed to generate dynamic urls for sitemap:', error);
   }
 
-  const routes = ['', '/find-ev', '/compare', '/calculator'].map((route) => ({
+  const routes = ['', '/find-ev', '/compare', '/calculator', '/charging-stations'].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'daily',

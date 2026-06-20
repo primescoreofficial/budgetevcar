@@ -1081,10 +1081,10 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
 
               {/* Left Content */}
               <div>
-                <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
+                <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
                   The Future is{" "}
                   <span className="text-emerald-500">Electric</span>
-                </h1>
+                </h2>
 
                 <p className="text-slate-500 text-lg leading-relaxed mb-10 max-w-xl">
                   Switching to an EV is more than a purchase; it's an investment
