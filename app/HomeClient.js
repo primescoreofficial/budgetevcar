@@ -49,7 +49,7 @@ function CarCard({ car, index, variant = 'grid' }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -8 }}
         transition={{ duration: 0.25, delay: index * 0.05 }}
-        className="bg-white border border-slate-100 rounded-2xl p-4 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between snap-start w-[280px] shrink-0 md:w-auto relative group/card"
+        className="bg-white border border-slate-100 rounded-2xl p-4 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between snap-center min-w-[82vw] max-w-[340px] sm:min-w-0 sm:max-w-none relative group/card"
       >
         {isTrending && (
           <span className="absolute top-6 right-6 bg-orange-50 text-orange-600 text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md flex items-center gap-0.5 z-10 shadow-sm">
@@ -86,7 +86,7 @@ function CarCard({ car, index, variant = 'grid' }) {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, delay: Math.min(index % 4, 3) * 0.06 }}
-      className="bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-lg hover:border-blue-100 transition-all duration-300 flex flex-col"
+      className="bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-lg hover:border-blue-100 transition-all duration-300 flex flex-col min-w-[82vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center"
     >
       <div className="h-44 bg-slate-50 overflow-hidden">
         <img
@@ -282,6 +282,20 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
   const modalRef = useRef(null);
 
   const [showSplash, setShowSplash] = useState(true);
+  const [hasScrolledSearched, setHasScrolledSearched] = useState(false);
+  const [hasScrolledDiscover, setHasScrolledDiscover] = useState(false);
+
+  const handleScrollSearched = (e) => {
+    if (e.currentTarget.scrollLeft > 10 && !hasScrolledSearched) {
+      setHasScrolledSearched(true);
+    }
+  };
+
+  const handleScrollDiscover = (e) => {
+    if (e.currentTarget.scrollLeft > 10 && !hasScrolledDiscover) {
+      setHasScrolledDiscover(true);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -783,7 +797,34 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
               })}
             </div>
 
-            <div className="flex overflow-x-auto gap-4 pb-4 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-4 scroll-smooth snap-x snap-mandatory" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            {/* Mobile Swipe Indicator */}
+            {currentCategoryCars.length > 1 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: hasScrolledSearched ? 0 : 1 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+                className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 mb-4 sm:hidden"
+              >
+                <motion.span
+                  animate={{ x: [-3, 0, -3] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  ←
+                </motion.span>
+                <span>Swipe for more cars</span>
+                <motion.span
+                  animate={{ x: [3, 0, 3] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  →
+                </motion.span>
+              </motion.div>
+            )}
+
+            <div
+              onScroll={handleScrollSearched}
+              className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-0 sm:mx-0 sm:pb-0"
+            >
               <AnimatePresence mode="wait">
                 {currentCategoryCars.slice(0, 4).map((car, i) => (
                   <CarCard key={car.serial_no} car={car} index={i} variant="category" />
@@ -828,7 +869,34 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
               <Link href="/find-ev" className="text-xs font-bold text-[#0249ad] hover:underline">View with filters →</Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {/* Mobile Swipe Indicator */}
+            {visibleCars.length > 1 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: hasScrolledDiscover ? 0 : 1 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+                className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 mb-4 sm:hidden"
+              >
+                <motion.span
+                  animate={{ x: [-3, 0, -3] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  ←
+                </motion.span>
+                <span>Swipe for more cars</span>
+                <motion.span
+                  animate={{ x: [3, 0, 3] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  →
+                </motion.span>
+              </motion.div>
+            )}
+
+            <div
+              onScroll={handleScrollDiscover}
+              className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-5 sm:px-0 sm:mx-0 sm:pb-0"
+            >
               <AnimatePresence>
                 {visibleCars.map((car, i) => (
                   <CarCard key={car.serial_no} car={car} index={i} variant="grid" />
