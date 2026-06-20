@@ -368,7 +368,7 @@ function ReviewsSection() {
     if (Math.abs(velocity) > 0.01) {
       // Normalizing movement rate.
       const clampedDelta = Math.min(delta, 100);
-      const moveBy = velocity * 0.005 * (clampedDelta / 16);
+      const moveBy = velocity * 0.002 * (clampedDelta / 16);
 
       // Top row scrolls left on scroll down (positive velocity)
       baseX1.set(wrap(-50, 0, baseX1.get() - moveBy));
