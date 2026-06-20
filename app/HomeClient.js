@@ -591,7 +591,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
           </div>
 
           <div className="lg:col-span-6">
-            <div className="bg-transparent rounded-[2rem] shadow-2xl overflow-hidden aspect-[4/3] relative group">
+            <div className="bg-transparent rounded-xl shadow-2xl overflow-hidden aspect-[4/3] relative group">
               <div className="absolute inset-0 w-full h-full z-0">
                 <Swiper
                   modules={[Autoplay, Navigation, Pagination]}
