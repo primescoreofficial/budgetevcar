@@ -207,21 +207,14 @@ function VideoThumbnail({ videoId, alt }) {
   );
 }
 
-function SplashScreen({ onComplete }) {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onComplete();
-    }, 1700); // 1.7 seconds total before starting the exit animation
-    return () => clearTimeout(timer);
-  }, [onComplete]);
-
+function SplashScreen() {
   return (
     <motion.div
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="fixed inset-0 z-[999] bg-white flex flex-col items-center justify-center select-none"
+      transition={{ duration: 0.4, ease: "easeInOut" }}
+      className="fixed inset-0 z-[9999] bg-white flex items-center justify-center select-none"
     >
       <div className="relative flex flex-col items-center">
         {/* Blue Glow Backdrop Pulse */}
@@ -242,9 +235,9 @@ function SplashScreen({ onComplete }) {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ 
-            opacity: { duration: 0.5 },
-            scale: { duration: 0.5 },
-            y: { duration: 0.5, ease: "easeIn" }
+            opacity: { duration: 0.4 },
+            scale: { duration: 0.4 },
+            y: { duration: 0.4, ease: "easeIn" }
           }}
           className="flex flex-col items-center gap-1.5 text-center"
         >
@@ -261,7 +254,7 @@ function SplashScreen({ onComplete }) {
               initial={{ left: "-100%" }}
               animate={{ left: "100%" }}
               transition={{
-                duration: 1.2,
+                duration: 1.0,
                 ease: "easeInOut",
                 repeat: Infinity
               }}
@@ -288,28 +281,15 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
   const [activeVideo, setActiveVideo] = useState(null);
   const modalRef = useRef(null);
 
-  const [showSplash, setShowSplash] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    try {
-      const hasSeenSplash = localStorage.getItem('budgetev_splash_seen');
-      if (!hasSeenSplash) {
-        setShowSplash(true);
-      }
-    } catch (e) {
-      // Fallback if localStorage is unavailable
-      setShowSplash(true);
-    }
-  }, []);
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 1400); // 1.4 seconds. Since exit animation duration is 0.4s, total is exactly 1.8s!
 
-  const handleSplashComplete = () => {
-    try {
-      localStorage.setItem('budgetev_splash_seen', 'true');
-    } catch (e) {
-      // ignore
-    }
-    setShowSplash(false);
-  };
+    return () => clearTimeout(timer);
+  }, []);
 
   // Prevent scroll when modal or splash is open
   useEffect(() => {
@@ -471,13 +451,16 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
   ];
 
   return (
-    <>
-      {/* ── SPLASH SCREEN ── */}
-      <AnimatePresence>
-        {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
-      </AnimatePresence>
-
-      {/* ── HEADER ── */}
+    <AnimatePresence mode="wait">
+      {showSplash ? (
+        <SplashScreen key="splash" />
+      ) : (
+        <motion.div
+          key="content"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+        >
       <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
           <div className="flex items-center gap-6 sm:gap-12">
@@ -1164,6 +1147,8 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
 
       {/* ── FOOTER ── */}
       <Footer brands={brands} bodyTypes={bodyTypes} />
-    </>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
