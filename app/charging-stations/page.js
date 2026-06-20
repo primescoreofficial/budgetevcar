@@ -6,6 +6,9 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "EV Charging Station Locator — BudgetEV",
   description: "Find your nearest electric vehicle charging stations across India. Search by city or use your location to explore operators, distance, and charger type details.",
+  alternates: {
+    canonical: '/charging-stations',
+  },
   openGraph: {
     title: "EV Charging Station Locator — BudgetEV",
     description: "Discover, inspect, and navigate to EV charging stations across India.",

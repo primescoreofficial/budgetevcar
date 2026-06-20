@@ -7,6 +7,9 @@ export const dynamic = 'force-dynamic';
 export const metadata = {
   title: 'Compare EVs — BudgetEV',
   description: 'Compare electric vehicles side by side. View battery capacity, body type, segment and more.',
+  alternates: {
+    canonical: '/compare',
+  },
 };
 
 export default async function ComparePage() {

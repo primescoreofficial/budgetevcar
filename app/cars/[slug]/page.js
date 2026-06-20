@@ -15,6 +15,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${car.model_name || car.detailed_name} — BudgetEV`,
     description: car.web_search_summary || `View details of ${car.model_name || car.detailed_name} electric vehicle.`,
+    alternates: {
+      canonical: `/cars/${slug}`,
+    },
   };
 }
 

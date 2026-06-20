@@ -7,6 +7,9 @@ export const dynamic = 'force-dynamic';
 export const metadata = {
   title: 'Find EV — BudgetEV',
   description: 'Search and filter electric vehicles by brand, segment, body type, and battery capacity.',
+  alternates: {
+    canonical: '/find-ev',
+  },
 };
 export default async function FindEvPage() {
   const rawCars = await getAllCars();
