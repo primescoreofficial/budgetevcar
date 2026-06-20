@@ -762,8 +762,11 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                   id: 'SUV',
                   name: 'SUV & Crossover',
                   svg: (
-                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M2 17h20M5 17a2 2 0 100-4 2 2 0 000 4zm14 0a2 2 0 100-4 2 2 0 000 4zM4 13h16l-2-5H6L4 13z" />
+                    <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 14h2a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h2V9.5L18.5 7h-9L7 10H3v4z" />
+                      <circle cx="7" cy="14" r="2" />
+                      <circle cx="17" cy="14" r="2" />
+                      <path d="M10 5.5h7" />
                     </svg>
                   )
                 },
@@ -771,8 +774,10 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                   id: 'Hatchback',
                   name: 'Hatchback & Compact',
                   svg: (
-                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 15h18M6 15a2 2 0 100-4 2 2 0 000 4zm12 0a2 2 0 100-4 2 2 0 000 4zM5 11l2-4h10l2 4H5z" />
+                    <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 15h2a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h2v-3.5L18 8h-7L7.5 11.5H3V15z" />
+                      <circle cx="7" cy="15" r="2" />
+                      <circle cx="17" cy="15" r="2" />
                     </svg>
                   )
                 },
@@ -780,8 +785,10 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                   id: 'Sedan',
                   name: 'Sedan & Saloon',
                   svg: (
-                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M2 16h20M5 16a2 2 0 100-4 2 2 0 000 4zm14 0a2 2 0 100-4 2 2 0 000 4zM3 12l3-5h12l3 5H3z" />
+                    <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 14h3a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h3v-2.5l-2.5-3h-9L8 11.5H2V14z" />
+                      <circle cx="7" cy="14" r="2" />
+                      <circle cx="17" cy="14" r="2" />
                     </svg>
                   )
                 },
@@ -789,8 +796,11 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                   id: 'Luxury',
                   name: 'Luxury & Premium',
                   svg: (
-                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M2 17h20M5 17a2 2 0 100-4 2 2 0 000 4zm14 0a2 2 0 100-4 2 2 0 000 4zM4 13h16l-1-6H5l-1 6z" />
+                    <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 14h3a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h3v-3l-3.5-3.5h-8L5.5 11H2v3z" />
+                      <circle cx="7" cy="14" r="2" />
+                      <circle cx="17" cy="14" r="2" />
+                      <path d="M9 11h5" />
                     </svg>
                   )
                 }
