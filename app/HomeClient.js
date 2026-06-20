@@ -281,7 +281,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
   const [activeVideo, setActiveVideo] = useState(null);
   const modalRef = useRef(null);
 
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(null);
   const [hasScrolledSearched, setHasScrolledSearched] = useState(false);
   const [hasScrolledDiscover, setHasScrolledDiscover] = useState(false);
 
@@ -298,16 +298,26 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    try {
+      const hasVisited = localStorage.getItem('budgetev_has_visited');
+      if (!hasVisited) {
+        setShowSplash(true);
+        const timer = setTimeout(() => {
+          localStorage.setItem('budgetev_has_visited', 'true');
+          setShowSplash(false);
+        }, 1400); // 1.4 seconds. Since exit animation duration is 0.4s, total is exactly 1.8s!
+        return () => clearTimeout(timer);
+      }
       setShowSplash(false);
-    }, 1400); // 1.4 seconds. Since exit animation duration is 0.4s, total is exactly 1.8s!
-
-    return () => clearTimeout(timer);
+    } catch (e) {
+      // Fallback
+      setShowSplash(false);
+    }
   }, []);
 
   // Prevent scroll when modal or splash is open
   useEffect(() => {
-    if (activeVideo || showSplash) {
+    if (activeVideo || showSplash === true) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -463,6 +473,10 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
     { href: '/calculator', label: 'Calculator' },
     { href: '/charging-stations', label: 'Charging Stations' },
   ];
+
+  if (showSplash === null) {
+    return null;
+  }
 
   return (
     <AnimatePresence mode="wait">

@@ -1,52 +1,52 @@
-'use client';
-
-import { motion } from 'framer-motion';
-
 export default function Loading() {
   return (
-    <div className="fixed inset-0 z-[9999] bg-white flex items-center justify-center select-none">
-      <div className="relative flex flex-col items-center">
-        {/* Blue Glow Backdrop Pulse */}
-        <motion.div
-          initial={{ opacity: 0.15, scale: 0.95 }}
-          animate={{ opacity: [0.15, 0.3, 0.15], scale: [0.95, 1.05, 0.95] }}
-          transition={{
-            repeat: Infinity,
-            duration: 2,
-            ease: "easeInOut"
-          }}
-          className="absolute w-40 h-40 rounded-full bg-blue-100/50 blur-2xl -z-10"
-        />
-
-        {/* Logo/Brand Name & Subtitle */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-          className="flex flex-col items-center gap-1.5 text-center"
-        >
-          <span className="text-4xl sm:text-5xl font-extrabold text-[#0249ad] tracking-tight">
-            BudgetEV
-          </span>
-          <span className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-widest mt-1">
-            Discover Electric Mobility
-          </span>
-
-          {/* Thin, elegant charging line animation */}
-          <div className="w-24 h-[1px] bg-slate-100 overflow-hidden relative mt-4">
-            <motion.div
-              initial={{ left: "-100%" }}
-              animate={{ left: "100%" }}
-              transition={{
-                duration: 1.0,
-                ease: "easeInOut",
-                repeat: Infinity
-              }}
-              className="absolute h-full w-1/2 bg-[#0249ad]"
-            />
+    <>
+      {/* HEADER SKELETON */}
+      <header className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center space-x-12">
+            <div className="w-24 h-7 bg-slate-200 rounded-lg animate-pulse"></div>
+            <div className="hidden md:flex items-center space-x-8">
+              <div className="w-12 h-4 bg-slate-100 rounded animate-pulse"></div>
+              <div className="w-16 h-4 bg-slate-100 rounded animate-pulse"></div>
+              <div className="w-20 h-4 bg-slate-100 rounded animate-pulse"></div>
+            </div>
           </div>
-        </motion.div>
-      </div>
-    </div>
+          <div className="w-24 h-9 bg-slate-200 rounded-full animate-pulse"></div>
+        </div>
+      </header>
+      <main className="max-w-7xl mx-auto px-6 pt-16 pb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-6 space-y-6">
+            <div className="space-y-3">
+              <div className="w-3/4 h-12 bg-slate-200 rounded-xl animate-pulse"></div>
+              <div className="w-1/2 h-12 bg-blue-100 rounded-xl animate-pulse"></div>
+            </div>
+            <div className="w-full h-6 bg-slate-100 rounded animate-pulse"></div>
+            <div className="w-3/4 h-6 bg-slate-100 rounded animate-pulse"></div>
+            <div className="flex gap-4 pt-2">
+              <div className="w-32 h-12 bg-blue-200 rounded-full animate-pulse"></div>
+              <div className="w-36 h-12 bg-slate-200 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+          <div className="lg:col-span-6">
+            <div className="bg-slate-200 rounded-[2rem] aspect-[4/3] animate-pulse"></div>
+          </div>
+        </div>
+        <div className="mt-16">
+          <div className="w-64 h-8 bg-slate-200 rounded-lg animate-pulse mb-6"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="bg-white border border-slate-100 rounded-2xl p-4">
+                <div className="w-full h-40 bg-slate-100 rounded-xl animate-pulse mb-4"></div>
+                <div className="w-3/4 h-5 bg-slate-200 rounded animate-pulse mb-2"></div>
+                <div className="w-1/2 h-4 bg-blue-100 rounded animate-pulse mb-4"></div>
+                <div className="w-full h-10 bg-slate-100 rounded-xl animate-pulse"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+    </>
   );
 }
