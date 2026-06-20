@@ -549,7 +549,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 main-container-reveal">
 
         {/* ── HERO ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-16 pt-12">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-16 pt-6">
           <div className="lg:col-span-6 space-y-7">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
               Find the Best Electric Car{' '}
