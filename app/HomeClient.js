@@ -153,6 +153,60 @@ const ads = [
   }
 ];
 
+// ─── EV buying guides data ──────────────────────────────────────────────────
+const guides = [
+  {
+    id: 'charging',
+    title: 'How EV Charging Works',
+    description: 'Understand DC fast charging vs AC home wallbox charging, connection types, and speeds.',
+    tag: 'Charging Guide',
+    videoId: 'XU2xd2b-GTs'
+  },
+  {
+    id: 'range',
+    title: 'Understanding EV Range',
+    description: 'Learn about WLTP vs MIDC certification range, battery efficiency, and real-world range factors.',
+    tag: 'Range Guide',
+    videoId: '-UbDbsle_Yk'
+  },
+  {
+    id: 'battery',
+    title: 'Battery Health & Longevity',
+    description: 'Best practices for NMC and LFP batteries, depth of discharge, temperature impact, and degradation.',
+    tag: 'Battery Life',
+    videoId: 'eMWLuxUfK5I'
+  },
+  {
+    id: 'cost',
+    title: 'EV Ownership Cost Explained',
+    description: 'A breakdown of electricity costs, maintenance, parts replacement, and long-term savings.',
+    tag: 'Cost Analysis',
+    videoId: 'DJUk8zNMq6U'
+  }
+];
+
+function VideoThumbnail({ videoId, alt }) {
+  const [imgSrc, setImgSrc] = useState(`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`);
+  const [hasError, setHasError] = useState(false);
+
+  const handleError = () => {
+    if (!hasError) {
+      setHasError(true);
+      setImgSrc(`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`);
+    }
+  };
+
+  return (
+    <img
+      src={imgSrc}
+      alt={alt}
+      onError={handleError}
+      loading="lazy"
+      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+  );
+}
+
 // ─── Main Component ─────────────────────────────────────────────────────────
 export default function HomeClient({ cars, brands, bodyTypes }) {
   const [activeCategory, setActiveCategory] = useState('SUV');
@@ -163,6 +217,42 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
 
   const [selectedPrimary, setSelectedPrimary] = useState('all');
   const [selectedSecondary, setSelectedSecondary] = useState('all');
+
+  const [activeVideo, setActiveVideo] = useState(null);
+  const modalRef = useRef(null);
+
+  // Prevent scroll when modal is open
+  useEffect(() => {
+    if (activeVideo) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [activeVideo]);
+
+  // Escape key closes modal
+  useEffect(() => {
+    if (!activeVideo) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setActiveVideo(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeVideo]);
+
+  // Focus modal on mount
+  useEffect(() => {
+    if (activeVideo && modalRef.current) {
+      modalRef.current.focus();
+    }
+  }, [activeVideo]);
 
   useEffect(() => {
     setSelectedPrimary('all');
@@ -680,88 +770,8 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
           </section>
         </LazySection>
 
-        {/* ── WHY CHOOSE BUDGETEV ── */}
-        <LazySection className="mb-16">
-          <section className="bg-slate-50 border border-slate-100 rounded-3xl p-8 md:p-12">
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <span className="text-[#0249ad] uppercase tracking-wider text-xs font-bold bg-blue-50 px-3 py-1.5 rounded-lg">Why Choose BudgetEV</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-4 leading-tight">Your Complete EV Transition Partner</h2>
-              <p className="text-slate-50 text-xs font-semibold mt-2">We simplify electric mobility with smart tools and unbiased data.</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                {
-                  title: 'Smart Comparison',
-                  desc: 'Compare charging speeds, battery capacities, safety ratings, and price side-by-side.',
-                  icon: (
-                    <svg className="w-6 h-6 text-[#0249ad]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Charging Maps',
-                  desc: 'Locate nearby charging stations across major Indian highway corridors easily.',
-                  icon: (
-                    <svg className="w-6 h-6 text-[#0249ad]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Savings Calculator',
-                  desc: 'Calculate exact daily commuting fuel savings compared to petrol/diesel ICE cars.',
-                  icon: (
-                    <svg className="w-6 h-6 text-[#0249ad]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 11h.01M9 11h.01M12 7h.01M15 11h.01M12 14h.01M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" />
-                    </svg>
-                  )
-                },
-                {
-                  title: 'Battery Tech Insights',
-                  desc: 'Understand chemistry (LFP vs NMC), lifecycle health, and smart charging habits.',
-                  icon: (
-                    <svg className="w-6 h-6 text-[#0249ad]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  )
-                }
-              ].map((feat, i) => (
-                <div key={i} className="bg-white border border-slate-100 hover:border-blue-200 p-6 rounded-2xl hover:shadow-md transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-blue-50/50 flex items-center justify-center mb-4">
-                    {feat.icon}
-                  </div>
-                  <h3 className="font-extrabold text-slate-900 text-sm mb-2">{feat.title}</h3>
-                  <p className="text-slate-500 text-xs font-semibold leading-relaxed">{feat.desc}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </LazySection>
-
-        {/* ── EV STATISTICS ── */}
-        <LazySection className="mb-16">
-          <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-10 shadow-sm">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
-              {[
-                { val: `${cars.length}+`, label: 'EV Models Available' },
-                { val: `${brands.length}+`, label: 'Top Trusted Brands' },
-                { val: '5,000+', label: 'Charging Stations' },
-                { val: '4.8 / 5', label: 'Average User Rating' }
-              ].map((stat, i) => (
-                <div key={i} className="pt-4 lg:pt-0 lg:px-4 space-y-1">
-                  <div className="text-3xl md:text-4xl font-black text-[#0249ad] tracking-tight">{stat.val}</div>
-                  <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </LazySection>
-
         {/* ── FEATURED BRANDS ── */}
-        <LazySection className="mb-16">
+        <LazySection className="my-16">
           <section className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
             <h3 className="text-xs font-extrabold text-slate-900 text-center uppercase tracking-widest mb-6">Explore Top EV Brands</h3>
             <div className="grid grid-cols-3 gap-3 md:grid-cols-4 lg:grid-cols-9 lg:gap-4">
@@ -795,44 +805,49 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                {
-                  title: 'How EV Charging Works',
-                  desc: 'Understand DC fast charging vs AC home wallbox charging, connection types, and speeds.',
-                  tag: 'Charging Guide',
-                  time: '5 min read'
-                },
-                {
-                  title: 'Understanding Range',
-                  desc: 'Learn about WLTP vs MIDC certification range, battery efficiency, and real-world range factors.',
-                  tag: 'Range Guide',
-                  time: '4 min read'
-                },
-                {
-                  title: 'Battery Health Tips',
-                  desc: 'Best practices for NMC and LFP batteries, depth of discharge, temperature impact, and degradation.',
-                  tag: 'Battery Life',
-                  time: '6 min read'
-                },
-                {
-                  title: 'EV Ownership Cost',
-                  desc: 'A breakdown of electricity costs, maintenance, parts replacement, and long-term savings.',
-                  tag: 'Cost Analysis',
-                  time: '5 min read'
-                }
-              ].map((guide, i) => (
-                <div key={i} className="bg-white border border-slate-100 hover:border-blue-100 rounded-2xl p-6 hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+              {guides.map((guide) => (
+                <div
+                  key={guide.id}
+                  onClick={() => setActiveVideo(guide)}
+                  className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-1"
+                >
                   <div>
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-[10px] font-extrabold text-[#0249ad] bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider">{guide.tag}</span>
-                      <span className="text-[10px] font-semibold text-slate-400">{guide.time}</span>
+                    {/* 16:9 Video Thumbnail Wrapper */}
+                    <div className="aspect-video bg-slate-100 relative overflow-hidden">
+                      <VideoThumbnail videoId={guide.videoId} alt={guide.title} />
+                      {/* Play Button Overlay */}
+                      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/35 transition-colors duration-300 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-white text-[#0249ad] flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110">
+                          <svg className="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="font-extrabold text-slate-900 text-sm mb-2">{guide.title}</h3>
-                    <p className="text-slate-500 text-xs font-semibold leading-relaxed mb-4">{guide.desc}</p>
+
+                    <div className="p-5 flex flex-col">
+                      <div className="mb-3">
+                        <span className="text-[10px] font-extrabold text-[#0249ad] bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider">
+                          {guide.tag}
+                        </span>
+                      </div>
+                      <h3 className="font-extrabold text-slate-900 text-sm mb-2 group-hover:text-[#0249ad] transition-colors duration-300">
+                        {guide.title}
+                      </h3>
+                      <p className="text-slate-500 text-xs font-semibold leading-relaxed mb-4">
+                        {guide.description}
+                      </p>
+                    </div>
                   </div>
-                  <button className="text-xs font-bold text-[#0249ad] hover:text-blue-800 transition flex items-center gap-1 mt-auto cursor-pointer">
-                    Read Guide <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                  </button>
+
+                  <div className="px-5 pb-5">
+                    <button className="text-xs font-bold text-[#0249ad] hover:text-blue-800 transition-colors flex items-center gap-1.5 mt-auto">
+                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                      Watch Guide
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -841,7 +856,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
 
         {/* ── SAVINGS CTA ── */}
         <LazySection className="mt-12">
-          <section className="max-w-7xl mx-auto px-6 py-20">
+          <section className="max-w-7xl mx-auto px-6 mb-20">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
 
               {/* Left Content */}
@@ -974,6 +989,66 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
         </LazySection>
 
       </main>
+
+      {/* ── LIGHTBOX MODAL ── */}
+      <AnimatePresence>
+        {activeVideo && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-10">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveVideo(null)}
+              className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
+            />
+
+            {/* Modal Content */}
+            <motion.div
+              ref={modalRef}
+              tabIndex={-1}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="bg-white rounded-3xl overflow-hidden shadow-2xl w-full max-w-5xl relative z-10 border border-slate-100 focus:outline-none"
+            >
+              {/* Header/Close bar */}
+              <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-extrabold text-[#0249ad] bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider mb-1 inline-block">
+                    {activeVideo.tag}
+                  </span>
+                  <h3 className="font-extrabold text-slate-900 text-base leading-tight">
+                    {activeVideo.title}
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setActiveVideo(null)}
+                  aria-label="Close video"
+                  className="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition cursor-pointer"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Video Player aspect-video */}
+              <div className="aspect-video w-full bg-black relative">
+                <iframe
+                  src={`https://www.youtube.com/embed/${activeVideo.videoId}?autoplay=1&rel=0`}
+                  title={activeVideo.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* ── FOOTER ── */}
       <Footer brands={brands} bodyTypes={bodyTypes} />
