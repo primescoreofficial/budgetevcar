@@ -141,6 +141,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
 
   const toggleBrand = (brandName) => {
     setSelectedBrands(prev =>
@@ -217,7 +218,6 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
     { href: '/', label: 'Home' },
     { href: '/find-ev', label: 'Find EV', active: true },
     { href: '/compare', label: 'Compare' },
-    { href: '/calculator', label: 'Calculator' },
     { href: '/charging-stations', label: 'Charging Stations' },
   ];
 
@@ -411,6 +411,30 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                   {link.label}
                 </Link>
               ))}
+
+              {/* Tools Dropdown */}
+              <div className="relative group py-2">
+                <button className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer text-slate-600 font-medium">
+                  <span>Tools</span>
+                  <svg className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div className="absolute left-0 mt-2 w-64 bg-white border border-slate-100 rounded-2xl shadow-xl py-3 hidden group-hover:block z-50 animate-fadeIn">
+                  <Link href="/tools/ev-emi-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                    EV EMI Calculator
+                  </Link>
+                  <Link href="/tools/ev-running-cost-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                    EV Running Cost Calculator
+                  </Link>
+                  <Link href="/tools/ev-savings-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                    EV Savings Calculator
+                  </Link>
+                  <Link href="/tools/ev-charging-time-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                    EV Charging Time Calculator
+                  </Link>
+                </div>
+              </div>
             </nav>
           </div>
 
@@ -478,6 +502,51 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                     </svg>
                   </Link>
                 ))}
+
+                {/* Tools accordion */}
+                <div>
+                  <button
+                    onClick={() => setToolsOpen(p => !p)}
+                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a] transition"
+                  >
+                    <span>Tools</span>
+                    <svg className={`w-4 h-4 text-slate-400 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {toolsOpen && (
+                    <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
+                      <Link
+                        href="/tools/ev-emi-calculator"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
+                      >
+                        EV EMI Calculator
+                      </Link>
+                      <Link
+                        href="/tools/ev-running-cost-calculator"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
+                      >
+                        EV Running Cost Calculator
+                      </Link>
+                      <Link
+                        href="/tools/ev-savings-calculator"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
+                      >
+                        EV Savings Calculator
+                      </Link>
+                      <Link
+                        href="/tools/ev-charging-time-calculator"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
+                      >
+                        EV Charging Time Calculator
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </nav>
             </motion.div>
           )}

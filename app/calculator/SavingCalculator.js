@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
+import { Zap } from 'lucide-react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -95,8 +96,8 @@ export default function SavingsCalculator() {
     const [petrolPrice, setPetrolPrice] = useState(104);
     const [elecPrice, setElecPrice] = useState(7);
     
-    // Mobile responsive menu toggle state
     const [menuOpen, setMenuOpen] = useState(false);
+    const [toolsOpen, setToolsOpen] = useState(false);
 
     const petrolMonthly = (km / PETROL_MILEAGE) * petrolPrice * 30;
     const evMonthly = (km / EV_EFFICIENCY) * elecPrice * 30;
@@ -172,7 +173,6 @@ export default function SavingsCalculator() {
         { href: '/', label: 'Home' },
         { href: '/find-ev', label: 'Find EV' },
         { href: '/compare', label: 'Compare' },
-        { href: '/calculator', label: 'Calculator', active: true },
         { href: '/charging-stations', label: 'Charging Stations' },
     ];
 
@@ -197,6 +197,30 @@ export default function SavingsCalculator() {
                                     {link.label}
                                 </Link>
                             ))}
+
+                            {/* Tools Dropdown */}
+                            <div className="relative group py-2">
+                                <button className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer text-[#1e3a8a] font-bold">
+                                    <span>Tools</span>
+                                    <svg className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                <div className="absolute left-0 mt-2 w-64 bg-white border border-slate-100 rounded-2xl shadow-xl py-3 hidden group-hover:block z-50">
+                                    <Link href="/tools/ev-emi-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                                        EV EMI Calculator
+                                    </Link>
+                                    <Link href="/tools/ev-running-cost-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                                        EV Running Cost Calculator
+                                    </Link>
+                                    <Link href="/tools/ev-savings-calculator" className="block px-5 py-2.5 text-sm text-[#0249ad] bg-blue-50/50 font-bold transition">
+                                        EV Savings Calculator
+                                    </Link>
+                                    <Link href="/tools/ev-charging-time-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                                        EV Charging Time Calculator
+                                    </Link>
+                                </div>
+                            </div>
                         </nav>
                     </div>
 
@@ -252,6 +276,51 @@ export default function SavingsCalculator() {
                                 </svg>
                               </Link>
                             ))}
+
+                            {/* Tools accordion */}
+                            <div>
+                              <button
+                                onClick={() => setToolsOpen(p => !p)}
+                                className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-[#1e3a8a] hover:bg-slate-50 transition"
+                              >
+                                <span>Tools</span>
+                                <svg className={`w-4 h-4 text-slate-400 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                                </svg>
+                              </button>
+                              {toolsOpen && (
+                                <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
+                                  <Link
+                                    href="/tools/ev-emi-calculator"
+                                    onClick={() => setMenuOpen(false)}
+                                    className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
+                                  >
+                                    EV EMI Calculator
+                                  </Link>
+                                  <Link
+                                    href="/tools/ev-running-cost-calculator"
+                                    onClick={() => setMenuOpen(false)}
+                                    className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
+                                  >
+                                    EV Running Cost Calculator
+                                  </Link>
+                                  <Link
+                                    href="/tools/ev-savings-calculator"
+                                    onClick={() => setMenuOpen(false)}
+                                    className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-[#0249ad] bg-blue-50/50"
+                                  >
+                                    EV Savings Calculator
+                                  </Link>
+                                  <Link
+                                    href="/tools/ev-charging-time-calculator"
+                                    onClick={() => setMenuOpen(false)}
+                                    className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
+                                  >
+                                    EV Charging Time Calculator
+                                  </Link>
+                                </div>
+                              )}
+                            </div>
                           </nav>
                           <div className="mt-4 pt-4 border-t border-slate-100">
                             <Link
@@ -272,7 +341,7 @@ export default function SavingsCalculator() {
                 {/* HERO */}
                 <div className="mb-8 sm:mb-12 text-center">
                     <span className="inline-flex items-center gap-1.5 bg-blue-50 text-[#1e40af] text-[11px] font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-                        <span>⚡</span> EV Savings Calculator
+                        <Zap className="w-3.5 h-3.5 text-[#1e40af]" /> EV Savings Calculator
                     </span>
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-3 leading-tight">
                         How much will you save<br className="hidden sm:block" /> switching to an EV?

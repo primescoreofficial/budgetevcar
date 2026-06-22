@@ -14,7 +14,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
     { href: '/', label: 'Home' },
     { href: '/find-ev', label: 'Find EV' },
     { href: '/compare', label: 'Compare' },
-    { href: '/calculator', label: 'Calculator' },
+    { href: '/tools', label: 'Tools' },
     { href: '/charging-stations', label: 'Charging Stations' },
   ];
 
@@ -76,22 +76,22 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             </ul>
           </div>
 
-          {/* Useful Resources Column */}
+          {/* Tools Column */}
           <div className="md:col-span-2 space-y-4">
-            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Useful Resources</h4>
+            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Tools</h4>
             <ul className="space-y-2.5 text-sm font-semibold">
               {[
-                { href: '/calculator', label: 'Savings Calculator' },
-                { href: '/charging-stations', label: 'Charging Maps' },
-                { href: '/#discover-section', label: 'EV Catalog' },
-                { href: '#guides', label: 'Buying Guide' }
-              ].map((res) => (
-                <li key={res.label}>
+                { href: '/tools/ev-emi-calculator', label: 'EV EMI Calculator' },
+                { href: '/tools/ev-running-cost-calculator', label: 'EV Running Cost Calculator' },
+                { href: '/tools/ev-savings-calculator', label: 'EV Savings Calculator' },
+                { href: '/tools/ev-charging-time-calculator', label: 'EV Charging Time Calculator' }
+              ].map((tool) => (
+                <li key={tool.label}>
                   <Link 
-                    href={res.href} 
+                    href={tool.href} 
                     className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
                   >
-                    {res.label}
+                    {tool.label}
                   </Link>
                 </li>
               ))}
