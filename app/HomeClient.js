@@ -345,56 +345,12 @@ function ReviewCard({ review }) {
 }
 
 function ReviewsSection() {
-  const containerRef = useRef(null);
-  const { scrollY } = useScroll();
-  const scrollVelocity = useVelocity(scrollY);
-  const smoothVelocity = useSpring(scrollVelocity, {
-    damping: 60,
-    stiffness: 80
-  });
-
-  const baseX1 = useMotionValue(0);
-  const baseX2 = useMotionValue(0);
-
-  // Wrap function to repeat horizontal scroll seamlessly.
-  // The layout spans from -50% to 0%. When it goes beyond, wrap it.
-  const wrap = (min, max, v) => {
-    const range = max - min;
-    return ((((v - min) % range) + range) % range) + min;
-  };
-
-  useAnimationFrame((t, delta) => {
-    const velocity = smoothVelocity.get();
-    if (Math.abs(velocity) > 0.01) {
-      // Normalizing movement rate.
-      const clampedDelta = Math.min(delta, 100);
-      const moveBy = velocity * 0.0006 * (clampedDelta / 16);
-
-      // Top row scrolls left on scroll down (positive velocity)
-      baseX1.set(wrap(-50, 0, baseX1.get() - moveBy));
-      // Bottom row scrolls right on scroll down (positive velocity)
-      baseX2.set(wrap(-50, 0, baseX2.get() + moveBy));
-    }
-  });
-
-  const x1 = useTransform(baseX1, v => `${v}%`);
-  const x2 = useTransform(baseX2, v => `${v}%`);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  // Subtle Y translation and rotation based on viewport scroll progress
-  const y = useTransform(scrollYProgress, [0, 1], [10, 0]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [-1, 1]);
-
-  const doubledRow1 = [...reviewsRow1, ...reviewsRow1];
-  const doubledRow2 = [...reviewsRow2, ...reviewsRow2];
+  const allReviews = [...reviewsRow1, ...reviewsRow2];
+  const doubledReviews = [...allReviews, ...allReviews];
 
   return (
     <LazySection id="reviews" className="mb-16">
-      <section ref={containerRef} className="overflow-hidden py-12 bg-slate-50/50 rounded-[2.5rem] border border-slate-100/80">
+      <section className="overflow-hidden py-12 bg-slate-50/50 rounded-[2.5rem] border border-slate-100/80">
         <div className="max-w-7xl mx-auto px-6 text-center mb-10">
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
             Trusted by EV Buyers Across India
@@ -404,46 +360,53 @@ function ReviewsSection() {
           </p>
         </div>
 
-        {/* Style injection for prefers-reduced-motion fallback */}
+        {/* Style injection for prefers-reduced-motion fallback, marquee keyframes, and GPU layer promotion */}
         <style>{`
+          .marquee-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+          }
+          .marquee-track {
+            display: flex;
+            gap: 1.5rem;
+            width: max-content;
+            will-change: transform;
+            animation: marquee-scroll 45s linear infinite;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+          }
+          .marquee-track:hover {
+            animation-play-state: paused;
+          }
+          @keyframes marquee-scroll {
+            0% {
+              transform: translate3d(0, 0, 0);
+            }
+            100% {
+              transform: translate3d(-50%, 0, 0);
+            }
+          }
           @media (prefers-reduced-motion: reduce) {
-            .reviews-track {
+            .marquee-track {
               transform: none !important;
+              will-change: auto !important;
+              animation: none !important;
               overflow-x: auto !important;
               white-space: nowrap !important;
             }
           }
         `}</style>
-
-        {/* Marquee Rows wrapper */}
-        <motion.div 
-          style={{ y, rotate }}
-          className="w-full overflow-hidden flex flex-col gap-6"
-        >
-          {/* Top Row: Scrolls Left */}
-          <div className="w-full overflow-hidden">
-            <motion.div 
-              style={{ x: x1, display: 'flex', width: 'max-content' }}
-              className="reviews-track flex gap-6 py-2 whitespace-nowrap touch-pan-x"
-            >
-              {doubledRow1.map((review, i) => (
-                <ReviewCard key={i} review={review} />
-              ))}
-            </motion.div>
+        {/* Single Row Infinite Marquee Container */}
+        <div className="marquee-container py-2">
+          <div className="marquee-track">
+            {doubledReviews.map((review, i) => (
+              <ReviewCard key={i} review={review} />
+            ))}
           </div>
-
-          {/* Bottom Row: Scrolls Right */}
-          <div className="w-full overflow-hidden">
-            <motion.div 
-              style={{ x: x2, display: 'flex', width: 'max-content' }}
-              className="reviews-track flex gap-6 py-2 whitespace-nowrap touch-pan-x"
-            >
-              {doubledRow2.map((review, i) => (
-                <ReviewCard key={i} review={review} />
-              ))}
-            </motion.div>
-          </div>
-        </motion.div>
+        </div>
       </section>
     </LazySection>
   );
