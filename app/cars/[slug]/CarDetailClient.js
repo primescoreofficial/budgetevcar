@@ -556,40 +556,29 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
               </div>
 
               <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-0 sm:mx-0 sm:pb-0">
-                {similarEVs.map((simCar, index) => {
-                  const specs = getCarSpecs(simCar);
-                  return (
-                    <motion.div
-                      key={simCar.serial_no}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                      className="bg-white border border-slate-100 rounded-2xl p-4 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-w-[82vw] max-w-[340px] snap-center sm:min-w-0 sm:max-w-none"
-                    >
-                      <div>
-                        <div className="w-full h-36 bg-slate-50 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
-                          <img src={simCar.vehicle_image} alt={simCar.model_name || simCar.detailed_name} className="w-full h-full object-cover" />
-                        </div>
-                        <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">{simCar.model_name || simCar.detailed_name}</h4>
-                        <p className="text-xs text-slate-400 font-medium mt-0.5">{simCar.brand}</p>
-                        
-                        <div className="mt-3 space-y-1.5 border-t border-slate-100 pt-3">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-slate-400 font-medium">Price</span>
-                            <span className="text-slate-800 font-bold">₹{specs.minPrice} - {specs.maxPrice} Lakh</span>
-                          </div>
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-slate-400 font-medium">Range</span>
-                            <span className="text-slate-800 font-bold">{specs.rangeKm} km</span>
-                          </div>
-                        </div>
+                {similarEVs.map((simCar, index) => (
+                  <motion.div
+                    key={simCar.serial_no}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    className="bg-white border border-slate-100 rounded-2xl p-4 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-w-[82vw] max-w-[340px] snap-center sm:min-w-0 sm:max-w-none"
+                  >
+                    <div>
+                      <div className="w-full h-36 bg-slate-50 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
+                        <img src={simCar.vehicle_image} alt={simCar.model_name || simCar.detailed_name} className="w-full h-full object-cover" />
                       </div>
-                      <Link href={getCarUrl(simCar)} className="w-full mt-4 text-center bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-xs tracking-wide py-2 rounded-xl transition-all duration-200 block">
-                        Quick View
-                      </Link>
-                    </motion.div>
-                  );
-                })}
+                      <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">{simCar.model_name || simCar.detailed_name}</h4>
+                      <p className="text-xs text-slate-400 font-medium mt-0.5">{simCar.variant_name || simCar.body_type || ''}</p>
+                      {simCar.battery_capacity && (
+                        <p className="text-sm font-black text-[#0249ad] mt-1">{simCar.battery_capacity} kWh</p>
+                      )}
+                    </div>
+                    <Link href={getCarUrl(simCar)} className="w-full mt-4 text-center bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-xs tracking-wide py-2 rounded-xl transition-all duration-200 block">
+                      View Details
+                    </Link>
+                  </motion.div>
+                ))}
               </div>
             </div>
           )}
@@ -634,9 +623,9 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                         <img src={relCar.vehicle_image} alt={relCar.model_name || relCar.detailed_name} className="w-full h-full object-cover" />
                       </div>
                       <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">{relCar.model_name || relCar.detailed_name}</h4>
-                      <p className="text-xs text-slate-400 font-medium mt-0.5">{relCar.variant_name || relCar.body_type}</p>
+                      <p className="text-xs text-slate-400 font-medium mt-0.5">{relCar.variant_name || relCar.body_type || ''}</p>
                       {relCar.battery_capacity && (
-                        <p className="text-xs font-bold text-[#0249ad] mt-1">{relCar.battery_capacity} kWh</p>
+                        <p className="text-sm font-black text-[#0249ad] mt-1">{relCar.battery_capacity} kWh</p>
                       )}
                     </div>
                     <Link href={getCarUrl(relCar)} className="w-full mt-4 text-center bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-xs tracking-wide py-2 rounded-xl transition-all duration-200 block">
