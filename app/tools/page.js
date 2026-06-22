@@ -46,8 +46,8 @@ export default function ToolsLandingPage() {
       desc: 'Determine charging durations under different electrical power supply levels and chargers.',
       href: '/tools/ev-charging-time-calculator',
       icon: <BatteryCharging className="w-8 h-8 text-indigo-500" />,
-      tag: 'Coming Soon',
-      comingSoon: true,
+      tag: 'Active',
+      comingSoon: false,
     },
   ];
 
