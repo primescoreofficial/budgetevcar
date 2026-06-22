@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
-import { Zap } from 'lucide-react';
+import { Zap, HelpCircle, TrendingUp, DollarSign, Leaf, ShieldAlert } from 'lucide-react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -335,6 +335,16 @@ export default function SavingsCalculator() {
                     )}
                 </AnimatePresence>
             </header>
+            {/* ── BREADCRUMBS ── */}
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6">
+                <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
+                    <Link href="/" className="hover:text-[#0249ad] transition">Home</Link>
+                    <span>/</span>
+                    <Link href="/tools" className="hover:text-[#0249ad] transition">Tools</Link>
+                    <span>/</span>
+                    <span className="text-slate-700 font-bold">EV Savings Calculator</span>
+                </div>
+            </div>
 
             <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-24">
 
@@ -479,6 +489,77 @@ export default function SavingsCalculator() {
                                 Find My EV →
                             </Link>
                         </div>
+                    </div>
+                </div>
+
+                {/* Why Use Our Savings Calculator */}
+                <div className="mt-12">
+                    <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-6">Why Use Our EV Savings Calculator?</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+                        {[
+                            { title: 'Estimate Fuel Savings', desc: 'Forecast daily, monthly, and yearly outgoings saved compared to petrol cars.', icon: <DollarSign className="w-6 h-6 text-[#0249ad]" /> },
+                            { title: 'Predict Break-even', desc: 'Understand how quickly your lower running costs will cover the initial EV price premium.', icon: <TrendingUp className="w-6 h-6 text-[#0249ad]" /> },
+                            { title: 'Environmental Impact', desc: 'Visualize your carbon emission reduction by switching to a zero-emission commute.', icon: <Leaf className="w-6 h-6 text-[#0249ad]" /> },
+                            { title: 'Commute Efficiency', desc: 'Calculate energy efficiency metrics based on actual local electricity rates.', icon: <Zap className="w-6 h-6 text-[#0249ad]" /> }
+                        ].map(f => (
+                            <div key={f.title} className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm">
+                                <div className="mb-3">{f.icon}</div>
+                                <h4 className="text-sm font-extrabold text-slate-900 tracking-tight mt-3">{f.title}</h4>
+                                <p className="text-xs text-slate-400 font-medium leading-relaxed mt-2">{f.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* FAQs */}
+                    <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-6">Frequently Asked Questions</h2>
+                    <div className="space-y-4">
+                        {[
+                            {
+                                q: 'How is EV savings calculated?',
+                                a: 'EV savings is calculated by comparing fuel costs: (Commute Distance ÷ Petrol Mileage) × Petrol Price vs electrical charging costs: (Commute Distance ÷ EV Efficiency) × Electricity Tariff. The difference represents the net monthly/yearly savings.'
+                            },
+                            {
+                                q: 'What is the running cost difference between EV and petrol?',
+                                a: 'Petrol vehicles average around ₹7 to ₹10 per km depending on mileage. EVs typically run on less than ₹1.5 per km, resulting in savings of over 80% on commute energy expenses.'
+                            },
+                            {
+                                q: 'Is maintenance cheaper for an EV?',
+                                a: 'Yes, EVs have far fewer moving parts (no engine, gearbox, spark plugs, or exhaust systems), which translates to significantly lower routine maintenance costs over time.'
+                            },
+                            {
+                                q: 'How long does it take to break even on an EV purchase?',
+                                a: 'Depending on daily usage, most EV owners break even on the higher initial purchase price within 3 to 5 years through accumulated fuel and maintenance savings.'
+                            }
+                        ].map((faq, index) => (
+                            <div key={index} className="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm">
+                                <h4 className="text-sm font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+                                    <HelpCircle className="w-4 h-4 text-[#0249ad] shrink-0" />
+                                    <span>{faq.q}</span>
+                                </h4>
+                                <p className="text-xs text-slate-500 font-medium leading-relaxed mt-2.5 pl-6">{faq.a}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Related Tools Links */}
+                <div className="mt-16 pt-8 border-t border-slate-200">
+                    <h2 className="text-lg font-black text-slate-900 uppercase tracking-wider mb-6">Explore More EV Tools</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {[
+                            { name: 'EV EMI Calculator', desc: 'Forecast loan details and monthly interest schedules.', href: '/tools/ev-emi-calculator' },
+                            { name: 'EV Running Cost Calculator', desc: 'Analyze electrical charging cost compared to petrol.', href: '/tools/ev-running-cost-calculator' },
+                            { name: 'EV Charging Time Calculator', desc: 'Compute battery charging durations.', href: '/tools/ev-charging-time-calculator' },
+                        ].map(tool => (
+                            <Link
+                                key={tool.name}
+                                href={tool.href}
+                                className="bg-white border border-slate-200 hover:border-blue-200 p-5 rounded-3xl shadow-sm hover:shadow-md transition cursor-pointer block"
+                            >
+                                <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">{tool.name}</h4>
+                                <p className="text-xs text-slate-400 font-medium mt-1.5">{tool.desc}</p>
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </main>
