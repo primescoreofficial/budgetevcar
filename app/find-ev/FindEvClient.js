@@ -698,6 +698,37 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
             )}
           </div>
         </div>
+
+        {/* SEO Informational Content Section */}
+        <div className="mt-16 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
+          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-4">How to Find the Right Electric Vehicle</h2>
+          <div className="text-slate-600 text-sm font-medium leading-relaxed space-y-6">
+            <p>
+              Navigating the transition to electric mobility requires understanding key features like battery size, range expectations, and pricing models. Utilizing a comprehensive <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">electric vehicle finder</Link> simplifies this selection process. If you want to <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">find electric car</Link> options that suit your specific lifestyle, balancing your budget with real-world requirements is the first step.
+            </p>
+            
+            <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Choosing the Best EV in India by Budget & Driving Profile</h3>
+            <p>
+              Depending on where and how far you drive daily, different vehicle classes will offer the most practical value:
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                <strong>City Commuters:</strong> For navigating urban traffic and narrow lanes, compact hatchbacks with a battery pack of 19 kWh to 25 kWh are ideal. They offer cheap charging costs, easy parking, and enough juice for a full week of short journeys.
+              </li>
+              <li>
+                <strong>Highway Travelers & Families:</strong> If you frequently plan weekend getaways, look for mid-size SUVs or sedans with at least a 35 kWh battery capacity. This configuration ensures longer range and supports faster DC charging for highways.
+              </li>
+              <li>
+                <strong>Charging Infrastructure:</strong> Ensure you evaluate local charging density. If home charging is not an option, you will rely heavily on public fast-charging stations.
+              </li>
+            </ul>
+
+            <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Use Our EV Recommendation Tool for Better Decisions</h3>
+            <p>
+              Finding the perfect balance between vehicle price and driving capability can be challenging. By filtering vehicles by budget, range, and brand, you can identify exact matches without wading through technical jargon. Before purchasing, verify your monthly finance calculations with our <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">EV EMI calculator</Link> and compare vehicles side-by-side on our <Link href="/compare" className="text-[#0249ad] font-bold hover:underline">compare EVs</Link> page to <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">choose the right EV</Link> for your family.
+            </p>
+          </div>
+        </div>
       </main>
 
       {/* ── FOOTER ── */}

@@ -319,6 +319,40 @@ export default function CompareClient({ cars }) {
             <p className="text-slate-400 text-sm font-medium">Use the dropdowns above to pick cars from our database.</p>
           </div>
         )}
+
+        {/* SEO Informational Content Section */}
+        <div className="mt-16 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
+          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-4">Why Comparing Electric Vehicles Matters</h2>
+          <div className="text-slate-600 text-sm font-medium leading-relaxed space-y-6">
+            <p>
+              Transitioning to electric mobility is a major milestone, but finding the right vehicle can feel overwhelming given the rapidly growing options. Performing a detailed <Link href="/compare" className="text-[#0249ad] font-bold hover:underline">electric vehicle comparison</Link> is essential to ensure that your investment aligns with your daily driving routine, budget constraints, and charging availability. By evaluating specifications side-by-side, you can make an informed decision that prevents range anxiety and maximizes long-term savings.
+            </p>
+            
+            <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Key Factors to Evaluate When You Compare Electric Cars</h3>
+            <p>
+              To choose the best model, it is crucial to analyze several key criteria that directly impact your ownership experience. An effective <Link href="/compare" className="text-[#0249ad] font-bold hover:underline">EV comparison in India</Link> should focus on these aspects:
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                <strong>Compare EV Prices:</strong> Look beyond the ex-showroom cost. Factor in state-level subsidies, road tax exemptions, and registration discounts, which vary significantly across regions.
+              </li>
+              <li>
+                <strong>Compare EV Range:</strong> Understand the difference between certified range (like MIDC) and real-world range. Select a battery capacity that covers your daily commute comfortably with a 20-30% safety margin.
+              </li>
+              <li>
+                <strong>Battery Capacity and Lifespan:</strong> Compare chemistry types like LFP (Lithium Iron Phosphate) and NMC (Nickel Manganese Cobalt) along with their thermal management systems to ensure durability.
+              </li>
+              <li>
+                <strong>Charging Speeds:</strong> Check the maximum DC charging rate accepted by each vehicle. A car that supports faster charging saves valuable time on long-distance highway road trips.
+              </li>
+            </ul>
+
+            <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">How to Choose the Right EV for Your Lifestyle</h3>
+            <p>
+              Your driving habits dictate the perfect EV specifications. For daily city runs and tight parking spots, compact hatchbacks with moderate battery packs offer high efficiency. For regular highway travel or family trips, prioritising aerodynamic SUVs with high DC fast-charging support is key. Before finalizing your choice, use our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV running cost calculator</Link> to estimate fuel savings, and plan your budgets using our <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">EV EMI calculator</Link>.
+            </p>
+          </div>
+        </div>
       </main>
 
       {/* ── FOOTER ── */}

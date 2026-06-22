@@ -559,6 +559,37 @@ function CalculatorContent() {
           </div>
         </div>
 
+        {/* SEO Informational Content Section */}
+        <div className="mt-12 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
+          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-4">Understanding Electric Vehicle Financing</h2>
+          <div className="text-slate-600 text-sm font-medium leading-relaxed space-y-6">
+            <p>
+              Purchasing an electric vehicle is an exciting step toward sustainable living, but understanding how to finance this investment is equally critical. Utilizing a dedicated <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">EV EMI calculator</Link> allows you to forecast monthly outgoings and build a healthy repayment schedule. When exploring options, a reliable <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">electric car loan calculator</Link> helps simplify complicated interest rate components.
+            </p>
+            
+            <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Factors That Influence Your EV Loan EMI</h3>
+            <p>
+              If you want to accurately <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">calculate EV EMI</Link> schemes, you need to understand the variables that banks and financial institutions evaluate:
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                <strong>Down Payment Percentage:</strong> Contributing a larger down payment reduces the principal loan amount, which directly decreases both your monthly <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">EV loan EMI</Link> and the overall interest accumulated.
+              </li>
+              <li>
+                <strong>Interest Rates:</strong> Many lenders offer preferential interest rates specifically for green vehicles. Even a 0.5% reduction can save thousands over a multi-year tenure.
+              </li>
+              <li>
+                <strong>Loan Tenure:</strong> While longer tenures (e.g., 7 years) reduce the immediate monthly obligation, they increase the total interest paid compared to shorter tenures (e.g., 3 to 5 years).
+              </li>
+            </ul>
+
+            <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Navigating Electric Vehicle Finance Options</h3>
+            <p>
+              Securing optimized <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">electric vehicle finance</Link> requires shopping around for lenders who offer green auto loans. In addition to special interest schemes, check if you qualify for tax benefits under Section 80EEB of the Income Tax Act (where applicable), which allows deductions on interest paid. Before making a final commitment, evaluate long-term charging costs on our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV running cost calculator</Link> and compare similar vehicles on our <Link href="/compare" className="text-[#0249ad] font-bold hover:underline">compare EVs</Link> portal to ensure complete clarity.
+            </p>
+          </div>
+        </div>
+
         {/* Related Tools Links */}
         <div className="mt-16 pt-8 border-t border-slate-200">
           <h2 className="text-lg font-black text-slate-900 uppercase tracking-wider mb-6">Explore More EV Tools</h2>
