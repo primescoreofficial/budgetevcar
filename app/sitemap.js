@@ -6,12 +6,21 @@ export default async function sitemap() {
   let carUrls = [];
   try {
     const cars = await getAllCars();
-    carUrls = cars.map((car) => ({
-      url: `${baseUrl}${getCarUrl(car)}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    }));
+    const seenUrls = new Set();
+    
+    cars.forEach((car) => {
+      const urlPath = getCarUrl(car).split('?')[0];
+      const fullUrl = `${baseUrl}${urlPath}`;
+      if (!seenUrls.has(fullUrl)) {
+        seenUrls.add(fullUrl);
+        carUrls.push({
+          url: fullUrl,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        });
+      }
+    });
   } catch (error) {
     console.error('Failed to generate dynamic urls for sitemap:', error);
   }

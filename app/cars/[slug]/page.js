@@ -5,9 +5,11 @@ import { getCarLocalImages, enrichCarWithLocalImage, enrichCarsWithLocalImages }
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params, searchParams }) {
   const { slug } = await params;
-  const rawCar = await getCarBySlug(slug);
+  const resolvedSearchParams = await searchParams;
+  const v = resolvedSearchParams?.v;
+  const rawCar = await getCarBySlug(slug, v);
   const car = enrichCarWithLocalImage(rawCar);
   if (!car) {
     return { title: 'Car Not Found — BudgetEV' };
@@ -21,9 +23,11 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function CarDetailPage({ params }) {
+export default async function CarDetailPage({ params, searchParams }) {
   const { slug } = await params;
-  const rawCar = await getCarBySlug(slug);
+  const resolvedSearchParams = await searchParams;
+  const v = resolvedSearchParams?.v;
+  const rawCar = await getCarBySlug(slug, v);
   const car = enrichCarWithLocalImage(rawCar);
 
   if (!car) {
