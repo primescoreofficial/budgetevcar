@@ -180,7 +180,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
       }
       return acc;
     }, [])
-    .slice(0, 8); // Keep 4 to 8 recommended EVs
+    .slice(0, 4); // Keep exactly 4 recommended EVs
 
   const images = localImages && localImages.length > 0
     ? localImages
