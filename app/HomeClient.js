@@ -499,6 +499,32 @@ function SplashScreen() {
     </motion.div>
   );
 }
+// ─── Brand Card Component ───────────────────────────────────────────────────
+function BrandCard({ brand }) {
+  const [imageError, setImageError] = useState(false);
+
+  return (
+    <Link
+      href={`/find-ev?brand=${brand.slug}`}
+      className="flex flex-col items-center justify-center bg-slate-50 hover:bg-white border border-slate-100 hover:border-blue-200 hover:shadow-md text-slate-700 hover:text-[#0249ad] p-4 rounded-xl text-center transition-all duration-300 hover:scale-[1.04] shadow-sm cursor-pointer group"
+    >
+      {brand.logo && !imageError ? (
+        <div className="relative w-12 h-12 mb-3 flex items-center justify-center overflow-hidden">
+          <Image
+            src={brand.logo}
+            alt={`${brand.name} logo`}
+            fill
+            sizes="48px"
+            className="object-contain transition-transform duration-300 group-hover:scale-105"
+            onError={() => setImageError(true)}
+            priority={false}
+          />
+        </div>
+      ) : null}
+      <span className="text-xs font-extrabold tracking-wide">{brand.name}</span>
+    </Link>
+  );
+}
 
 // ─── Main Component ─────────────────────────────────────────────────────────
 export default function HomeClient({ cars, brands, bodyTypes }) {
@@ -1212,19 +1238,17 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                 <h3 className="text-xs font-extrabold text-slate-900 text-center uppercase tracking-widest mb-6">Explore Top EV Brands</h3>
                 <div className="grid grid-cols-3 gap-3 md:grid-cols-4 lg:grid-cols-9 lg:gap-4">
                   {[
-                    { name: 'Tata', slug: 'tata-motors' },
-                    { name: 'Mahindra', slug: 'mahindra' },
-                    { name: 'MG', slug: 'mg-jsw-mg-motor-' },
-                    { name: 'BYD', slug: 'byd' },
-                    { name: 'Hyundai', slug: 'hyundai' },
-                    { name: 'Kia', slug: 'kia' },
-                    { name: 'BMW', slug: 'bmw' },
-                    { name: 'Mercedes', slug: 'mercedes-benz' },
-                    { name: 'Toyota', slug: 'toyota' }
+                    { name: 'Tata', slug: 'tata-motors', logo: '/brands/tata.avif' },
+                    { name: 'Mahindra', slug: 'mahindra', logo: '/brands/mahindra.webp' },
+                    { name: 'MG', slug: 'mg-jsw-mg-motor-', logo: '/brands/mg.webp' },
+                    { name: 'BYD', slug: 'byd', logo: '/brands/byd.webp' },
+                    { name: 'Hyundai', slug: 'hyundai', logo: '/brands/hyundai.webp' },
+                    { name: 'Kia', slug: 'kia', logo: '/brands/kia.webp' },
+                    { name: 'BMW', slug: 'bmw', logo: '/brands/bmw.png' },
+                    { name: 'Mercedes', slug: 'mercedes-benz', logo: '/brands/mercedes.webp' },
+                    { name: 'Toyota', slug: 'toyota', logo: '/brands/toyota.webp' }
                   ].map((b, i) => (
-                    <Link key={i} href={`/find-ev?brand=${b.slug}`} className="w-full bg-slate-50 hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-700 hover:text-[#0249ad] py-4 rounded-xl text-center text-xs font-extrabold transition-all duration-200 shadow-sm block">
-                      {b.name}
-                    </Link>
+                    <BrandCard key={i} brand={b} />
                   ))}
                 </div>
               </section>
