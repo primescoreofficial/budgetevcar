@@ -128,7 +128,7 @@ function CarCard({ car, index, variant = 'grid' }) {
 
 const ads = [
   {
-    image: "/ad/be6.webp",
+    image: "/ad/be6.png",
     slug: "mahindra-be-6",
     href: "/cars/mahindra-be-6",
     title: "Mahindra BE 6"
@@ -140,16 +140,22 @@ const ads = [
     title: "BMW i4"
   },
   {
-    image: "/ad/punch.jpg",
-    slug: "tata-motors-punch-ev",
-    href: "/cars/tata-motors-punch-ev",
-    title: "Tata Motors Punch EV"
-  },
-  {
     image: "/ad/windsor.jpg",
     slug: "mg-jsw-mg-motor--windsor-ev",
     href: "/cars/mg-jsw-mg-motor--windsor-ev",
     title: "MG Windsor EV"
+  },
+  {
+    image: "/ad/urbancruiser.webp",
+    slug: "toyota-urban-cruiser-ebella",
+    href: "/cars/toyota-urban-cruiser-ebella",
+    title: "Toyota Urban Cruiser ebella"
+  },
+  {
+    image: "/ad/xev9s.webp",
+    slug: "mahindra-xev-9s",
+    href: "/cars/mahindra-xev-9s",
+    title: "mahindra-xev-9s"
   }
 ];
 
@@ -461,7 +467,7 @@ function SplashScreen() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, y: -20 }}
-          transition={{ 
+          transition={{
             opacity: { duration: 0.4 },
             scale: { duration: 0.4 },
             y: { duration: 0.4, ease: "easeIn" }
@@ -728,780 +734,780 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
         >
-      <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-          <div className="flex items-center gap-6 sm:gap-12">
-            <Link href="/" className="text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">BudgetEV</Link>
-            <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">
-              {navLinks.map((link) => (
-                <Link key={link.href} href={link.href} className={link.active ? "text-[#1e3a8a] border-b-2 border-[#1e3a8a] pb-1 font-semibold" : "hover:text-slate-900 transition"}>
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link href="/find-ev" className="hidden md:inline-flex bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm">
-              Get Started
-            </Link>
-            <button onClick={() => setMenuOpen(prev => !prev)} className="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition focus:outline-none" aria-label="Toggle menu">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {menuOpen ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />}
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* MOBILE DRAWER */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40">
-              <nav className="flex flex-col gap-1">
-                {navLinks.map((link) => (
-                  <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${link.active ? "bg-blue-50 text-[#1e3a8a]" : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"}`}>
-                    <span>{link.label}</span>
-                    <svg className="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                  </Link>
-                ))}
-              </nav>
-              <div className="mt-4 pt-4 border-t border-slate-100">
-                <Link href="/find-ev" onClick={() => setMenuOpen(false)} className="w-full block text-center bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-3 rounded-xl text-sm transition shadow-sm">Get Started</Link>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 main-container-reveal">
-
-        {/* ── HERO ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-16 pt-6">
-          <div className="lg:col-span-6 space-y-7">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
-              Find the Best Electric Car{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-[#1e40af]">Within Your Budget</span>
-            </h1>
-            <p className="text-slate-500 text-base sm:text-lg font-medium max-w-xl leading-relaxed">
-              Simplify your transition to electric. Compare range, battery life and safety ratings across every EV available in India.
-            </p>
-            <div className="flex flex-wrap items-center gap-3 pt-1">
-              <Link href="/find-ev" className="inline-flex items-center bg-[#1e40af] text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-800 transition text-sm shadow-sm">
-                Find My EV
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-              </Link>
-              <Link href="/compare" className="inline-flex items-center bg-transparent hover:bg-slate-100 text-slate-700 border border-slate-300 px-6 py-3 rounded-full font-semibold transition text-sm">Compare Cars</Link>
-            </div>
-            <div className="flex flex-wrap items-center gap-y-2 gap-x-6 pt-1 text-[13px] font-bold text-slate-500">
-              <span className="flex items-center gap-1.5">
-                <span className="text-emerald-600 font-black">✓</span> 100+ EV Models
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="text-emerald-600 font-black">✓</span> Live Charging Stations
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="text-emerald-600 font-black">✓</span> Updated Specifications
-              </span>
-            </div>
-            <div className="pt-5 text-center grid grid-cols-3 gap-4 max-w-sm border-t border-slate-200/60">
-              {[
-                { val: `${cars.length}+`, label: 'EV Models' },
-                { val: '₹0', label: 'Fuel Cost' },
-                { val: '4.8/5', label: 'User Rating' },
-              ].map(s => (
-                <div key={s.label}>
-                  <div className="text-2xl sm:text-3xl font-extrabold text-[#1e3a8a]">{s.val}</div>
-                  <div className="text-[10px] sm:text-xs font-semibold text-slate-400 tracking-wide uppercase mt-1">{s.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="lg:col-span-6">
-            <div className="bg-transparent rounded-xl shadow-2xl overflow-hidden aspect-[4/3] relative group">
-              <div className="absolute inset-0 w-full h-full z-0">
-                <Swiper
-                  modules={[Autoplay, Navigation, Pagination]}
-                  autoplay={{
-                    delay: 4000,
-                    disableOnInteraction: false,
-                  }}
-                  loop={true}
-                  navigation={{
-                    nextEl: '.swiper-button-next-hero',
-                    prevEl: '.swiper-button-prev-hero',
-                  }}
-                  pagination={{
-                    clickable: true,
-                    el: '.swiper-pagination-hero',
-                    bulletClass: 'swiper-pagination-bullet-custom',
-                    bulletActiveClass: 'swiper-pagination-bullet-active-custom',
-                  }}
-                  className="w-full h-full"
-                >
-                  {ads.map((ad, index) => (
-                    <SwiperSlide key={index} className="relative w-full h-full">
-                      <Link href={ad.href} className="block w-full h-full cursor-pointer relative overflow-hidden group/slide">
-                        <Image
-                          src={ad.image}
-                          alt={ad.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                          priority={index === 0}
-                          loading={index === 0 ? undefined : "lazy"}
-                          className="object-contain w-full h-full bg-[#0b131f] transition-all duration-500 hover:scale-[1.02] hover:brightness-105"
-                        />
-                      </Link>
-                    </SwiperSlide>
+          <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+              <div className="flex items-center gap-6 sm:gap-12">
+                <Link href="/" className="text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">BudgetEV</Link>
+                <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">
+                  {navLinks.map((link) => (
+                    <Link key={link.href} href={link.href} className={link.active ? "text-[#1e3a8a] border-b-2 border-[#1e3a8a] pb-1 font-semibold" : "hover:text-slate-900 transition"}>
+                      {link.label}
+                    </Link>
                   ))}
-                </Swiper>
+                </nav>
               </div>
 
-              {/* Custom navigation arrows (Desktop only) */}
-              <button className="swiper-button-prev-hero hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-[#0249ad] shadow-lg backdrop-blur-sm transition-all cursor-pointer opacity-0 group-hover:opacity-100">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button className="swiper-button-next-hero hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-[#0249ad] shadow-lg backdrop-blur-sm transition-all cursor-pointer opacity-0 group-hover:opacity-100">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-
-              {/* Custom pagination dots */}
-              <div className="swiper-pagination-hero absolute bottom-4 left-0 right-0 mx-auto z-30 flex gap-1.5 justify-center items-center w-max px-3 py-1.5 rounded-full shadow-sm" />
-            </div>
-          </div>
-        </section>
-
-        {/* ── FINDER WIDGET ── */}
-        <LazySection className="mb-10">
-          <section className="bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950 rounded-3xl shadow-xl overflow-hidden flex flex-col lg:flex-row items-stretch min-h-[440px]">
-            <div className="w-full lg:w-[38%] bg-white p-6 sm:p-8 flex flex-col justify-between shadow-2xl z-10">
-              <div>
-                <h3 className="text-xl font-extrabold text-slate-900 tracking-tight mb-5">Find your right car</h3>
-                <div className="flex bg-slate-100 p-1 rounded-xl mb-5">
-                  {['new', 'used'].map(tab => (
-                    <button key={tab} onClick={() => setActiveTab(tab)} className={`flex-1 text-center py-2.5 rounded-lg text-xs font-bold transition-all ${activeTab === tab ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>{tab === 'new' ? 'New Car' : 'Used Car'}</button>
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-6 mb-5 pl-1">
-                  {['budget', 'brand'].map(opt => (
-                    <label key={opt} className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-900">
-                      <input type="radio" name="search-criteria" value={opt} checked={searchCriteria === opt} onChange={() => setSearchCriteria(opt)} className="w-4 h-4 text-[#0249ad] border-slate-300 focus:ring-[#0249ad]" />
-                      <span className={searchCriteria === opt ? 'border-b-2 border-[#0249ad] pb-0.5' : 'text-slate-400'}>By {opt.charAt(0).toUpperCase() + opt.slice(1)}</span>
-                    </label>
-                  ))}
-                </div>
-
-                <div className="space-y-3">
-                  <div className="relative">
-                    <select
-                      value={selectedPrimary}
-                      onChange={(e) => setSelectedPrimary(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 text-slate-800 px-4 py-3.5 rounded-xl text-xs font-bold appearance-none focus:outline-none focus:border-[#0249ad] focus:bg-white transition cursor-pointer"
-                    >
-                      {searchCriteria === 'budget' ? (
-                        <>
-                          <option value="all">Select Budget Range</option>
-                          <option value="under-10">Under ₹10 Lakh</option>
-                          <option value="10-15">₹10L – ₹15 Lakh</option>
-                          <option value="15-20">₹15L – ₹20 Lakh</option>
-                          <option value="above-20">Above ₹20 Lakh</option>
-                        </>
-                      ) : (
-                        <>
-                          <option value="all">Select Brand</option>
-                          {brands.map(b => (
-                            <option key={b} value={b}>{b}</option>
-                          ))}
-                        </>
-                      )}
-                    </select>
-                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
-                    </div>
-                  </div>
-
-                  <div className="relative">
-                    <select
-                      value={selectedSecondary}
-                      onChange={(e) => setSelectedSecondary(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 text-slate-800 px-4 py-3.5 rounded-xl text-xs font-bold appearance-none focus:outline-none focus:border-[#0249ad] focus:bg-white transition cursor-pointer"
-                    >
-                      <option value="all">Select Body Type</option>
-                      {bodyTypes.map(bt => (
-                        <option key={bt} value={bt}>{bt}</option>
-                      ))}
-                    </select>
-                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 space-y-3">
-                <Link href={getSearchHref()} className="w-full bg-orange-600 hover:bg-orange-500 text-white font-extrabold py-3.5 px-6 rounded-xl shadow-lg text-center text-xs tracking-wider uppercase transition block">Search Available EVs</Link>
-                <div className="text-center">
-                  <Link href="/find-ev" className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-400 hover:text-[#0249ad] transition">Advanced Smart Search <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg></Link>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full lg:w-[62%] flex flex-col justify-between p-6 sm:p-10 text-white">
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center font-black text-sm text-blue-400">EV</div>
-                  <div>
-                    <span className="block text-[10px] uppercase tracking-widest text-blue-400 font-extrabold">Premium Campaign Live</span>
-                    <h4 className="text-xs font-black text-white tracking-wide uppercase">BUDGET-EV EXCLUSIVE SPOTLIGHT</h4>
-                  </div>
-                </div>
-                <div className="bg-blue-500/10 text-blue-400 px-3 py-1.5 rounded-lg border border-blue-500/20 text-[11px] font-bold">⚡ Smart Driving Transition</div>
-              </div>
-
-              <div className="my-auto py-8">
-                <span className="inline-block text-[10px] font-black uppercase tracking-widest text-orange-400 bg-orange-500/10 px-3 py-1 rounded-md mb-3">Limited Period Offer</span>
-                <h2 className="text-3xl lg:text-4xl xl:text-5xl font-black text-white tracking-tight leading-none mb-3">THE ALL-NEW HECTOR<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">BENEFITS UP TO</span> <span className="text-yellow-400 font-black">₹60,000*</span></h2>
-                <p className="text-slate-300 text-xs font-semibold max-w-md leading-relaxed">Experience India&apos;s advanced connected driving. Special interest rates with zero down-payment options.</p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-5 border-t border-white/10">
-                <div className="flex items-center gap-2 text-xs font-bold bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-slate-200"><span className="text-blue-400 font-extrabold">📞 Booking Hub:</span> 1800 102 1363</div>
-                <div className="flex flex-wrap gap-4 text-xs text-slate-400 font-bold">
-                  <span className="text-white border-b-2 border-blue-500 pb-1 cursor-pointer">MG Central</span>
-                  <span className="hover:text-white cursor-pointer transition">Punch Spotlight</span>
-                  <span className="hover:text-white cursor-pointer transition">Windsor Live</span>
-                </div>
-              </div>
-            </div>
-          </section>
-        </LazySection>
-
-        {/* ── CATEGORY TABS — Most Searched ── */}
-        <LazySection className="mb-12">
-          <div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
-            <div className="border-b border-slate-100 pb-5 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">The most searched electric cars</h3>
-                <p className="text-slate-500 text-xs font-medium mt-1">Explore current trending electric vehicles by body style</p>
-              </div>
-              <Link href="/find-ev" className="text-xs font-bold text-[#0249ad] hover:underline whitespace-nowrap self-start sm:self-center">
-                View All Cars →
-              </Link>
-            </div>
-
-            {/* Premium Category Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              {[
-                {
-                  id: 'SUV',
-                  name: 'SUV & Crossover',
-                  svg: (
-                    <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 14h2a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h2V9.5L18.5 7h-9L7 10H3v4z" />
-                      <circle cx="7" cy="14" r="2" />
-                      <circle cx="17" cy="14" r="2" />
-                      <path d="M10 5.5h7" />
-                    </svg>
-                  )
-                },
-                {
-                  id: 'Hatchback',
-                  name: 'Hatchback & Compact',
-                  svg: (
-                    <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 15h2a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h2v-3.5L18 8h-7L7.5 11.5H3V15z" />
-                      <circle cx="7" cy="15" r="2" />
-                      <circle cx="17" cy="15" r="2" />
-                    </svg>
-                  )
-                },
-                {
-                  id: 'Sedan',
-                  name: 'Sedan & Saloon',
-                  svg: (
-                    <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M2 14h3a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h3v-2.5l-2.5-3h-9L8 11.5H2V14z" />
-                      <circle cx="7" cy="14" r="2" />
-                      <circle cx="17" cy="14" r="2" />
-                    </svg>
-                  )
-                },
-                {
-                  id: 'Luxury',
-                  name: 'Luxury & Premium',
-                  svg: (
-                    <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M2 14h3a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h3v-3l-3.5-3.5h-8L5.5 11H2v3z" />
-                      <circle cx="7" cy="14" r="2" />
-                      <circle cx="17" cy="14" r="2" />
-                      <path d="M9 11h5" />
-                    </svg>
-                  )
-                }
-              ].map(cat => {
-                const isActive = activeCategory === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => handleCategoryChange(cat.id)}
-                    className={`flex flex-col items-center justify-center p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${isActive ? 'bg-[#0249ad] text-white border-[#0249ad] shadow-md shadow-blue-100' : 'bg-slate-50/50 border-slate-100 text-slate-700 hover:border-blue-200 hover:bg-slate-50'}`}
-                  >
-                    <div className={`mb-3 transition-transform duration-300 ${isActive ? 'scale-110 text-white' : 'text-[#0249ad]'}`}>
-                      {cat.svg}
-                    </div>
-                    <span className="text-xs font-extrabold tracking-wide">{cat.name}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Mobile Swipe Indicator */}
-            {currentCategoryCars.length > 1 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: hasScrolledSearched ? 0 : 1 }}
-                transition={{ duration: 0.3, delay: 0.3 }}
-                className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 mb-4 sm:hidden"
-              >
-                <motion.span
-                  animate={{ x: [-3, 0, -3] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                >
-                  ←
-                </motion.span>
-                <span>Swipe for more cars</span>
-                <motion.span
-                  animate={{ x: [3, 0, 3] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                >
-                  →
-                </motion.span>
-              </motion.div>
-            )}
-
-            <div
-              onScroll={handleScrollSearched}
-              className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-0 sm:mx-0 sm:pb-0"
-            >
-              <AnimatePresence mode="wait">
-                {currentCategoryCars.slice(0, 4).map((car, i) => (
-                  <CarCard key={car.serial_no} car={car} index={i} variant="category" />
-                ))}
-              </AnimatePresence>
-              {currentCategoryCars.length === 0 && (
-                <div className="col-span-4 text-center py-12 text-slate-400 text-sm font-medium">No cars found in this category.</div>
-              )}
-            </div>
-
-            {/* ── QUICK COMPARE STRIP ── */}
-            <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="flex items-center gap-2 text-sm font-extrabold text-slate-800">
-                <span className="text-[#0249ad]">⚡</span> Compare Top EVs
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Link href="/compare?car1=tata-motors-nexon-ev" className="bg-slate-50 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-[#0249ad] hover:border-blue-200 text-xs font-bold px-4 py-2 rounded-xl transition">
-                  Tata Nexon EV
+              <div className="flex items-center gap-3">
+                <Link href="/find-ev" className="hidden md:inline-flex bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm">
+                  Get Started
                 </Link>
-                <Link href="/compare?car1=mg-jsw-mg-motor--windsor-ev" className="bg-slate-50 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-[#0249ad] hover:border-blue-200 text-xs font-bold px-4 py-2 rounded-xl transition">
-                  MG Windsor EV
-                </Link>
-                <Link href="/compare?car1=mahindra-be-6" className="bg-slate-50 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-[#0249ad] hover:border-blue-200 text-xs font-bold px-4 py-2 rounded-xl transition">
-                  Mahindra BE 6
-                </Link>
-                <Link href="/compare" className="bg-[#0249ad] text-white hover:bg-blue-800 text-xs font-extrabold px-5 py-2.5 rounded-xl transition shadow-sm ml-0 md:ml-4">
-                  Compare
-                </Link>
-              </div>
-            </div>
-          </div>
-        </LazySection>
-
-        {/* ── DISCOVER SECTION ── */}
-        <LazySection>
-          <section id="discover-section">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-              <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">Discover Electric Vehicles</h2>
-                <p className="text-slate-500 text-sm font-medium mt-1">Showing {Math.min(visibleCount, cars.length)} of {cars.length} EVs</p>
-              </div>
-              <Link href="/find-ev" className="text-xs font-bold text-[#0249ad] hover:underline">View with filters →</Link>
-            </div>
-
-            {/* Mobile Swipe Indicator */}
-            {visibleCars.length > 1 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: hasScrolledDiscover ? 0 : 1 }}
-                transition={{ duration: 0.3, delay: 0.3 }}
-                className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 mb-4 sm:hidden"
-              >
-                <motion.span
-                  animate={{ x: [-3, 0, -3] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                >
-                  ←
-                </motion.span>
-                <span>Swipe for more cars</span>
-                <motion.span
-                  animate={{ x: [3, 0, 3] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                >
-                  →
-                </motion.span>
-              </motion.div>
-            )}
-
-            <div
-              ref={discoverContainerRef}
-              onScroll={handleScrollDiscover}
-              className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-5 sm:px-0 sm:mx-0 sm:pb-0"
-            >
-              <AnimatePresence>
-                {visibleCars.map((car, i) => (
-                  <CarCard key={car.serial_no} car={car} index={i} variant="grid" />
-                ))}
-              </AnimatePresence>
-
-              {/* Mobile Load More Card */}
-              {hasMore && (
-                <div
-                  onClick={handleLoadMore}
-                  className="sm:hidden group/loadmore flex flex-col items-center justify-center bg-white border-2 border-dashed border-blue-200 hover:border-[#0249ad] rounded-3xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer min-w-[82vw] max-w-[340px] snap-center hover:scale-[1.02] active:scale-[0.98] text-center"
-                >
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-[#0249ad] text-white flex items-center justify-center transition-transform duration-300 group-hover/loadmore:scale-110 mb-4 shadow-md">
-                    <svg className="w-6 h-6 transform group-hover/loadmore:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </div>
-                  <h3 className="font-extrabold text-slate-900 text-sm mb-1">
-                    Load More Vehicles
-                  </h3>
-                  <p className="text-slate-400 text-xs font-semibold leading-relaxed">
-                    Explore additional EV options
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {hasMore && (
-              <div className="hidden sm:flex justify-center mt-10">
-                <button onClick={handleLoadMore} className="inline-flex items-center gap-2 bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-sm px-8 py-3.5 rounded-xl transition-all duration-200"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>Load More ({cars.length - visibleCount} remaining)</button>
-              </div>
-            )}
-
-            {!hasMore && cars.length > 4 && (
-              <p className="text-center mt-8 text-xs font-bold text-slate-300 uppercase tracking-wider">✓ All {cars.length} EVs loaded</p>
-            )}
-          </section>
-        </LazySection>
-
-        {/* ── FEATURED BRANDS ── */}
-        <LazySection className="my-16">
-          <section className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
-            <h3 className="text-xs font-extrabold text-slate-900 text-center uppercase tracking-widest mb-6">Explore Top EV Brands</h3>
-            <div className="grid grid-cols-3 gap-3 md:grid-cols-4 lg:grid-cols-9 lg:gap-4">
-              {[
-                { name: 'Tata', slug: 'tata-motors' },
-                { name: 'Mahindra', slug: 'mahindra' },
-                { name: 'MG', slug: 'mg-jsw-mg-motor-' },
-                { name: 'BYD', slug: 'byd' },
-                { name: 'Hyundai', slug: 'hyundai' },
-                { name: 'Kia', slug: 'kia' },
-                { name: 'BMW', slug: 'bmw' },
-                { name: 'Mercedes', slug: 'mercedes-benz' },
-                { name: 'Toyota', slug: 'toyota' }
-              ].map((b, i) => (
-                <Link key={i} href={`/find-ev?brand=${b.slug}`} className="w-full bg-slate-50 hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-700 hover:text-[#0249ad] py-4 rounded-xl text-center text-xs font-extrabold transition-all duration-200 shadow-sm block">
-                  {b.name}
-                </Link>
-              ))}
-            </div>
-          </section>
-        </LazySection>
-
-        {/* ── CUSTOMER REVIEWS MARQUEE ── */}
-        <ReviewsSection />
-
-        {/* ── EV BUYING GUIDE ── */}
-        <LazySection id="guides" className="mb-16">
-          <section>
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-              <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">New to Electric Vehicles?</h2>
-                <p className="text-slate-500 text-sm font-medium mt-1">Our comprehensive guides help simplify the switch to electric mobility</p>
-              </div>
-            </div>
-
-            {/* Mobile Swipe Indicator */}
-            <div className="flex justify-center items-center gap-1.5 text-[11px] font-bold text-slate-400 sm:hidden mb-4 uppercase tracking-wider">
-              <motion.span
-                animate={{ x: [-3, 0, -3] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              >
-                ←
-              </motion.span>
-              <span>Swipe for more guides</span>
-              <motion.span
-                animate={{ x: [3, 0, 3] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              >
-                →
-              </motion.span>
-            </div>
-
-            <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:px-0 sm:mx-0 sm:pb-0">
-              {guides.map((guide) => (
-                <div
-                  key={guide.id}
-                  onClick={() => setActiveVideo(guide)}
-                  className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-1 min-w-[82vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center"
-                >
-                  <div>
-                    {/* 16:9 Video Thumbnail Wrapper */}
-                    <div className="aspect-video bg-slate-100 relative overflow-hidden">
-                      <VideoThumbnail videoId={guide.videoId} alt={guide.title} />
-                      {/* Play Button Overlay */}
-                      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/35 transition-colors duration-300 flex items-center justify-center">
-                        <div className="w-12 h-12 rounded-full bg-white text-[#0249ad] flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110">
-                          <svg className="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="p-5 flex flex-col">
-                      <div className="mb-3">
-                        <span className="text-[10px] font-extrabold text-[#0249ad] bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider">
-                          {guide.tag}
-                        </span>
-                      </div>
-                      <h3 className="font-extrabold text-slate-900 text-sm mb-2 group-hover:text-[#0249ad] transition-colors duration-300">
-                        {guide.title}
-                      </h3>
-                      <p className="text-slate-500 text-xs font-semibold leading-relaxed mb-4">
-                        {guide.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="px-5 pb-5">
-                    <button className="text-xs font-bold text-[#0249ad] hover:text-blue-800 transition-colors flex items-center gap-1.5 mt-auto">
-                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                      Watch Guide
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        </LazySection>
-
-        {/* ── SAVINGS CTA ── */}
-        <LazySection className="mt-12">
-          <section className="max-w-7xl mx-auto px-6 mb-20">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-
-              {/* Left Content */}
-              <div>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
-                  The Future is{" "}
-                  <span className="text-emerald-500">Electric</span>
-                </h2>
-
-                <p className="text-slate-500 text-lg leading-relaxed mb-10 max-w-xl">
-                  Switching to an EV is more than a purchase; it's an investment
-                  in a cleaner, more efficient way to travel.
-                </p>
-
-                {/* Feature 1 */}
-                <div className="flex gap-4 mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center">
-                    <IndianRupee />
-                  </div>
-
-                  <div>
-                    <h3 className="font-bold text-xl text-slate-900">
-                      Huge Savings
-                    </h3>
-                    <p className="text-slate-500 max-w-md">
-                      Save up to ₹1.5L per year on fuel and maintenance
-                      compared to ICE cars.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Feature 2 */}
-                <div className="flex gap-4 mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center">
-                    <Scale />
-                  </div>
-
-                  <div>
-                    <h3 className="font-bold text-xl text-slate-900">
-                      Zero Emissions
-                    </h3>
-                    <p className="text-slate-500 max-w-md">
-                      Help reduce the carbon footprint and noise pollution
-                      in your city.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Feature 3 */}
-                <div className="flex gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center">
-                    <ShieldCheck />
-                  </div>
-
-                  <div>
-                    <h3 className="font-bold text-xl text-slate-900">
-                      Advanced Safety
-                    </h3>
-                    <p className="text-slate-500 max-w-md">
-                      Modern EVs come with the latest driver-assistance
-                      and safety technologies.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Card */}
-              <div className="bg-[#030f24] rounded-[40px] p-8 md:p-14 shadow-2xl min-h-[500px] flex flex-col justify-center">
-
-                <span className="text-emerald-400 uppercase tracking-wider text-sm font-bold mb-6">
-                  Indian EV Ecosystem
-                </span>
-
-                <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-6">
-                  Calculate Your Monthly
-                  <br />
-                  Savings Instantly
-                </h2>
-
-                <p className="text-slate-400 text-lg leading-relaxed mb-10 max-w-lg">
-                  Input your daily commute and current fuel price to see
-                  how much you can save by switching to an EV.
-                </p>
-
-                <Link
-                  href="/calculator"
-                  className="w-fit bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-2xl font-bold transition-all"
-                >
-                  Go to Calculator
-                </Link>
-              </div>
-
-            </div>
-          </section>
-        </LazySection>
-
-        {/* ── STRONG CTA ── */}
-        <LazySection className="mb-12">
-          <section className="bg-gradient-to-r from-[#1e40af] to-[#0249ad] text-white rounded-3xl p-8 md:p-12 text-center shadow-xl relative overflow-hidden">
-            <div className="max-w-2xl mx-auto relative z-10 space-y-6">
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Ready to Find Your Perfect EV?</h2>
-              <p className="text-blue-100 text-sm sm:text-base font-semibold leading-relaxed">
-                Compare models, find charging networks, and see fuel cost savings instantly. No commitment, just pure electric data.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4 pt-2">
-                <Link href="/find-ev" className="bg-white hover:bg-slate-50 text-[#0249ad] px-8 py-3.5 rounded-xl font-bold transition shadow-sm text-sm">
-                  Explore Cars
-                </Link>
-                <Link href="/compare" className="bg-transparent hover:bg-white/10 text-white border border-white/20 px-8 py-3.5 rounded-xl font-bold transition text-sm">
-                  Compare EVs
-                </Link>
-              </div>
-            </div>
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none -mr-32 -mt-32" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none -ml-32 -mb-32" />
-          </section>
-        </LazySection>
-
-        {/* ── NEWSLETTER ── */}
-        <LazySection className="mt-10 mb-12">
-          <section className="bg-white border border-slate-200 rounded-2xl p-8 md:p-12 text-center shadow-sm">
-            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 mb-3">Stay Updated on Indian EVs</h2>
-            <p className="text-slate-500 text-sm font-medium max-w-lg mx-auto mb-6">Get the latest news, price updates, and exclusive offers on electric vehicles delivered to your inbox.</p>
-            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input type="email" value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} placeholder="Enter your email address" required className="flex-1 bg-slate-50 border border-slate-200 text-slate-800 px-4 py-3 rounded-xl text-sm font-medium focus:outline-none focus:border-[#0249ad] focus:bg-white transition" />
-              <button type="submit" disabled={newsletterLoading} className="bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-3 px-6 rounded-xl text-sm transition shadow-sm whitespace-nowrap disabled:opacity-50">{newsletterLoading ? 'Subscribing...' : 'Subscribe'}</button>
-            </form>
-            {newsletterMessage && <p className="mt-4 text-sm font-medium text-slate-600">{newsletterMessage}</p>}
-          </section>
-        </LazySection>
-
-      </main>
-
-      {/* ── LIGHTBOX MODAL ── */}
-      <AnimatePresence>
-        {activeVideo && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-10">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setActiveVideo(null)}
-              className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
-            />
-
-            {/* Modal Content */}
-            <motion.div
-              ref={modalRef}
-              tabIndex={-1}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="bg-white rounded-3xl overflow-hidden shadow-2xl w-full max-w-5xl relative z-10 border border-slate-100 focus:outline-none"
-            >
-              {/* Header/Close bar */}
-              <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] font-extrabold text-[#0249ad] bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider mb-1 inline-block">
-                    {activeVideo.tag}
-                  </span>
-                  <h3 className="font-extrabold text-slate-900 text-base leading-tight">
-                    {activeVideo.title}
-                  </h3>
-                </div>
-                <button
-                  onClick={() => setActiveVideo(null)}
-                  aria-label="Close video"
-                  className="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition cursor-pointer"
-                >
+                <button onClick={() => setMenuOpen(prev => !prev)} className="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition focus:outline-none" aria-label="Toggle menu">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                    {menuOpen ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />}
                   </svg>
                 </button>
               </div>
+            </div>
 
-              {/* Video Player aspect-video */}
-              <div className="aspect-video w-full bg-black relative">
-                <iframe
-                  src={`https://www.youtube.com/embed/${activeVideo.videoId}?autoplay=1&rel=0`}
-                  title={activeVideo.title}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                />
+            {/* MOBILE DRAWER */}
+            <AnimatePresence>
+              {menuOpen && (
+                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40">
+                  <nav className="flex flex-col gap-1">
+                    {navLinks.map((link) => (
+                      <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${link.active ? "bg-blue-50 text-[#1e3a8a]" : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"}`}>
+                        <span>{link.label}</span>
+                        <svg className="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                      </Link>
+                    ))}
+                  </nav>
+                  <div className="mt-4 pt-4 border-t border-slate-100">
+                    <Link href="/find-ev" onClick={() => setMenuOpen(false)} className="w-full block text-center bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-3 rounded-xl text-sm transition shadow-sm">Get Started</Link>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </header>
+
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 main-container-reveal">
+
+            {/* ── HERO ── */}
+            <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-16 pt-6">
+              <div className="lg:col-span-6 space-y-7">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
+                  Find the Best Electric Car{' '}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-[#1e40af]">Within Your Budget</span>
+                </h1>
+                <p className="text-slate-500 text-base sm:text-lg font-medium max-w-xl leading-relaxed">
+                  Simplify your transition to electric. Compare range, battery life and safety ratings across every EV available in India.
+                </p>
+                <div className="flex flex-wrap items-center gap-3 pt-1">
+                  <Link href="/find-ev" className="inline-flex items-center bg-[#1e40af] text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-800 transition text-sm shadow-sm">
+                    Find My EV
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                  </Link>
+                  <Link href="/compare" className="inline-flex items-center bg-transparent hover:bg-slate-100 text-slate-700 border border-slate-300 px-6 py-3 rounded-full font-semibold transition text-sm">Compare Cars</Link>
+                </div>
+                <div className="flex flex-wrap items-center gap-y-2 gap-x-6 pt-1 text-[13px] font-bold text-slate-500">
+                  <span className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-black">✓</span> 100+ EV Models
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-black">✓</span> Live Charging Stations
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="text-emerald-600 font-black">✓</span> Updated Specifications
+                  </span>
+                </div>
+                <div className="pt-5 text-center grid grid-cols-3 gap-4 max-w-sm border-t border-slate-200/60">
+                  {[
+                    { val: `${cars.length}+`, label: 'EV Models' },
+                    { val: '₹0', label: 'Fuel Cost' },
+                    { val: '4.8/5', label: 'User Rating' },
+                  ].map(s => (
+                    <div key={s.label}>
+                      <div className="text-2xl sm:text-3xl font-extrabold text-[#1e3a8a]">{s.val}</div>
+                      <div className="text-[10px] sm:text-xs font-semibold text-slate-400 tracking-wide uppercase mt-1">{s.label}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
 
-      {/* ── FOOTER ── */}
-      <Footer brands={brands} bodyTypes={bodyTypes} />
+              <div className="lg:col-span-6">
+                <div className="bg-transparent rounded-xl shadow-2xl overflow-hidden aspect-[4/3] relative group">
+                  <div className="absolute inset-0 w-full h-full z-0">
+                    <Swiper
+                      modules={[Autoplay, Navigation, Pagination]}
+                      autoplay={{
+                        delay: 4000,
+                        disableOnInteraction: false,
+                      }}
+                      loop={true}
+                      navigation={{
+                        nextEl: '.swiper-button-next-hero',
+                        prevEl: '.swiper-button-prev-hero',
+                      }}
+                      pagination={{
+                        clickable: true,
+                        el: '.swiper-pagination-hero',
+                        bulletClass: 'swiper-pagination-bullet-custom',
+                        bulletActiveClass: 'swiper-pagination-bullet-active-custom',
+                      }}
+                      className="w-full h-full"
+                    >
+                      {ads.map((ad, index) => (
+                        <SwiperSlide key={index} className="relative w-full h-full">
+                          <Link href={ad.href} className="block w-full h-full cursor-pointer relative overflow-hidden group/slide">
+                            <Image
+                              src={ad.image}
+                              alt={ad.title}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                              priority={index === 0}
+                              loading={index === 0 ? undefined : "lazy"}
+                              className="object-contain w-full h-full bg-[#0b131f] transition-all duration-500 hover:scale-[1.02] hover:brightness-105"
+                            />
+                          </Link>
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  </div>
+
+                  {/* Custom navigation arrows (Desktop only) */}
+                  <button className="swiper-button-prev-hero hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-[#0249ad] shadow-lg backdrop-blur-sm transition-all cursor-pointer opacity-0 group-hover:opacity-100">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button className="swiper-button-next-hero hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-[#0249ad] shadow-lg backdrop-blur-sm transition-all cursor-pointer opacity-0 group-hover:opacity-100">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+
+                  {/* Custom pagination dots */}
+                  <div className="swiper-pagination-hero absolute bottom-4 left-0 right-0 mx-auto z-30 flex gap-1.5 justify-center items-center w-max px-3 py-1.5 rounded-full shadow-sm" />
+                </div>
+              </div>
+            </section>
+
+            {/* ── FINDER WIDGET ── */}
+            <LazySection className="mb-10">
+              <section className="bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950 rounded-3xl shadow-xl overflow-hidden flex flex-col lg:flex-row items-stretch min-h-[440px]">
+                <div className="w-full lg:w-[38%] bg-white p-6 sm:p-8 flex flex-col justify-between shadow-2xl z-10">
+                  <div>
+                    <h3 className="text-xl font-extrabold text-slate-900 tracking-tight mb-5">Find your right car</h3>
+                    <div className="flex bg-slate-100 p-1 rounded-xl mb-5">
+                      {['new', 'used'].map(tab => (
+                        <button key={tab} onClick={() => setActiveTab(tab)} className={`flex-1 text-center py-2.5 rounded-lg text-xs font-bold transition-all ${activeTab === tab ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}>{tab === 'new' ? 'New Car' : 'Used Car'}</button>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center gap-6 mb-5 pl-1">
+                      {['budget', 'brand'].map(opt => (
+                        <label key={opt} className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-900">
+                          <input type="radio" name="search-criteria" value={opt} checked={searchCriteria === opt} onChange={() => setSearchCriteria(opt)} className="w-4 h-4 text-[#0249ad] border-slate-300 focus:ring-[#0249ad]" />
+                          <span className={searchCriteria === opt ? 'border-b-2 border-[#0249ad] pb-0.5' : 'text-slate-400'}>By {opt.charAt(0).toUpperCase() + opt.slice(1)}</span>
+                        </label>
+                      ))}
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="relative">
+                        <select
+                          value={selectedPrimary}
+                          onChange={(e) => setSelectedPrimary(e.target.value)}
+                          className="w-full bg-slate-50 border border-slate-200 text-slate-800 px-4 py-3.5 rounded-xl text-xs font-bold appearance-none focus:outline-none focus:border-[#0249ad] focus:bg-white transition cursor-pointer"
+                        >
+                          {searchCriteria === 'budget' ? (
+                            <>
+                              <option value="all">Select Budget Range</option>
+                              <option value="under-10">Under ₹10 Lakh</option>
+                              <option value="10-15">₹10L – ₹15 Lakh</option>
+                              <option value="15-20">₹15L – ₹20 Lakh</option>
+                              <option value="above-20">Above ₹20 Lakh</option>
+                            </>
+                          ) : (
+                            <>
+                              <option value="all">Select Brand</option>
+                              {brands.map(b => (
+                                <option key={b} value={b}>{b}</option>
+                              ))}
+                            </>
+                          )}
+                        </select>
+                        <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                        </div>
+                      </div>
+
+                      <div className="relative">
+                        <select
+                          value={selectedSecondary}
+                          onChange={(e) => setSelectedSecondary(e.target.value)}
+                          className="w-full bg-slate-50 border border-slate-200 text-slate-800 px-4 py-3.5 rounded-xl text-xs font-bold appearance-none focus:outline-none focus:border-[#0249ad] focus:bg-white transition cursor-pointer"
+                        >
+                          <option value="all">Select Body Type</option>
+                          {bodyTypes.map(bt => (
+                            <option key={bt} value={bt}>{bt}</option>
+                          ))}
+                        </select>
+                        <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 space-y-3">
+                    <Link href={getSearchHref()} className="w-full bg-orange-600 hover:bg-orange-500 text-white font-extrabold py-3.5 px-6 rounded-xl shadow-lg text-center text-xs tracking-wider uppercase transition block">Search Available EVs</Link>
+                    <div className="text-center">
+                      <Link href="/find-ev" className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-400 hover:text-[#0249ad] transition">Advanced Smart Search <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg></Link>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="w-full lg:w-[62%] flex flex-col justify-between p-6 sm:p-10 text-white">
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center font-black text-sm text-blue-400">EV</div>
+                      <div>
+                        <span className="block text-[10px] uppercase tracking-widest text-blue-400 font-extrabold">Premium Campaign Live</span>
+                        <h4 className="text-xs font-black text-white tracking-wide uppercase">BUDGET-EV EXCLUSIVE SPOTLIGHT</h4>
+                      </div>
+                    </div>
+                    <div className="bg-blue-500/10 text-blue-400 px-3 py-1.5 rounded-lg border border-blue-500/20 text-[11px] font-bold">⚡ Smart Driving Transition</div>
+                  </div>
+
+                  <div className="my-auto py-8">
+                    <span className="inline-block text-[10px] font-black uppercase tracking-widest text-orange-400 bg-orange-500/10 px-3 py-1 rounded-md mb-3">Limited Period Offer</span>
+                    <h2 className="text-3xl lg:text-4xl xl:text-5xl font-black text-white tracking-tight leading-none mb-3">THE ALL-NEW HECTOR<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">BENEFITS UP TO</span> <span className="text-yellow-400 font-black">₹60,000*</span></h2>
+                    <p className="text-slate-300 text-xs font-semibold max-w-md leading-relaxed">Experience India&apos;s advanced connected driving. Special interest rates with zero down-payment options.</p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-5 border-t border-white/10">
+                    <div className="flex items-center gap-2 text-xs font-bold bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-slate-200"><span className="text-blue-400 font-extrabold">📞 Booking Hub:</span> 1800 102 1363</div>
+                    <div className="flex flex-wrap gap-4 text-xs text-slate-400 font-bold">
+                      <span className="text-white border-b-2 border-blue-500 pb-1 cursor-pointer">MG Central</span>
+                      <span className="hover:text-white cursor-pointer transition">Punch Spotlight</span>
+                      <span className="hover:text-white cursor-pointer transition">Windsor Live</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </LazySection>
+
+            {/* ── CATEGORY TABS — Most Searched ── */}
+            <LazySection className="mb-12">
+              <div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
+                <div className="border-b border-slate-100 pb-5 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">The most searched electric cars</h3>
+                    <p className="text-slate-500 text-xs font-medium mt-1">Explore current trending electric vehicles by body style</p>
+                  </div>
+                  <Link href="/find-ev" className="text-xs font-bold text-[#0249ad] hover:underline whitespace-nowrap self-start sm:self-center">
+                    View All Cars →
+                  </Link>
+                </div>
+
+                {/* Premium Category Cards */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                  {[
+                    {
+                      id: 'SUV',
+                      name: 'SUV & Crossover',
+                      svg: (
+                        <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M3 14h2a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h2V9.5L18.5 7h-9L7 10H3v4z" />
+                          <circle cx="7" cy="14" r="2" />
+                          <circle cx="17" cy="14" r="2" />
+                          <path d="M10 5.5h7" />
+                        </svg>
+                      )
+                    },
+                    {
+                      id: 'Hatchback',
+                      name: 'Hatchback & Compact',
+                      svg: (
+                        <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M3 15h2a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h2v-3.5L18 8h-7L7.5 11.5H3V15z" />
+                          <circle cx="7" cy="15" r="2" />
+                          <circle cx="17" cy="15" r="2" />
+                        </svg>
+                      )
+                    },
+                    {
+                      id: 'Sedan',
+                      name: 'Sedan & Saloon',
+                      svg: (
+                        <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M2 14h3a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h3v-2.5l-2.5-3h-9L8 11.5H2V14z" />
+                          <circle cx="7" cy="14" r="2" />
+                          <circle cx="17" cy="14" r="2" />
+                        </svg>
+                      )
+                    },
+                    {
+                      id: 'Luxury',
+                      name: 'Luxury & Premium',
+                      svg: (
+                        <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M2 14h3a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h3v-3l-3.5-3.5h-8L5.5 11H2v3z" />
+                          <circle cx="7" cy="14" r="2" />
+                          <circle cx="17" cy="14" r="2" />
+                          <path d="M9 11h5" />
+                        </svg>
+                      )
+                    }
+                  ].map(cat => {
+                    const isActive = activeCategory === cat.id;
+                    return (
+                      <button
+                        key={cat.id}
+                        onClick={() => handleCategoryChange(cat.id)}
+                        className={`flex flex-col items-center justify-center p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${isActive ? 'bg-[#0249ad] text-white border-[#0249ad] shadow-md shadow-blue-100' : 'bg-slate-50/50 border-slate-100 text-slate-700 hover:border-blue-200 hover:bg-slate-50'}`}
+                      >
+                        <div className={`mb-3 transition-transform duration-300 ${isActive ? 'scale-110 text-white' : 'text-[#0249ad]'}`}>
+                          {cat.svg}
+                        </div>
+                        <span className="text-xs font-extrabold tracking-wide">{cat.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Mobile Swipe Indicator */}
+                {currentCategoryCars.length > 1 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: hasScrolledSearched ? 0 : 1 }}
+                    transition={{ duration: 0.3, delay: 0.3 }}
+                    className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 mb-4 sm:hidden"
+                  >
+                    <motion.span
+                      animate={{ x: [-3, 0, -3] }}
+                      transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    >
+                      ←
+                    </motion.span>
+                    <span>Swipe for more cars</span>
+                    <motion.span
+                      animate={{ x: [3, 0, 3] }}
+                      transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    >
+                      →
+                    </motion.span>
+                  </motion.div>
+                )}
+
+                <div
+                  onScroll={handleScrollSearched}
+                  className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-0 sm:mx-0 sm:pb-0"
+                >
+                  <AnimatePresence mode="wait">
+                    {currentCategoryCars.slice(0, 4).map((car, i) => (
+                      <CarCard key={car.serial_no} car={car} index={i} variant="category" />
+                    ))}
+                  </AnimatePresence>
+                  {currentCategoryCars.length === 0 && (
+                    <div className="col-span-4 text-center py-12 text-slate-400 text-sm font-medium">No cars found in this category.</div>
+                  )}
+                </div>
+
+                {/* ── QUICK COMPARE STRIP ── */}
+                <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 text-sm font-extrabold text-slate-800">
+                    <span className="text-[#0249ad]">⚡</span> Compare Top EVs
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Link href="/compare?car1=tata-motors-nexon-ev" className="bg-slate-50 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-[#0249ad] hover:border-blue-200 text-xs font-bold px-4 py-2 rounded-xl transition">
+                      Tata Nexon EV
+                    </Link>
+                    <Link href="/compare?car1=mg-jsw-mg-motor--windsor-ev" className="bg-slate-50 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-[#0249ad] hover:border-blue-200 text-xs font-bold px-4 py-2 rounded-xl transition">
+                      MG Windsor EV
+                    </Link>
+                    <Link href="/compare?car1=mahindra-be-6" className="bg-slate-50 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-[#0249ad] hover:border-blue-200 text-xs font-bold px-4 py-2 rounded-xl transition">
+                      Mahindra BE 6
+                    </Link>
+                    <Link href="/compare" className="bg-[#0249ad] text-white hover:bg-blue-800 text-xs font-extrabold px-5 py-2.5 rounded-xl transition shadow-sm ml-0 md:ml-4">
+                      Compare
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </LazySection>
+
+            {/* ── DISCOVER SECTION ── */}
+            <LazySection>
+              <section id="discover-section">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                  <div>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">Discover Electric Vehicles</h2>
+                    <p className="text-slate-500 text-sm font-medium mt-1">Showing {Math.min(visibleCount, cars.length)} of {cars.length} EVs</p>
+                  </div>
+                  <Link href="/find-ev" className="text-xs font-bold text-[#0249ad] hover:underline">View with filters →</Link>
+                </div>
+
+                {/* Mobile Swipe Indicator */}
+                {visibleCars.length > 1 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: hasScrolledDiscover ? 0 : 1 }}
+                    transition={{ duration: 0.3, delay: 0.3 }}
+                    className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 mb-4 sm:hidden"
+                  >
+                    <motion.span
+                      animate={{ x: [-3, 0, -3] }}
+                      transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    >
+                      ←
+                    </motion.span>
+                    <span>Swipe for more cars</span>
+                    <motion.span
+                      animate={{ x: [3, 0, 3] }}
+                      transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    >
+                      →
+                    </motion.span>
+                  </motion.div>
+                )}
+
+                <div
+                  ref={discoverContainerRef}
+                  onScroll={handleScrollDiscover}
+                  className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-5 sm:px-0 sm:mx-0 sm:pb-0"
+                >
+                  <AnimatePresence>
+                    {visibleCars.map((car, i) => (
+                      <CarCard key={car.serial_no} car={car} index={i} variant="grid" />
+                    ))}
+                  </AnimatePresence>
+
+                  {/* Mobile Load More Card */}
+                  {hasMore && (
+                    <div
+                      onClick={handleLoadMore}
+                      className="sm:hidden group/loadmore flex flex-col items-center justify-center bg-white border-2 border-dashed border-blue-200 hover:border-[#0249ad] rounded-3xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer min-w-[82vw] max-w-[340px] snap-center hover:scale-[1.02] active:scale-[0.98] text-center"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-[#0249ad] text-white flex items-center justify-center transition-transform duration-300 group-hover/loadmore:scale-110 mb-4 shadow-md">
+                        <svg className="w-6 h-6 transform group-hover/loadmore:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </div>
+                      <h3 className="font-extrabold text-slate-900 text-sm mb-1">
+                        Load More Vehicles
+                      </h3>
+                      <p className="text-slate-400 text-xs font-semibold leading-relaxed">
+                        Explore additional EV options
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {hasMore && (
+                  <div className="hidden sm:flex justify-center mt-10">
+                    <button onClick={handleLoadMore} className="inline-flex items-center gap-2 bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-sm px-8 py-3.5 rounded-xl transition-all duration-200"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>Load More ({cars.length - visibleCount} remaining)</button>
+                  </div>
+                )}
+
+                {!hasMore && cars.length > 4 && (
+                  <p className="text-center mt-8 text-xs font-bold text-slate-300 uppercase tracking-wider">✓ All {cars.length} EVs loaded</p>
+                )}
+              </section>
+            </LazySection>
+
+            {/* ── FEATURED BRANDS ── */}
+            <LazySection className="my-16">
+              <section className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
+                <h3 className="text-xs font-extrabold text-slate-900 text-center uppercase tracking-widest mb-6">Explore Top EV Brands</h3>
+                <div className="grid grid-cols-3 gap-3 md:grid-cols-4 lg:grid-cols-9 lg:gap-4">
+                  {[
+                    { name: 'Tata', slug: 'tata-motors' },
+                    { name: 'Mahindra', slug: 'mahindra' },
+                    { name: 'MG', slug: 'mg-jsw-mg-motor-' },
+                    { name: 'BYD', slug: 'byd' },
+                    { name: 'Hyundai', slug: 'hyundai' },
+                    { name: 'Kia', slug: 'kia' },
+                    { name: 'BMW', slug: 'bmw' },
+                    { name: 'Mercedes', slug: 'mercedes-benz' },
+                    { name: 'Toyota', slug: 'toyota' }
+                  ].map((b, i) => (
+                    <Link key={i} href={`/find-ev?brand=${b.slug}`} className="w-full bg-slate-50 hover:bg-blue-50 border border-slate-100 hover:border-blue-200 text-slate-700 hover:text-[#0249ad] py-4 rounded-xl text-center text-xs font-extrabold transition-all duration-200 shadow-sm block">
+                      {b.name}
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            </LazySection>
+
+            {/* ── CUSTOMER REVIEWS MARQUEE ── */}
+            <ReviewsSection />
+
+            {/* ── EV BUYING GUIDE ── */}
+            <LazySection id="guides" className="mb-16">
+              <section>
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                  <div>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">New to Electric Vehicles?</h2>
+                    <p className="text-slate-500 text-sm font-medium mt-1">Our comprehensive guides help simplify the switch to electric mobility</p>
+                  </div>
+                </div>
+
+                {/* Mobile Swipe Indicator */}
+                <div className="flex justify-center items-center gap-1.5 text-[11px] font-bold text-slate-400 sm:hidden mb-4 uppercase tracking-wider">
+                  <motion.span
+                    animate={{ x: [-3, 0, -3] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  >
+                    ←
+                  </motion.span>
+                  <span>Swipe for more guides</span>
+                  <motion.span
+                    animate={{ x: [3, 0, 3] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  >
+                    →
+                  </motion.span>
+                </div>
+
+                <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:px-0 sm:mx-0 sm:pb-0">
+                  {guides.map((guide) => (
+                    <div
+                      key={guide.id}
+                      onClick={() => setActiveVideo(guide)}
+                      className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-1 min-w-[82vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center"
+                    >
+                      <div>
+                        {/* 16:9 Video Thumbnail Wrapper */}
+                        <div className="aspect-video bg-slate-100 relative overflow-hidden">
+                          <VideoThumbnail videoId={guide.videoId} alt={guide.title} />
+                          {/* Play Button Overlay */}
+                          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/35 transition-colors duration-300 flex items-center justify-center">
+                            <div className="w-12 h-12 rounded-full bg-white text-[#0249ad] flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110">
+                              <svg className="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="p-5 flex flex-col">
+                          <div className="mb-3">
+                            <span className="text-[10px] font-extrabold text-[#0249ad] bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider">
+                              {guide.tag}
+                            </span>
+                          </div>
+                          <h3 className="font-extrabold text-slate-900 text-sm mb-2 group-hover:text-[#0249ad] transition-colors duration-300">
+                            {guide.title}
+                          </h3>
+                          <p className="text-slate-500 text-xs font-semibold leading-relaxed mb-4">
+                            {guide.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="px-5 pb-5">
+                        <button className="text-xs font-bold text-[#0249ad] hover:text-blue-800 transition-colors flex items-center gap-1.5 mt-auto">
+                          <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                          Watch Guide
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </LazySection>
+
+            {/* ── SAVINGS CTA ── */}
+            <LazySection className="mt-12">
+              <section className="max-w-7xl mx-auto px-6 mb-20">
+                <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+                  {/* Left Content */}
+                  <div>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
+                      The Future is{" "}
+                      <span className="text-emerald-500">Electric</span>
+                    </h2>
+
+                    <p className="text-slate-500 text-lg leading-relaxed mb-10 max-w-xl">
+                      Switching to an EV is more than a purchase; it's an investment
+                      in a cleaner, more efficient way to travel.
+                    </p>
+
+                    {/* Feature 1 */}
+                    <div className="flex gap-4 mb-8">
+                      <div className="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center">
+                        <IndianRupee />
+                      </div>
+
+                      <div>
+                        <h3 className="font-bold text-xl text-slate-900">
+                          Huge Savings
+                        </h3>
+                        <p className="text-slate-500 max-w-md">
+                          Save up to ₹1.5L per year on fuel and maintenance
+                          compared to ICE cars.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Feature 2 */}
+                    <div className="flex gap-4 mb-8">
+                      <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center">
+                        <Scale />
+                      </div>
+
+                      <div>
+                        <h3 className="font-bold text-xl text-slate-900">
+                          Zero Emissions
+                        </h3>
+                        <p className="text-slate-500 max-w-md">
+                          Help reduce the carbon footprint and noise pollution
+                          in your city.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Feature 3 */}
+                    <div className="flex gap-4">
+                      <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center">
+                        <ShieldCheck />
+                      </div>
+
+                      <div>
+                        <h3 className="font-bold text-xl text-slate-900">
+                          Advanced Safety
+                        </h3>
+                        <p className="text-slate-500 max-w-md">
+                          Modern EVs come with the latest driver-assistance
+                          and safety technologies.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Card */}
+                  <div className="bg-[#030f24] rounded-[40px] p-8 md:p-14 shadow-2xl min-h-[500px] flex flex-col justify-center">
+
+                    <span className="text-emerald-400 uppercase tracking-wider text-sm font-bold mb-6">
+                      Indian EV Ecosystem
+                    </span>
+
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-6">
+                      Calculate Your Monthly
+                      <br />
+                      Savings Instantly
+                    </h2>
+
+                    <p className="text-slate-400 text-lg leading-relaxed mb-10 max-w-lg">
+                      Input your daily commute and current fuel price to see
+                      how much you can save by switching to an EV.
+                    </p>
+
+                    <Link
+                      href="/calculator"
+                      className="w-fit bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-2xl font-bold transition-all"
+                    >
+                      Go to Calculator
+                    </Link>
+                  </div>
+
+                </div>
+              </section>
+            </LazySection>
+
+            {/* ── STRONG CTA ── */}
+            <LazySection className="mb-12">
+              <section className="bg-gradient-to-r from-[#1e40af] to-[#0249ad] text-white rounded-3xl p-8 md:p-12 text-center shadow-xl relative overflow-hidden">
+                <div className="max-w-2xl mx-auto relative z-10 space-y-6">
+                  <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Ready to Find Your Perfect EV?</h2>
+                  <p className="text-blue-100 text-sm sm:text-base font-semibold leading-relaxed">
+                    Compare models, find charging networks, and see fuel cost savings instantly. No commitment, just pure electric data.
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-4 pt-2">
+                    <Link href="/find-ev" className="bg-white hover:bg-slate-50 text-[#0249ad] px-8 py-3.5 rounded-xl font-bold transition shadow-sm text-sm">
+                      Explore Cars
+                    </Link>
+                    <Link href="/compare" className="bg-transparent hover:bg-white/10 text-white border border-white/20 px-8 py-3.5 rounded-xl font-bold transition text-sm">
+                      Compare EVs
+                    </Link>
+                  </div>
+                </div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none -mr-32 -mt-32" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none -ml-32 -mb-32" />
+              </section>
+            </LazySection>
+
+            {/* ── NEWSLETTER ── */}
+            <LazySection className="mt-10 mb-12">
+              <section className="bg-white border border-slate-200 rounded-2xl p-8 md:p-12 text-center shadow-sm">
+                <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 mb-3">Stay Updated on Indian EVs</h2>
+                <p className="text-slate-500 text-sm font-medium max-w-lg mx-auto mb-6">Get the latest news, price updates, and exclusive offers on electric vehicles delivered to your inbox.</p>
+                <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                  <input type="email" value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} placeholder="Enter your email address" required className="flex-1 bg-slate-50 border border-slate-200 text-slate-800 px-4 py-3 rounded-xl text-sm font-medium focus:outline-none focus:border-[#0249ad] focus:bg-white transition" />
+                  <button type="submit" disabled={newsletterLoading} className="bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-3 px-6 rounded-xl text-sm transition shadow-sm whitespace-nowrap disabled:opacity-50">{newsletterLoading ? 'Subscribing...' : 'Subscribe'}</button>
+                </form>
+                {newsletterMessage && <p className="mt-4 text-sm font-medium text-slate-600">{newsletterMessage}</p>}
+              </section>
+            </LazySection>
+
+          </main>
+
+          {/* ── LIGHTBOX MODAL ── */}
+          <AnimatePresence>
+            {activeVideo && (
+              <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-10">
+                {/* Backdrop */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setActiveVideo(null)}
+                  className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
+                />
+
+                {/* Modal Content */}
+                <motion.div
+                  ref={modalRef}
+                  tabIndex={-1}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
+                  className="bg-white rounded-3xl overflow-hidden shadow-2xl w-full max-w-5xl relative z-10 border border-slate-100 focus:outline-none"
+                >
+                  {/* Header/Close bar */}
+                  <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-extrabold text-[#0249ad] bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider mb-1 inline-block">
+                        {activeVideo.tag}
+                      </span>
+                      <h3 className="font-extrabold text-slate-900 text-base leading-tight">
+                        {activeVideo.title}
+                      </h3>
+                    </div>
+                    <button
+                      onClick={() => setActiveVideo(null)}
+                      aria-label="Close video"
+                      className="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition cursor-pointer"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Video Player aspect-video */}
+                  <div className="aspect-video w-full bg-black relative">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${activeVideo.videoId}?autoplay=1&rel=0`}
+                      title={activeVideo.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="absolute inset-0 w-full h-full"
+                    />
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
+
+          {/* ── FOOTER ── */}
+          <Footer brands={brands} bodyTypes={bodyTypes} />
         </motion.div>
       )}
     </AnimatePresence>
