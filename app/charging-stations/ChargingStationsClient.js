@@ -679,9 +679,11 @@ export default function ChargingStationsClient() {
             )}
           </div>
         </div>
+      </main>
 
-        {/* SEO Informational Content Section */}
-        <div className="mt-16 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
+      {/* SEO Informational Content Section */}
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 pb-12">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
           <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-4">Understanding EV Charging Infrastructure in India</h2>
           <div className="text-slate-600 text-sm font-medium leading-relaxed space-y-6">
             <p>
@@ -710,7 +712,7 @@ export default function ChargingStationsClient() {
             </p>
           </div>
         </div>
-      </main>
+      </div>
 
       {/* ── FOOTER ── */}
       <Footer brands={[]} bodyTypes={[]} />
