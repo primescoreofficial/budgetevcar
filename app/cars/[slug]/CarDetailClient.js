@@ -6,9 +6,181 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
 import { getCarUrl } from '@/lib/queries';
 
-export default function CarDetailClient({ car, relatedCars, localImages = [] }) {
+// -------------------- SPEC / PRICE MAP HELPER --------------------
+function getCarSpecs(car) {
+  if (!car) return { minPrice: 0, maxPrice: 0, rangeKm: 0, chargeTime: '', chargeMinutes: 0 };
+  const brand = (car.brand || '').toLowerCase();
+  const model = (car.model_name || '').toLowerCase();
+  const detailed = (car.detailed_name || '').toLowerCase();
+
+  let minPrice = 7.99;
+  let maxPrice = 11.89;
+  let rangeKm = 315;
+  let chargeTime = "58 min";
+  let chargeMinutes = 58;
+
+  if (model.includes('tiago')) {
+    minPrice = 7.99;
+    maxPrice = 11.89;
+    rangeKm = detailed.includes('medium') ? 250 : 315;
+    chargeTime = "58 min";
+    chargeMinutes = 58;
+  } else if (model.includes('comet')) {
+    minPrice = 6.99;
+    maxPrice = 9.24;
+    rangeKm = 230;
+    chargeTime = "7 hrs";
+    chargeMinutes = 420;
+  } else if (model.includes('ec3') || detailed.includes('ec3')) {
+    minPrice = 11.61;
+    maxPrice = 13.41;
+    rangeKm = 320;
+    chargeTime = "57 min";
+    chargeMinutes = 57;
+  } else if (model.includes('punch')) {
+    minPrice = 10.99;
+    maxPrice = 15.49;
+    rangeKm = detailed.includes('long') ? 421 : 315;
+    chargeTime = "56 min";
+    chargeMinutes = 56;
+  } else if (model.includes('xuv400') || model.includes('xuv 400')) {
+    minPrice = 15.49;
+    maxPrice = 18.89;
+    rangeKm = 456;
+    chargeTime = "50 min";
+    chargeMinutes = 50;
+  } else if (model.includes('zs')) {
+    minPrice = 18.98;
+    maxPrice = 25.20;
+    rangeKm = 461;
+    chargeTime = "60 min";
+    chargeMinutes = 60;
+  } else if (model.includes('windsor')) {
+    minPrice = 13.49;
+    maxPrice = 15.49;
+    rangeKm = 331;
+    chargeTime = "40 min";
+    chargeMinutes = 40;
+  } else if (model.includes('nexon')) {
+    minPrice = 12.49;
+    maxPrice = 16.29;
+    rangeKm = detailed.includes('long') ? 465 : 325;
+    chargeTime = "56 min";
+    chargeMinutes = 56;
+  } else if (model.includes('tigor')) {
+    minPrice = 12.49;
+    maxPrice = 13.75;
+    rangeKm = 315;
+    chargeTime = "59 min";
+    chargeMinutes = 59;
+  } else if (model.includes('curvv')) {
+    minPrice = 17.49;
+    maxPrice = 21.99;
+    rangeKm = 502;
+    chargeTime = "40 min";
+    chargeMinutes = 40;
+  } else if (model.includes('atto')) {
+    minPrice = 24.99;
+    maxPrice = 33.99;
+    rangeKm = 521;
+    chargeTime = "50 min";
+    chargeMinutes = 50;
+  } else if (model.includes('seal')) {
+    minPrice = 41.00;
+    maxPrice = 53.00;
+    rangeKm = 650;
+    chargeTime = "45 min";
+    chargeMinutes = 45;
+  } else if (model.includes('ioniq')) {
+    minPrice = 46.05;
+    maxPrice = 46.05;
+    rangeKm = 631;
+    chargeTime = "18 min";
+    chargeMinutes = 18;
+  } else if (model.includes('ev6')) {
+    minPrice = 60.95;
+    maxPrice = 65.95;
+    rangeKm = 708;
+    chargeTime = "18 min";
+    chargeMinutes = 18;
+  } else if (model.includes('ev9')) {
+    minPrice = 129.90;
+    maxPrice = 129.90;
+    rangeKm = 561;
+    chargeTime = "24 min";
+    chargeMinutes = 24;
+  } else {
+    const battery = parseFloat(car.battery_capacity) || 30;
+    minPrice = Math.round(battery * 0.4 + 4);
+    maxPrice = Math.round(battery * 0.45 + 5);
+    rangeKm = Math.round(battery * 7.5);
+    chargeMinutes = battery > 50 ? 40 : 60;
+    chargeTime = `${chargeMinutes} min`;
+  }
+
+  return { minPrice, maxPrice, rangeKm, chargeTime, chargeMinutes };
+}
+
+// -------------------- SIMILARITY SCORE CALCULATION --------------------
+function getSimilarityScore(otherCar, currentCar) {
+  const currentSpecs = getCarSpecs(currentCar);
+  const otherSpecs = getCarSpecs(otherCar);
+  
+  const currentBattery = parseFloat(currentCar.battery_capacity) || 30;
+  const otherBattery = parseFloat(otherCar.battery_capacity) || 30;
+  
+  let score = 0;
+  
+  // 1. Similar price range (highest priority)
+  const priceDiff = Math.abs(currentSpecs.minPrice - otherSpecs.minPrice);
+  score += Math.max(0, 100 - priceDiff * 8);
+  
+  // 2. Similar body type
+  if (currentCar.body_type && otherCar.body_type && 
+      currentCar.body_type.toLowerCase() === otherCar.body_type.toLowerCase()) {
+    score += 40;
+  }
+  
+  // 3. Similar battery size
+  const batteryDiff = Math.abs(currentBattery - otherBattery);
+  score += Math.max(0, 30 - batteryDiff * 1.5);
+  
+  // 4. Similar driving range
+  const rangeDiff = Math.abs(currentSpecs.rangeKm - otherSpecs.rangeKm);
+  score += Math.max(0, 30 - rangeDiff * 0.2);
+  
+  // 5. Similar segment
+  if (currentCar.segment && otherCar.segment && 
+      currentCar.segment.toLowerCase() === otherCar.segment.toLowerCase()) {
+    score += 15;
+  }
+  
+  return score;
+}
+
+export default function CarDetailClient({ car, relatedCars, localImages = [], allCars = [] }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+
+  // Get similar electric vehicles
+  const currentModel = (car.model_name || '').toLowerCase();
+  const seenModels = new Set([currentModel]);
+  const similarEVs = (allCars || [])
+    .filter(c => c.serial_no !== car.serial_no && (c.model_name || '').toLowerCase() !== currentModel)
+    .map(c => ({
+      car: c,
+      score: getSimilarityScore(c, car)
+    }))
+    .sort((a, b) => b.score - a.score)
+    .reduce((acc, current) => {
+      const modelLower = (current.car.model_name || '').toLowerCase();
+      if (!seenModels.has(modelLower)) {
+        seenModels.add(modelLower);
+        acc.push(current.car);
+      }
+      return acc;
+    }, [])
+    .slice(0, 8); // Keep 4 to 8 recommended EVs
 
   const images = localImages && localImages.length > 0
     ? localImages
@@ -357,17 +529,105 @@ export default function CarDetailClient({ car, relatedCars, localImages = [] }) 
             </div>
           )}
 
+          {similarEVs.length > 0 && (
+            <div className="mt-12">
+              <div className="mb-6">
+                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Similar Electric Vehicles</h2>
+                <p className="text-sm text-slate-500 font-medium mt-1">
+                  Compare alternatives with similar pricing, range, body style, and features.
+                </p>
+              </div>
+
+              {/* Mobile Swipe Indicator */}
+              <div className="flex items-center justify-center gap-2 text-slate-500 mb-4 sm:hidden text-xs font-semibold">
+                <motion.span
+                  animate={{ x: [-3, 0, -3] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  ←
+                </motion.span>
+                <span>Swipe to explore</span>
+                <motion.span
+                  animate={{ x: [3, 0, 3] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  →
+                </motion.span>
+              </div>
+
+              <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-0 sm:mx-0 sm:pb-0">
+                {similarEVs.map((simCar, index) => {
+                  const specs = getCarSpecs(simCar);
+                  return (
+                    <motion.div
+                      key={simCar.serial_no}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                      className="bg-white border border-slate-100 rounded-2xl p-4 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-w-[82vw] max-w-[340px] snap-center sm:min-w-0 sm:max-w-none"
+                    >
+                      <div>
+                        <div className="w-full h-36 bg-slate-50 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
+                          <img src={simCar.vehicle_image} alt={simCar.model_name || simCar.detailed_name} className="w-full h-full object-cover" />
+                        </div>
+                        <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">{simCar.model_name || simCar.detailed_name}</h4>
+                        <p className="text-xs text-slate-400 font-medium mt-0.5">{simCar.brand}</p>
+                        
+                        <div className="mt-3 space-y-1.5 border-t border-slate-100 pt-3">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-slate-400 font-medium">Price</span>
+                            <span className="text-slate-800 font-bold">₹{specs.minPrice} - {specs.maxPrice} Lakh</span>
+                          </div>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-slate-400 font-medium">Range</span>
+                            <span className="text-slate-800 font-bold">{specs.rangeKm} km</span>
+                          </div>
+                        </div>
+                      </div>
+                      <Link href={getCarUrl(simCar)} className="w-full mt-4 text-center bg-white border-2 border-[#0249ad] text-[#0249ad] hover:bg-[#0249ad] hover:text-white font-extrabold text-xs tracking-wide py-2 rounded-xl transition-all duration-200 block">
+                        Quick View
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {relatedCars.length > 0 && (
             <div className="mt-12">
-              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-6">More from {car.brand}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="mb-6">
+                <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">More from {car.brand}</h2>
+                <p className="text-sm text-slate-500 font-medium mt-1">
+                  Explore more electric vehicles from {car.brand}
+                </p>
+              </div>
+
+              {/* Mobile Swipe Indicator */}
+              <div className="flex items-center justify-center gap-2 text-slate-500 mb-4 sm:hidden text-xs font-semibold">
+                <motion.span
+                  animate={{ x: [-3, 0, -3] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  ←
+                </motion.span>
+                <span>Swipe to explore</span>
+                <motion.span
+                  animate={{ x: [3, 0, 3] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                >
+                  →
+                </motion.span>
+              </div>
+
+              <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-0 sm:mx-0 sm:pb-0">
                 {relatedCars.map((relCar, index) => (
                   <motion.div
                     key={relCar.serial_no}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="bg-white border border-slate-100 rounded-2xl p-4 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                    className="bg-white border border-slate-100 rounded-2xl p-4 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-w-[82vw] max-w-[340px] snap-center sm:min-w-0 sm:max-w-none"
                   >
                     <div>
                       <div className="w-full h-36 bg-slate-50 rounded-xl overflow-hidden mb-4 flex items-center justify-center">

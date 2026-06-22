@@ -35,10 +35,10 @@ export default async function CarDetailPage({ params, searchParams }) {
   }
 
   const allCars = await getAllCars();
-  const rawRelatedCars = allCars
+  const enrichedAllCars = enrichCarsWithLocalImages(allCars);
+  const relatedCars = enrichedAllCars
     .filter(c => c.brand === car.brand && c.serial_no !== car.serial_no)
     .slice(0, 4);
-  const relatedCars = enrichCarsWithLocalImages(rawRelatedCars);
 
   const localImages = getCarLocalImages(car.brand, car.model_name || car.detailed_name);
 
@@ -87,7 +87,7 @@ export default async function CarDetailPage({ params, searchParams }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <CarDetailClient car={car} relatedCars={relatedCars} localImages={localImages} />
+      <CarDetailClient car={car} relatedCars={relatedCars} localImages={localImages} allCars={enrichedAllCars} />
     </>
   );
 }
