@@ -465,7 +465,7 @@ function SplashScreen() {
             transition={{ duration: 0.4 }}
             className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden rounded-full border border-slate-100 shadow-sm mb-4 flex-shrink-0"
           >
-            <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 80px, 96px" priority />
+            <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 80px, 96px" priority />
           </motion.div>
 
           <motion.div
@@ -771,7 +771,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
               <div className="flex items-center gap-6 sm:gap-12">
                 <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">
                   <div className="relative w-12 h-12 sm:w-14 sm:h-14 overflow-hidden flex-shrink-0">
-                    <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 48px, 56px" priority />
+                    <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 48px, 56px" priority />
                   </div>
                 </Link>
                 <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">

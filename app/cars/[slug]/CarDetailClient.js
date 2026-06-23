@@ -237,7 +237,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
           <div className="flex items-center space-x-6 md:space-x-12">
             <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">
               <div className="relative w-12 h-12 sm:w-14 sm:h-14 overflow-hidden flex-shrink-0">
-                <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 48px, 56px" priority />
+                <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 48px, 56px" priority />
               </div>
             </Link>
             

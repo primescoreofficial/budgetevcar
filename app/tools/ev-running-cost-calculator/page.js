@@ -194,7 +194,7 @@ function TripCostCalculatorContent() {
             <div className="flex items-center space-x-6 md:space-x-12">
               <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">
                 <div className="relative w-12 h-12 sm:w-14 sm:h-14 overflow-hidden flex-shrink-0">
-                  <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 48px, 56px" priority />
+                  <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 48px, 56px" priority />
                 </div>
               </Link>
               
@@ -332,7 +332,7 @@ function TripCostCalculatorContent() {
           <div className="mb-8">
             <span className="inline-flex items-center gap-2 bg-blue-50 text-[#0249ad] text-[11px] font-extrabold uppercase tracking-widest px-4.5 py-1.5 rounded-full mb-4 border border-blue-100/60 shadow-sm">
               <div className="relative w-4.5 h-4.5 overflow-hidden rounded-full border border-blue-100 flex-shrink-0">
-                <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="18px" />
+                <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="18px" />
               </div>
               <span>Cost Analysis</span>
             </span>

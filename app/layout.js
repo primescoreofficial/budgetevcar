@@ -31,8 +31,8 @@ export const metadata = {
     description: 'Compare range, specs, and calculate fuel savings.',
   },
   icons: {
-    icon: '/logo/newlogo.png',
-    apple: '/logo/newlogo.png',
+    icon: '/logo/newlogo-removebg.png',
+    apple: '/logo/newlogo-removebg.png',
   },
 };
 
