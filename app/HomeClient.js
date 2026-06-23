@@ -830,7 +830,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
             <AnimatePresence>
               {menuOpen && (
                 <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40">
-                  <div className="flex items-center gap-2.5 px-4 py-3 mb-2 border-b border-slate-100">
+                  <div className="flex items-center gap-1 px-4 py-3 mb-2 border-b border-slate-100">
                     <div className="relative w-7 h-7 overflow-hidden rounded-full border border-slate-100 flex-shrink-0">
                       <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="28px" />
                     </div>

@@ -137,8 +137,8 @@ function ChargingCalculatorContent() {
       <header className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-6 md:space-x-12">
-            <Link href="/" className="flex items-center gap-2.5 text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">
-              <div className="relative w-10 h-10 sm:w-11 sm:h-11 overflow-hidden rounded-full border border-slate-100 flex-shrink-0">
+            <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">
+              <div className="relative w-10 h-10 sm:w-11 sm:h-11 overflow-hidden  flex-shrink-0">
                 <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 40px, 44px" priority />
               </div>
               <span>BudgetEV</span>
@@ -201,7 +201,7 @@ function ChargingCalculatorContent() {
         {/* Mobile Dropdown Menu */}
         {menuOpen && (
           <div className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40">
-            <div className="flex items-center gap-2.5 px-4 py-3 mb-2 border-b border-slate-100">
+            <div className="flex items-center gap-1 px-4 py-3 mb-2 border-b border-slate-100">
               <div className="relative w-7 h-7 overflow-hidden rounded-full border border-slate-100 flex-shrink-0">
                 <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="28px" />
               </div>
@@ -564,15 +564,15 @@ function ChargingCalculatorContent() {
         <div className="mt-8 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
           <h2 className="text-xl font-extrabold text-slate-900 tracking-tight mb-4">Charging Time Insights</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-bold text-slate-600">
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-2.5">
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-1">
               <Zap className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
               <span>Charging from {currentBattery}% to {targetBattery}% adds {energyRequired.toFixed(1)} kWh of energy.</span>
             </div>
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-2.5">
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-1">
               <Lightbulb className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
               <span>Using a 60 kW DC charger would reduce charging time significantly vs AC power.</span>
             </div>
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-2.5">
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-1">
               <Search className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
               <span>If charger power doubles, charging time is nearly halved (assuming constant rate).</span>
             </div>
