@@ -28,7 +28,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           <div className="md:col-span-3 space-y-4">
             <Link href="/" className="flex items-center gap-2.5 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity">
               <div className="relative w-6 h-6 overflow-hidden rounded-full border border-white/10 flex-shrink-0">
-                <Image src="/logo/logo_white_bg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="24px" />
+                <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="24px" />
               </div>
               <span>BudgetEV</span>
             </Link>

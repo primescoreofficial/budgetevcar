@@ -194,7 +194,7 @@ function TripCostCalculatorContent() {
             <div className="flex items-center space-x-6 md:space-x-12">
               <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">
                 <div className="relative w-10 h-10 sm:w-11 sm:h-11 overflow-hidden  flex-shrink-0">
-                  <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 40px, 44px" priority />
+                  <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 40px, 44px" priority />
                 </div>
                 <span>BudgetEV</span>
               </Link>
@@ -256,12 +256,6 @@ function TripCostCalculatorContent() {
           {/* Mobile Menu */}
           {menuOpen && (
             <div className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40">
-              <div className="flex items-center gap-1 px-4 py-3 mb-2 border-b border-slate-100">
-                <div className="relative w-7 h-7 overflow-hidden rounded-full border border-slate-100 flex-shrink-0">
-                  <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="28px" />
-                </div>
-                <span className="text-base font-bold text-[#1e3a8a] tracking-tight">BudgetEV</span>
-              </div>
               <nav className="flex flex-col gap-1">
                 {navLinks.map((link) => (
                   <Link
@@ -339,7 +333,7 @@ function TripCostCalculatorContent() {
           <div className="mb-8">
             <span className="inline-flex items-center gap-2 bg-blue-50 text-[#0249ad] text-[11px] font-extrabold uppercase tracking-widest px-4.5 py-1.5 rounded-full mb-4 border border-blue-100/60 shadow-sm">
               <div className="relative w-4.5 h-4.5 overflow-hidden rounded-full border border-blue-100 flex-shrink-0">
-                <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="18px" />
+                <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="18px" />
               </div>
               <span>Cost Analysis</span>
             </span>
