@@ -239,7 +239,6 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
               <div className="relative w-10 h-10 sm:w-11 sm:h-11 overflow-hidden  flex-shrink-0">
                 <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 40px, 44px" priority />
               </div>
-              <span>BudgetEV</span>
             </Link>
             
             {/* Desktop Link Layout panel */}
