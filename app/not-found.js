@@ -1,25 +1,10 @@
+import Header from '@/components/Header';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function NotFound() {
   return (
     <>
-      <header className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center space-x-12">
-            <Link href="/" className="flex items-center gap-1 text-2xl font-bold text-[#1e3a8a] tracking-tight">
-              <div className="relative w-16 h-16 sm:w-20 sm:h-20 overflow-hidden flex-shrink-0">
-                <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 64px, 80px" priority />
-              </div>
-            </Link>
-            <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">
-              <Link href="/" className="hover:text-slate-900 transition">Home</Link>
-              <Link href="/find-ev" className="hover:text-slate-900 transition">Find EV</Link>
-              <Link href="/compare" className="hover:text-slate-900 transition font-medium">Compare</Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
       <main className="max-w-7xl mx-auto px-6 pt-24 pb-24 text-center">
         <div className="text-7xl mb-6">🔌</div>
         <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight mb-4">Page Not Found</h1>

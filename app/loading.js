@@ -1,20 +1,9 @@
+import Header from '@/components/Header';
+
 export default function Loading() {
   return (
     <>
-      {/* HEADER SKELETON */}
-      <header className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center space-x-12">
-            <div className="w-24 h-7 bg-slate-200 rounded-lg animate-pulse"></div>
-            <div className="hidden md:flex items-center space-x-8">
-              <div className="w-12 h-4 bg-slate-100 rounded animate-pulse"></div>
-              <div className="w-16 h-4 bg-slate-100 rounded animate-pulse"></div>
-              <div className="w-20 h-4 bg-slate-100 rounded animate-pulse"></div>
-            </div>
-          </div>
-          <div className="w-24 h-9 bg-slate-200 rounded-full animate-pulse"></div>
-        </div>
-      </header>
+      <Header />
       <main className="max-w-7xl mx-auto px-6 pt-16 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 space-y-6">

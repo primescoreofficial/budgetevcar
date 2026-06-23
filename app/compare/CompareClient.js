@@ -5,15 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 import { getCarUrl } from '@/lib/queries';
 
 export default function CompareClient({ cars }) {
   const [selectedCar1, setSelectedCar1] = useState('');
   const [selectedCar2, setSelectedCar2] = useState('');
   const [selectedCar3, setSelectedCar3] = useState('');
-  
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [toolsOpen, setToolsOpen] = useState(false);
 
   const car1 = cars.find(c => String(c.serial_no) === selectedCar1) || null;
   const car2 = cars.find(c => String(c.serial_no) === selectedCar2) || null;
@@ -30,177 +28,9 @@ export default function CompareClient({ cars }) {
     { label: 'Segment', key: 'segment' },
   ];
 
-  const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/find-ev', label: 'Find EV' },
-    { href: '/compare', label: 'Compare', active: true },
-    { href: '/charging-stations', label: 'Charging Stations' },
-  ];
-
   return (
     <>
-      {/* ── HEADER ── */}
-      <header className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center space-x-6 md:space-x-12">
-            <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">
-              <div className="relative w-16 h-16 sm:w-20 sm:h-20 overflow-hidden flex-shrink-0">
-                <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 64px, 80px" priority />
-              </div>
-            </Link>
-            
-            {/* Desktop Navigation Link panel */}
-            <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={
-                    link.active
-                      ? "text-[#1e3a8a] border-b-2 border-[#1e3a8a] pb-1 font-semibold"
-                      : "hover:text-slate-900 transition"
-                  }
-                >
-                  {link.label}
-                </Link>
-              ))}
-
-              {/* Tools Dropdown */}
-              <div className="relative group py-2">
-                <button className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer text-slate-600 font-medium">
-                  <span>Tools</span>
-                  <svg className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                <div className="absolute left-0 mt-2 w-64 bg-white border border-slate-100 rounded-2xl shadow-xl py-3 hidden group-hover:block z-50">
-                  <Link href="/tools/ev-emi-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                    EV EMI Calculator
-                  </Link>
-                  <Link href="/tools/ev-running-cost-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                    EV Running Cost Calculator
-                  </Link>
-                  <Link href="/tools/ev-savings-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                    EV Savings Calculator
-                  </Link>
-                  <Link href="/tools/ev-charging-time-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                    EV Charging Time Calculator
-                  </Link>
-                </div>
-              </div>
-            </nav>
-          </div>
-          
-          {/* Action Trigger Handles */}
-          <div className="flex items-center gap-3">
-            <Link href="/find-ev" className="hidden md:inline-flex bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm">
-              Get Started
-            </Link>
-
-            {/* Mobile Hamburger Menu Trigger Button */}
-            <button
-              onClick={() => setMenuOpen((p) => !p)}
-              className="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition focus:outline-none"
-              aria-label="Toggle navigation menu"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {menuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation Dropdown Drawer Box */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
-            >
-              <nav className="flex flex-col gap-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${
-                      link.active
-                        ? "bg-blue-50 text-[#1e3a8a]"
-                        : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"
-                    }`}
-                  >
-                    <span>{link.label}</span>
-                    <svg className="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                ))}
-
-                {/* Tools accordion */}
-                <div>
-                  <button
-                    onClick={() => setToolsOpen(p => !p)}
-                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a] transition"
-                  >
-                    <span>Tools</span>
-                    <svg className={`w-4 h-4 text-slate-400 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {toolsOpen && (
-                    <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
-                      <Link
-                        href="/tools/ev-emi-calculator"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                      >
-                        EV EMI Calculator
-                      </Link>
-                      <Link
-                        href="/tools/ev-running-cost-calculator"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                      >
-                        EV Running Cost Calculator
-                      </Link>
-                      <Link
-                        href="/tools/ev-savings-calculator"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                      >
-                        EV Savings Calculator
-                      </Link>
-                      <Link
-                        href="/tools/ev-charging-time-calculator"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                      >
-                        EV Charging Time Calculator
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </nav>
-              <div className="mt-4 pt-4 border-t border-slate-100">
-                <Link
-                  href="/find-ev"
-                  onClick={() => setMenuOpen(false)}
-                  className="w-full block text-center bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-3 rounded-xl text-sm transition shadow-sm"
-                >
-                  Get Started
-                </Link>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
+      <Header />
 
       {/* ── MAIN CONTENT ── */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-24">

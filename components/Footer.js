@@ -3,12 +3,12 @@ import Image from 'next/image';
 import { Mail, Phone, MapPin, Zap } from 'lucide-react';
 
 export default function Footer({ brands = [], bodyTypes = [] }) {
-  const displayBrands = brands.length > 0 
-    ? brands.slice(0, 5) 
+  const displayBrands = brands.length > 0
+    ? brands.slice(0, 5)
     : ['Tata', 'MG', 'Mahindra', 'BYD', 'Hyundai'];
-    
-  const displayBodyTypes = bodyTypes.length > 0 
-    ? bodyTypes.slice(0, 5) 
+
+  const displayBodyTypes = bodyTypes.length > 0
+    ? bodyTypes.slice(0, 5)
     : ['SUV', 'Hatchback', 'Sedan', 'Luxury'];
 
   const navLinks = [
@@ -23,14 +23,23 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
     <footer className="bg-slate-950 text-slate-100 pt-16 pb-12 border-t border-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-slate-900">
-          
+
           {/* Brand Column */}
           <div className="md:col-span-3 space-y-4">
-            <Link href="/" className="flex items-center gap-2.5 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity">
-              <div className="relative w-6 h-6 overflow-hidden rounded-full border border-white/10 flex-shrink-0">
-                <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="24px" />
+            <Link
+              href="/"
+              className="flex items-center gap-2.5 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity"
+            >
+              <div className="relative w-24 h-12 sm:w-28 sm:h-14 md:w-32 md:h-16 flex-shrink-0">
+                <Image
+                  src="/logo/1.png"
+                  alt="BudgetEV Logo"
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, 128px"
+                  priority
+                />
               </div>
-              <span>BudgetEV</span>
             </Link>
             <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-sm">
               India's most trusted platform for finding, comparing, and analyzing electric vehicles within your budget. Simplifying your switch to green energy.
@@ -51,8 +60,8 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             <ul className="space-y-2.5 text-sm font-semibold">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <Link 
-                    href={link.href} 
+                  <Link
+                    href={link.href}
                     className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
                   >
                     {link.label}
@@ -68,8 +77,8 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             <ul className="space-y-2.5 text-sm font-semibold">
               {displayBodyTypes.map((type) => (
                 <li key={type}>
-                  <Link 
-                    href={`/find-ev?bodyType=${encodeURIComponent(type)}`} 
+                  <Link
+                    href={`/find-ev?bodyType=${encodeURIComponent(type)}`}
                     className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
                   >
                     {type}
@@ -90,8 +99,8 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
                 { href: '/tools/ev-charging-time-calculator', label: 'EV Charging Time Calculator' }
               ].map((tool) => (
                 <li key={tool.label}>
-                  <Link 
-                    href={tool.href} 
+                  <Link
+                    href={tool.href}
                     className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
                   >
                     {tool.label}
