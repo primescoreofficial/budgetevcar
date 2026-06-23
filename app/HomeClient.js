@@ -770,8 +770,8 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
               <div className="flex items-center gap-6 sm:gap-12">
                 <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">
-                  <div className="relative w-10 h-10 sm:w-11 sm:h-11 overflow-hidden  flex-shrink-0">
-                    <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 40px, 44px" priority />
+                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 overflow-hidden flex-shrink-0">
+                    <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 48px, 56px" priority />
                   </div>
                 </Link>
                 <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">
@@ -940,7 +940,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                 >
                   <div className="relative w-full max-w-[350px] sm:max-w-[550px] lg:max-w-[700px] aspect-[16/10]">
                     <Image
-                      src="/EV%20Cars/EV%20Cars/Mahindra/be-6/mahindra-be-6-pack-two-79-kwh.png"
+                      src="budget-ev\public\ad\be6transparentbg.png"
                       alt="Mahindra BE 6"
                       fill
                       priority

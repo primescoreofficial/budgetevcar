@@ -8,8 +8,8 @@ export default function NotFound() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-12">
             <Link href="/" className="flex items-center gap-1 text-2xl font-bold text-[#1e3a8a] tracking-tight">
-              <div className="relative w-10 h-10 sm:w-11 sm:h-11 overflow-hidden  flex-shrink-0">
-                <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 40px, 44px" priority />
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14 overflow-hidden flex-shrink-0">
+                <Image src="/logo/newlogo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 48px, 56px" priority />
               </div>
             </Link>
             <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">
