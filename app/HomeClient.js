@@ -1052,33 +1052,9 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                   </div>
                 </div>
 
-                <div className="w-full lg:w-[62%] flex flex-col justify-between p-6 sm:p-10 text-white">
-                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center font-black text-sm text-blue-400">EV</div>
-                      <div>
-                        <span className="block text-[10px] uppercase tracking-widest text-blue-400 font-extrabold">Premium Campaign Live</span>
-                        <h4 className="text-xs font-black text-white tracking-wide uppercase">BUDGET-EV EXCLUSIVE SPOTLIGHT</h4>
-                      </div>
-                    </div>
-                    <div className="bg-blue-500/10 text-blue-400 px-3 py-1.5 rounded-lg border border-blue-500/20 text-[11px] font-bold">⚡ Smart Driving Transition</div>
-                  </div>
-
-                  <div className="my-auto py-8">
-                    <span className="inline-block text-[10px] font-black uppercase tracking-widest text-orange-400 bg-orange-500/10 px-3 py-1 rounded-md mb-3">Limited Period Offer</span>
-                    <h2 className="text-3xl lg:text-4xl xl:text-5xl font-black text-white tracking-tight leading-none mb-3">THE ALL-NEW HECTOR<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">BENEFITS UP TO</span> <span className="text-yellow-400 font-black">₹60,000*</span></h2>
-                    <p className="text-slate-300 text-xs font-semibold max-w-md leading-relaxed">Experience India&apos;s advanced connected driving. Special interest rates with zero down-payment options.</p>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-5 border-t border-white/10">
-                    <div className="flex items-center gap-2 text-xs font-bold bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-slate-200"><span className="text-blue-400 font-extrabold">📞 Booking Hub:</span> 1800 102 1363</div>
-                    <div className="flex flex-wrap gap-4 text-xs text-slate-400 font-bold">
-                      <span className="text-white border-b-2 border-blue-500 pb-1 cursor-pointer">MG Central</span>
-                      <span className="hover:text-white cursor-pointer transition">Punch Spotlight</span>
-                      <span className="hover:text-white cursor-pointer transition">Windsor Live</span>
-                    </div>
-                  </div>
-                </div>
+                <Link href="/cars/mahindra-be-6?v=30" className="w-full lg:w-[62%] relative overflow-hidden min-h-[250px] lg:min-h-full block cursor-pointer">
+                  <img src='/ad/be6.png' alt='Banner Image' className="absolute inset-0 w-full h-full object-cover" />
+                </Link>
               </section>
             </LazySection>
 
