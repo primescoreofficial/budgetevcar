@@ -23,7 +23,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
 
   return (
     <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm shadow-slate-100/40">
-      <div className="max-w-7xl mx-auto px-4  h-24 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
         <div className="flex items-center gap-6 sm:gap-12">
           <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">
             {/* INCREASED LOGO SIZE CONTAINER: 
@@ -32,14 +32,14 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
               - MD: Bumped to w-44 h-24
               - LG/XL: Bumped to w-48 h-24
             */}
-            <div className="relative w-24 h-14 sm:w-32 sm:h-16 md:w-44 md:h-24 lg:w-48 lg:h-24 overflow-hidden flex-shrink-0">
+            <div className="relative w-24 h-14 sm:w-32 sm:h-16 md:w-44 md:h-24 lg:w-32 lg:h-16 overflow-hidden flex-shrink-0">
               <Image
                 src="/logo/2.png"
                 alt="BudgetEV Logo"
                 fill
                 className="object-contain"
                 // Adjusted sizes prop to match the new max-widths for accurate performance budget optimization
-                
+
                 priority
               />
             </div>
