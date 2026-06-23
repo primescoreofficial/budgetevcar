@@ -145,7 +145,7 @@ function CalculatorContent() {
         <div className="mb-8">
           <span className="inline-flex items-center gap-2 bg-blue-50 text-[#0249ad] text-[11px] font-extrabold uppercase tracking-widest px-4.5 py-1.5 rounded-full mb-4 border border-blue-100/60 shadow-sm">
             <div className="relative w-4.5 h-4.5 overflow-hidden rounded-full border border-blue-100 flex-shrink-0">
-              <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="18px" />
+              <Zap className="w-3.5 h-3.5 text-blue-650" />
             </div>
             <span>Finance Tools</span>
           </span>

@@ -75,8 +75,8 @@ function MetricCard({ label, value, sub, accent, wide }) {
     return (
         <div
             className={`rounded-3xl p-5 sm:p-6 flex flex-col justify-between ${wide ? 'col-span-2 sm:col-span-2' : ''} ${accent
-                    ? 'bg-white border-2 border-[#0249ad] shadow-sm relative'
-                    : 'bg-white border border-slate-200 shadow-sm'
+                ? 'bg-white border-2 border-[#0249ad] shadow-sm relative'
+                : 'bg-white border border-slate-200 shadow-sm'
                 }`}
         >
             {accent && <span className="absolute top-4 right-4 text-[9px] font-extrabold text-[#0249ad] bg-blue-50 px-2 py-0.5 rounded uppercase tracking-wider">Primary</span>}
@@ -177,7 +177,7 @@ export default function SavingsCalculator() {
             <Header />
 
             {/* ── BREADCRUMBS ── */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 w-full">
                 <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
                     <Link href="/" className="hover:text-[#0249ad] transition">Home</Link>
                     <span>/</span>
@@ -192,7 +192,7 @@ export default function SavingsCalculator() {
                 <div className="mb-8">
                     <span className="inline-flex items-center gap-2 bg-blue-50 text-[#0249ad] text-[11px] font-extrabold uppercase tracking-widest px-4.5 py-1.5 rounded-full mb-4 border border-blue-100/60 shadow-sm">
                         <div className="relative w-4.5 h-4.5 overflow-hidden rounded-full border border-blue-100 flex-shrink-0">
-                            <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="18px" />
+                            <Zap className="w-3.5 h-3.5 text-blue-650" />
                         </div>
                         <span>EV Savings Calculator</span>
                     </span>

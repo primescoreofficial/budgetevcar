@@ -51,9 +51,9 @@ function ChargingCalculatorContent() {
   // Calculations
   const chargeNeededPct = Math.max(0, targetBattery - currentBattery);
   const remainingPct = Math.max(0, 100 - targetBattery);
-  
+
   const energyRequired = batterySize * (chargeNeededPct / 100);
-  
+
   let chargingTimeHours = 0;
   if (chargerPower > 0) {
     chargingTimeHours = energyRequired / chargerPower;
@@ -145,7 +145,7 @@ function ChargingCalculatorContent() {
         <div className="mb-8">
           <span className="inline-flex items-center gap-2 bg-blue-50 text-[#0249ad] text-[11px] font-extrabold uppercase tracking-widest px-4.5 py-1.5 rounded-full mb-4 border border-blue-100/60 shadow-sm">
             <div className="relative w-4.5 h-4.5 overflow-hidden rounded-full border border-blue-100 flex-shrink-0">
-              <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="18px" />
+              <Zap className="w-3.5 h-3.5 text-blue-650" />
             </div>
             <span>Charging Tools</span>
           </span>
@@ -353,13 +353,13 @@ function ChargingCalculatorContent() {
             {/* Premium Interactive Battery Visualization */}
             <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col items-center justify-center">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Charging Level Visualization</h3>
-              
+
               <div className="w-full max-w-[240px] flex items-center justify-center flex-col gap-4">
                 {/* SVG Battery Shell */}
                 <div className="relative w-44 h-24 border-4 border-slate-300 rounded-2xl p-1 flex items-center bg-slate-50/50 shadow-inner">
                   {/* Battery tip */}
                   <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-2 h-8 bg-slate-300 rounded-r-md" />
-                  
+
                   {/* Frame Motion Animated fill segment */}
                   <motion.div
                     className="h-full rounded-lg bg-gradient-to-r from-blue-600 to-sky-400 shadow-md flex items-center justify-end pr-2 overflow-hidden"
@@ -372,7 +372,7 @@ function ChargingCalculatorContent() {
                     </span>
                   </motion.div>
                 </div>
-                
+
                 <div className="flex justify-between w-full text-[10px] font-bold text-slate-400 px-1">
                   <span>Current: {currentBattery}%</span>
                   <span>Target: {targetBattery}%</span>
@@ -383,7 +383,7 @@ function ChargingCalculatorContent() {
             {/* Doughnut Chart Breakdown */}
             <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col items-center justify-center">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Capacity Allocation Breakdown</h3>
-              
+
               <div className="relative w-52 h-52 flex items-center justify-center">
                 <Doughnut data={chartData} options={chartOptions} />
                 <div className="absolute text-center select-none pointer-events-none">
@@ -485,7 +485,7 @@ function ChargingCalculatorContent() {
             <p>
               Planning your journeys and daily routine requires understanding how long your vehicle will spend plugged in. Our interactive <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">EV charging time calculator</Link> estimates the duration based on your battery capacity, current state of charge, and charger output power. If you often wonder <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">how long does it take to charge an EV</Link>, the answer depends on several key variables.
             </p>
-            
+
             <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Key Factors Influencing Electric Vehicle Charging Time</h3>
             <p>
               While standard formulas yield solid estimates, real-world conditions create variations. A smart <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">battery charging calculator</Link> models outcomes around these primary dynamics:
