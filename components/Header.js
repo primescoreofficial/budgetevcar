@@ -53,10 +53,12 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${isActive
-                      ? "bg-white text-[#1e3a8a] shadow-sm"
-                      : "text-slate-600 hover:text-[#1e3a8a] hover:bg-white/70"
-                    }`}
+                  className="relative px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300"
+                  style={{
+                    backgroundColor: isActive ? "#1e40af" : "transparent",
+                    color: isActive ? "#ffffff" : "#475569",
+                    boxShadow: isActive ? "0 1px 3px rgba(0,0,0,0.12)" : "none",
+                  }}
                 >
                   {link.label}
                 </Link>
