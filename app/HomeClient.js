@@ -919,7 +919,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                   }}
                   className="relative w-full flex items-center justify-center z-10"
                 >
-                  <div className="relative w-full max-w-[350px] sm:max-w-[550px] lg:max-w-[700px] aspect-[16/10]">
+                  <Link href="/cars/mahindra-be-6?v=32" className="relative w-full max-w-[350px] sm:max-w-[550px] lg:max-w-[700px] aspect-[16/10] block cursor-pointer">
                     <Image
                       src="/ad/be6transparentbg.png"
                       alt="Mahindra BE 6"
@@ -928,7 +928,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                       className="object-contain"
                       sizes="(max-width: 640px) 350px, (max-width: 1024px) 550px, 700px"
                     />
-                  </div>
+                  </Link>
                 </motion.div>
                 
                 {/* Soft shadow underneath the vehicle */}
