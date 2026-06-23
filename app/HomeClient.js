@@ -940,7 +940,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                 >
                   <div className="relative w-full max-w-[350px] sm:max-w-[550px] lg:max-w-[700px] aspect-[16/10]">
                     <Image
-                      src="budget-ev\public\ad\be6transparentbg.png"
+                      src="/ad/be6transparentbg.png"
                       alt="Mahindra BE 6"
                       fill
                       priority
