@@ -463,28 +463,9 @@ function SplashScreen() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.4 }}
-            className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden rounded-full border border-slate-100 shadow-sm mb-4 flex-shrink-0"
+            className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden rounded-full border border-slate-100 shadow-sm flex-shrink-0"
           >
             <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 80px, 96px" priority />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{
-              opacity: { duration: 0.4 },
-              scale: { duration: 0.4 },
-              y: { duration: 0.4, ease: "easeIn" }
-            }}
-            className="flex flex-col items-center gap-1.5 text-center"
-          >
-            <span className="text-4xl sm:text-5xl font-extrabold text-[#0249ad] tracking-tight">
-              BudgetEV
-            </span>
-            <span className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-widest mt-1">
-              Discover Electric Mobility
-            </span>
           </motion.div>
         </div>
 
