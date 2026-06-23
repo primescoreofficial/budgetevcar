@@ -158,7 +158,7 @@ function ChargingCalculatorContent() {
                     EV EMI Calculator
                   </Link>
                   <Link href="/tools/ev-running-cost-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                    EV Running Cost Calculator
+                    EV Trip Cost Calculator
                   </Link>
                   <Link href="/tools/ev-savings-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
                     EV Savings Calculator
@@ -232,7 +232,7 @@ function ChargingCalculatorContent() {
                       onClick={() => setMenuOpen(false)}
                       className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-650 hover:bg-slate-50"
                     >
-                      EV Running Cost Calculator
+                      EV Trip Cost Calculator
                     </Link>
                     <Link
                       href="/tools/ev-savings-calculator"
@@ -638,7 +638,7 @@ function ChargingCalculatorContent() {
             {[
               { name: 'EV EMI Calculator', desc: 'Forecast loan details and monthly interest schedules.', href: '/tools/ev-emi-calculator' },
               { name: 'EV Savings Calculator', desc: 'Compute monthly and yearly fuel cost savings.', href: '/tools/ev-savings-calculator' },
-              { name: 'EV Running Cost Calculator', desc: 'Analyze electrical charging cost compared to petrol.', href: '/tools/ev-running-cost-calculator' },
+              { name: 'EV Trip Cost Calculator', desc: 'Analyze electrical charging cost compared to petrol.', href: '/tools/ev-running-cost-calculator' },
             ].map(tool => (
               <Link
                 key={tool.name}

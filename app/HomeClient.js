@@ -1053,7 +1053,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                 </div>
 
                 <Link href="/cars/mahindra-be-6?v=30" className="w-full lg:w-[62%] relative overflow-hidden min-h-[250px] lg:min-h-full block cursor-pointer">
-                  <img src='/ad/be6.png' alt='Banner Image' className="absolute inset-0 w-full h-full object-cover" />
+                  <img src='/ad/be6.png' alt='Banner Image' className="absolute inset-0 w-full h-full lg:object-cover md:object-cover" />
                 </Link>
               </section>
             </LazySection>

@@ -1,9 +1,10 @@
 'use client';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
-import { Zap, HelpCircle, TrendingUp, DollarSign, Leaf, ShieldAlert } from 'lucide-react';
+import { Zap, HelpCircle, TrendingUp, DollarSign, Leaf, Sparkles, ChevronRight } from 'lucide-react';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -27,8 +28,8 @@ function SliderRow({ label, value, min, max, step, onChange, prefix = '', suffix
     return (
         <div className="mb-5">
             <div className="flex justify-between items-center mb-2 gap-2">
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{label}</span>
-                <div className="flex items-center gap-1 bg-blue-50 px-2.5 py-0.5 rounded-lg text-[#1e3a8a] text-sm font-extrabold border border-blue-100/60 shadow-sm">
+                <span className="text-[11px] font-bold text-slate-700 uppercase tracking-widest">{label}</span>
+                <div className="flex items-center gap-1 bg-blue-50 px-2.5 py-0.5 rounded-lg text-[#0249ad] text-sm font-extrabold border border-blue-100/60 shadow-sm">
                     {prefix && <span className="text-xs text-blue-400 font-bold">{prefix}</span>}
                     <input
                         type="number"
@@ -46,9 +47,9 @@ function SliderRow({ label, value, min, max, step, onChange, prefix = '', suffix
                             if (val > max) val = max;
                             onChange(val);
                         }}
-                        className="w-12 bg-transparent text-right outline-none text-[#1e3a8a] font-extrabold focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        className="w-12 bg-transparent text-right outline-none text-[#0249ad] font-extrabold focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
-                    {suffix && <span className="text-[11px] font-semibold text-slate-400">{suffix}</span>}
+                    {suffix && <span className="text-[11px] font-semibold text-slate-450">{suffix}</span>}
                 </div>
             </div>
             <input
@@ -58,9 +59,9 @@ function SliderRow({ label, value, min, max, step, onChange, prefix = '', suffix
                 step={step}
                 value={value || min}
                 onChange={(e) => onChange(Number(e.target.value))}
-                className="w-full h-1.5 rounded-full appearance-none bg-slate-100 accent-[#1e40af] cursor-pointer"
+                className="w-full h-1.5 rounded-full appearance-none bg-slate-100 accent-[#0249ad] cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] text-slate-300 font-medium mt-1.5">
+            <div className="flex justify-between text-[10px] text-slate-400 font-medium mt-1.5">
                 <span>{prefix}{min}{suffix}</span>
                 <span>{prefix}{max}{suffix}</span>
             </div>
@@ -71,19 +72,20 @@ function SliderRow({ label, value, min, max, step, onChange, prefix = '', suffix
 function MetricCard({ label, value, sub, accent, wide }) {
     return (
         <div
-            className={`rounded-2xl p-5 flex flex-col justify-between ${wide ? 'col-span-2 sm:col-span-2' : ''} ${accent
-                    ? 'bg-[#1e40af] text-white'
-                    : 'bg-white border border-slate-100 shadow-sm'
+            className={`rounded-3xl p-5 sm:p-6 flex flex-col justify-between ${wide ? 'col-span-2 sm:col-span-2' : ''} ${accent
+                    ? 'bg-white border-2 border-[#0249ad] shadow-sm relative'
+                    : 'bg-white border border-slate-200 shadow-sm'
                 }`}
         >
-            <p className={`text-[11px] font-bold uppercase tracking-widest mb-2 ${accent ? 'text-blue-200' : 'text-slate-400'}`}>
+            {accent && <span className="absolute top-4 right-4 text-[9px] font-extrabold text-[#0249ad] bg-blue-50 px-2 py-0.5 rounded uppercase tracking-wider">Primary</span>}
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">
                 {label}
             </p>
-            <p className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${accent ? 'text-white' : 'text-slate-900'}`}>
+            <p className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                 {value}
             </p>
             {sub && (
-                <p className={`text-[11px] font-medium mt-2 leading-relaxed ${accent ? 'text-blue-200' : 'text-slate-400'}`}>
+                <p className="text-[10px] text-slate-400 font-medium mt-1.5 leading-relaxed">
                     {sub}
                 </p>
             )}
@@ -117,15 +119,15 @@ export default function SavingsCalculator() {
             {
                 label: 'EV cost',
                 data: evData,
-                backgroundColor: '#bfdbfe',
-                hoverBackgroundColor: '#93c5fd',
+                backgroundColor: '#93c5fd',
+                hoverBackgroundColor: '#60a5fa',
                 borderRadius: 8,
                 borderSkipped: false,
             },
             {
                 label: 'Petrol cost',
                 data: petrolData,
-                backgroundColor: '#1e40af',
+                backgroundColor: '#0249ad',
                 hoverBackgroundColor: '#1d4ed8',
                 borderRadius: 8,
                 borderSkipped: false,
@@ -177,22 +179,22 @@ export default function SavingsCalculator() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#f8fafc]">
+        <div className="min-h-screen bg-slate-50/50 text-slate-800 flex flex-col justify-between">
             {/* HEADER */}
-            <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-                    <div className="flex items-center gap-6 sm:gap-12">
+            <header className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+                    <div className="flex items-center space-x-6 md:space-x-12">
                         <Link href="/" className="text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">
                             BudgetEV
                         </Link>
                         
                         {/* Desktop Navigation Link Panel */}
-                        <nav className="hidden md:flex items-center space-x-6 lg:space-x-8 text-[14px] font-medium text-slate-500">
+                        <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">
                             {navLinks.map((link) => (
                                 <Link 
                                     key={link.href}
                                     href={link.href} 
-                                    className={link.active ? "text-[#1e3a8a] border-b-2 border-[#1e3a8a] pb-0.5 font-bold" : "hover:text-slate-900 transition"}
+                                    className="hover:text-slate-900 transition"
                                 >
                                     {link.label}
                                 </Link>
@@ -211,7 +213,7 @@ export default function SavingsCalculator() {
                                         EV EMI Calculator
                                     </Link>
                                     <Link href="/tools/ev-running-cost-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                                        EV Running Cost Calculator
+                                        EV Trip Cost Calculator
                                     </Link>
                                     <Link href="/tools/ev-savings-calculator" className="block px-5 py-2.5 text-sm text-[#0249ad] bg-blue-50/50 font-bold transition">
                                         EV Savings Calculator
@@ -225,118 +227,97 @@ export default function SavingsCalculator() {
                     </div>
 
                     {/* Desktop CTA Trigger Button */}
-                    <Link
-                        href="/find-ev"
-                        className="hidden md:block bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-4 py-2 rounded-full text-sm font-semibold transition"
-                    >
-                        Get Started
-                    </Link>
+                    <div className="flex items-center gap-3">
+                        <Link
+                            href="/find-ev"
+                            className="hidden md:inline-flex bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm"
+                        >
+                            Get Started
+                        </Link>
 
-                    {/* Mobile Hamburger Menu Trigger Icon */}
-                    <button 
-                        onClick={() => setMenuOpen((p) => !p)}
-                        className="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition focus:outline-none"
-                        aria-label="Toggle navigation menu"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            {menuOpen ? (
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                            ) : (
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                            )}
-                        </svg>
-                    </button>
+                        {/* Mobile Hamburger Menu Trigger Icon */}
+                        <button 
+                            onClick={() => setMenuOpen((p) => !p)}
+                            className="md:hidden p-2 rounded-xl text-slate-650 hover:bg-slate-100 transition focus:outline-none"
+                            aria-label="Toggle navigation menu"
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                {menuOpen ? (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                                ) : (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+                                )}
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                {/* Mobile Dropdown Menu Drawer */}
-                <AnimatePresence>
-                    {menuOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          transition={{ duration: 0.2 }}
-                          className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
-                        >
-                          <nav className="flex flex-col gap-1">
+                {/* Mobile Menu */}
+                {menuOpen && (
+                    <div className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40">
+                        <nav className="flex flex-col gap-1">
                             {navLinks.map((link) => (
-                              <Link
-                                key={link.href}
-                                href={link.href}
-                                onClick={() => setMenuOpen(false)}
-                                className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${
-                                  link.active
-                                    ? "bg-blue-50 text-[#1e3a8a]"
-                                    : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"
-                                }`}
-                              >
-                                <span>{link.label}</span>
-                                <svg className="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                                </svg>
-                              </Link>
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    onClick={() => setMenuOpen(false)}
+                                    className="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-755 hover:bg-slate-50 hover:text-[#1e3a8a] transition"
+                                >
+                                    <span>{link.label}</span>
+                                </Link>
                             ))}
 
                             {/* Tools accordion */}
                             <div>
-                              <button
-                                onClick={() => setToolsOpen(p => !p)}
-                                className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-[#1e3a8a] hover:bg-slate-50 transition"
-                              >
-                                <span>Tools</span>
-                                <svg className={`w-4 h-4 text-slate-400 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                                </svg>
-                              </button>
-                              {toolsOpen && (
-                                <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
-                                  <Link
-                                    href="/tools/ev-emi-calculator"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                                  >
-                                    EV EMI Calculator
-                                  </Link>
-                                  <Link
-                                    href="/tools/ev-running-cost-calculator"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                                  >
-                                    EV Running Cost Calculator
-                                  </Link>
-                                  <Link
-                                    href="/tools/ev-savings-calculator"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-[#0249ad] bg-blue-50/50"
-                                  >
-                                    EV Savings Calculator
-                                  </Link>
-                                  <Link
-                                    href="/tools/ev-charging-time-calculator"
-                                    onClick={() => setMenuOpen(false)}
-                                    className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                                  >
-                                    EV Charging Time Calculator
-                                  </Link>
-                                </div>
-                              )}
+                                <button
+                                    onClick={() => setToolsOpen(p => !p)}
+                                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-[#1e3a8a] hover:bg-slate-50 transition"
+                                >
+                                    <span>Tools</span>
+                                    <svg className={`w-4 h-4 text-slate-400 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                {toolsOpen && (
+                                    <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
+                                        <Link
+                                            href="/tools/ev-emi-calculator"
+                                            onClick={() => setMenuOpen(false)}
+                                            className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-650 hover:bg-slate-50"
+                                        >
+                                            EV EMI Calculator
+                                        </Link>
+                                        <Link
+                                            href="/tools/ev-running-cost-calculator"
+                                            onClick={() => setMenuOpen(false)}
+                                            className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-650 hover:bg-slate-50"
+                                        >
+                                            EV Trip Cost Calculator
+                                        </Link>
+                                        <Link
+                                            href="/tools/ev-savings-calculator"
+                                            onClick={() => setMenuOpen(false)}
+                                            className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-[#0249ad] bg-blue-50/50"
+                                        >
+                                            EV Savings Calculator
+                                        </Link>
+                                        <Link
+                                            href="/tools/ev-charging-time-calculator"
+                                            onClick={() => setMenuOpen(false)}
+                                            className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-650 hover:bg-slate-50"
+                                        >
+                                            EV Charging Time Calculator
+                                        </Link>
+                                    </div>
+                                )}
                             </div>
-                          </nav>
-                          <div className="mt-4 pt-4 border-t border-slate-100">
-                            <Link
-                              href="/find-ev"
-                              onClick={() => setMenuOpen(false)}
-                              className="w-full block text-center bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-3 rounded-xl text-sm transition shadow-sm"
-                            >
-                              Get Started
-                            </Link>
-                          </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                        </nav>
+                    </div>
+                )}
             </header>
+
             {/* ── BREADCRUMBS ── */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6">
                 <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
                     <Link href="/" className="hover:text-[#0249ad] transition">Home</Link>
                     <span>/</span>
@@ -346,149 +327,143 @@ export default function SavingsCalculator() {
                 </div>
             </div>
 
-            <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-24">
-
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-20">
                 {/* HERO */}
-                <div className="mb-8 sm:mb-12 text-center">
-                    <span className="inline-flex items-center gap-1.5 bg-blue-50 text-[#1e40af] text-[11px] font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">
-                        <Zap className="w-3.5 h-3.5 text-[#1e40af]" /> EV Savings Calculator
-                    </span>
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight mb-3 leading-tight">
-                        How much will you save<br className="hidden sm:block" /> switching to an EV?
-                    </h1>
-                    <p className="text-slate-400 font-medium text-sm max-w-md mx-auto leading-relaxed">
-                        Adjust your daily commute and fuel prices to see real savings over 1 month, 1 year, and 5 years.
+                <div className="mb-8">
+                    <span className="inline-block text-[10px] font-black uppercase tracking-widest text-[#0249ad] bg-blue-50 px-3 py-1 rounded-md mb-2">Savings Analysis</span>
+                    <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">EV Savings Calculator</h1>
+                    <p className="text-slate-500 text-sm font-medium mt-2 max-w-2xl leading-relaxed">
+                        Adjust your daily commute and fuel prices to calculate how much you will save over a month, a year, and five years by switching to an electric vehicle.
                     </p>
                 </div>
 
-                {/* SAVINGS HIGHLIGHT BANNER */}
-                <div className="bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] rounded-2xl p-5 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="text-center sm:text-left">
-                        <p className="text-blue-200 text-xs font-bold uppercase tracking-widest mb-1">You save every month</p>
-                        <p className="text-white text-3xl sm:text-4xl font-extrabold tracking-tight">{fmt(savingMonth)}</p>
-                        <p className="text-blue-200 text-xs font-medium mt-1">{savingPct}% less than petrol</p>
-                    </div>
-                    <div className="hidden sm:block w-px h-12 bg-blue-600" />
-                    <div className="text-center">
-                        <p className="text-blue-200 text-xs font-bold uppercase tracking-widest mb-1">Per year</p>
-                        <p className="text-white text-2xl font-extrabold">{fmt(savingYear)}</p>
-                    </div>
-                    <div className="hidden sm:block w-px h-12 bg-blue-600" />
-                    <div className="text-center sm:text-right">
-                        <p className="text-blue-200 text-xs font-bold uppercase tracking-widest mb-1">Over 5 years</p>
-                        <p className="text-white text-2xl font-extrabold">{fmt(saving5yr)}</p>
-                    </div>
-                </div>
-
                 {/* MAIN LAYOUT */}
-                <div className="flex flex-col lg:flex-row gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    {/* INPUTS PANEL */}
+                    <div className="lg:col-span-7 bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm">
+                        <div className="flex items-center gap-2 mb-6">
+                            <TrendingUp className="w-5 h-5 text-[#0249ad]" />
+                            <h2 className="text-lg font-extrabold text-slate-900 tracking-tight">Your Commute Settings</h2>
+                        </div>
 
-                    {/* SIDEBAR — INPUTS */}
-                    <div className="w-full lg:w-72 xl:w-80 flex-shrink-0">
-                        <div className="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-sm lg:sticky lg:top-24">
-                            <div className="flex items-center gap-2 mb-5">
-                                <div className="w-7 h-7 bg-blue-50 rounded-lg flex items-center justify-center">
-                                    <svg className="w-3.5 h-3.5 text-[#1e40af]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                                    </svg>
-                                </div>
-                                <h3 className="text-sm font-extrabold text-slate-900 tracking-tight">Your usage</h3>
+                        <SliderRow label="Daily Commute" value={km} min={5} max={400} step={1} onChange={setKm} suffix=" km/day" />
+                        <SliderRow label="Petrol Price" value={petrolPrice} min={80} max={200} step={1} onChange={setPetrolPrice} prefix="₹" suffix="/L" />
+                        <SliderRow label="Electricity Tariff" value={elecPrice} min={4} max={25} step={0.5} onChange={setElecPrice} prefix="₹" suffix="/kWh" />
+
+                        <div className="mt-8 pt-6 border-t border-slate-100 space-y-3">
+                            <div className="flex justify-between text-xs font-bold">
+                                <span className="text-slate-400 font-medium">Standard Petrol Mileage</span>
+                                <span className="text-slate-800">12 km/litre</span>
                             </div>
-
-                            <SliderRow label="Daily commute" value={km} min={5} max={400} step={1} onChange={setKm} suffix=" km/day" />
-                            <SliderRow label="Petrol price" value={petrolPrice} min={80} max={200} step={1} onChange={setPetrolPrice} prefix="₹" suffix="/L" />
-                            <SliderRow label="Electricity tariff" value={elecPrice} min={4} max={25} step={0.5} onChange={setElecPrice} prefix="₹" suffix="/kWh" />
-
-                            <div className="mt-5 pt-4 border-t border-slate-50 space-y-2">
-                                <div className="flex justify-between text-[11px]">
-                                    <span className="text-slate-400 font-medium">Petrol mileage</span>
-                                    <span className="text-slate-500 font-bold">12 km/litre</span>
-                                </div>
-                                <div className="flex justify-between text-[11px]">
-                                    <span className="text-slate-400 font-medium">EV efficiency</span>
-                                    <span className="text-slate-500 font-bold">6 km/kWh</span>
-                                </div>
-                                <div className="flex justify-between text-[11px]">
-                                    <span className="text-slate-400 font-medium">Days per month</span>
-                                    <span className="text-slate-500 font-bold">30 days</span>
-                                </div>
+                            <div className="flex justify-between text-xs font-bold">
+                                <span className="text-slate-400 font-medium">Standard EV Efficiency</span>
+                                <span className="text-slate-800">6 km/kWh</span>
+                            </div>
+                            <div className="flex justify-between text-xs font-bold">
+                                <span className="text-slate-400 font-medium">Days Per Month</span>
+                                <span className="text-slate-800">30 days</span>
                             </div>
                         </div>
                     </div>
 
-                    {/* RIGHT — RESULTS */}
-                    <div className="flex-1 min-w-0">
-
+                    {/* RESULTS PANEL */}
+                    <div className="lg:col-span-5 space-y-6">
                         {/* METRIC CARDS */}
-                        <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-4 mb-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <MetricCard
-                                label="Monthly petrol cost"
+                                label="Monthly Petrol Cost"
                                 value={fmt(petrolMonthly)}
                                 sub="Your current spend on fuel"
                             />
                             <MetricCard
-                                label="Monthly EV cost"
+                                label="Monthly EV Cost"
                                 value={fmt(evMonthly)}
                                 sub="Electricity cost for same distance"
                                 accent
                             />
-                            <MetricCard
-                                label="Monthly savings"
-                                value={fmt(savingMonth)}
-                                sub={`You save ${savingPct}% switching to EV`}
-                            />
-                            <MetricCard
-                                label="Break-even boost"
-                                value={`${savingPct}%`}
-                                sub="Cost reduction vs petrol per month"
-                            />
+                            <div className="sm:col-span-2">
+                                <MetricCard
+                                    label="Monthly Savings"
+                                    value={fmt(savingMonth)}
+                                    sub={`You save ${savingPct}% switching to EV`}
+                                    wide
+                                />
+                            </div>
                         </div>
 
                         {/* CHART */}
-                        <div className="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-sm">
+                        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
                                 <div>
-                                    <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">
-                                        Cumulative cost over time
+                                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                                        Cumulative Cost
                                     </h4>
-                                    <p className="text-[11px] text-slate-400 font-medium mt-0.5">Petrol vs EV — total spent</p>
                                 </div>
-                                <div className="flex items-center gap-4 text-xs font-bold text-slate-400">
+                                <div className="flex items-center gap-4 text-xs font-bold text-slate-450">
                                     <span className="flex items-center gap-1.5">
-                                        <span className="w-3 h-3 rounded-sm bg-[#bfdbfe] flex-shrink-0 inline-block" />
-                                        EV cost
+                                        <span className="w-3 h-3 rounded-sm bg-[#93c5fd] flex-shrink-0 inline-block" />
+                                        EV Cost
                                     </span>
                                     <span className="flex items-center gap-1.5">
-                                        <span className="w-3 h-3 rounded-sm bg-[#1e40af] flex-shrink-0 inline-block" />
-                                        Petrol cost
+                                        <span className="w-3 h-3 rounded-sm bg-[#0249ad] flex-shrink-0 inline-block" />
+                                        Petrol Cost
                                     </span>
                                 </div>
                             </div>
-                            <div style={{ height: '240px', position: 'relative' }}>
+                            <div style={{ height: '220px', position: 'relative' }}>
                                 <Bar data={chartData} options={chartOptions} />
                             </div>
-                            <p className="text-[11px] text-slate-300 font-medium mt-4 text-center">
-                                The gap between bars = your total savings at that point
+                            <p className="text-[10px] text-slate-405 font-medium mt-4 text-center">
+                                The gap between bars represents your total accumulated savings
                             </p>
                         </div>
+                    </div>
+                </div>
 
-                        {/* CTA */}
-                        <div className="mt-5 bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-                            <div>
-                                <p className="font-extrabold text-slate-900 text-sm sm:text-base tracking-tight">
-                                    Ready to make the switch?
-                                </p>
-                                <p className="text-slate-400 text-xs sm:text-sm font-medium mt-0.5">
-                                    Browse EVs that fit your budget and daily commute of {km} km.
-                                </p>
-                            </div>
-                            <Link
-                                href="/find-ev"
-                                className="w-full sm:w-auto text-center bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-extrabold text-xs tracking-wide px-6 py-3 rounded-xl transition whitespace-nowrap"
-                            >
-                                Find My EV →
-                            </Link>
+                {/* SAVINGS HIGHLIGHT BANNER */}
+                <div className="mt-8 bg-gradient-to-r from-blue-800 via-blue-700 to-indigo-900 rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
+                    <div className="absolute top-0 right-0 transform translate-x-12 -translate-y-12 opacity-10">
+                        <Zap className="w-96 h-96" />
+                    </div>
+                    <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+                        <div className="text-center sm:text-left">
+                            <span className="inline-block text-[10px] font-black uppercase tracking-widest bg-white/25 px-3 py-1 rounded-md mb-3 border border-white/10">
+                                Monthly Boost
+                            </span>
+                            <p className="text-3xl sm:text-4xl font-black tracking-tight">{fmt(savingMonth)}</p>
+                            <p className="text-blue-200 text-xs font-medium mt-1">{savingPct}% less expenditure than petrol</p>
                         </div>
+                        <div className="hidden sm:block w-px h-16 bg-white/20" />
+                        <div className="text-center">
+                            <span className="inline-block text-[10px] font-black uppercase tracking-widest bg-white/25 px-3 py-1 rounded-md mb-3 border border-white/10">
+                                Annual Savings
+                            </span>
+                            <p className="text-2xl sm:text-3xl font-black tracking-tight">{fmt(savingYear)}</p>
+                        </div>
+                        <div className="hidden sm:block w-px h-16 bg-white/20" />
+                        <div className="text-center sm:text-right">
+                            <span className="inline-block text-[10px] font-black uppercase tracking-widest bg-white/25 px-3 py-1 rounded-md mb-3 border border-white/10">
+                                5-Year Savings
+                            </span>
+                            <p className="text-2xl sm:text-3xl font-black tracking-tight">{fmt(saving5yr)}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* LEAD GENERATION CONVERSION FUNNEL */}
+                <div className="mt-8 bg-blue-50/50 border border-blue-100 rounded-3xl p-8 text-center shadow-sm">
+                    <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">Ready to make the switch?</h3>
+                    <p className="text-slate-500 text-xs font-medium mt-2 max-w-md mx-auto leading-relaxed">
+                        Explore electric vehicles that fit your budget and daily commute profile of {km} km.
+                    </p>
+                    <div className="mt-5">
+                        <Link
+                            href="/find-ev"
+                            className="inline-flex items-center gap-2 bg-[#0249ad] hover:bg-blue-700 text-white font-extrabold text-xs px-6 py-3.5 rounded-xl transition shadow-md"
+                        >
+                            <span>Find My EV</span>
+                            <ChevronRight className="w-4 h-4" />
+                        </Link>
                     </div>
                 </div>
 
@@ -548,7 +523,7 @@ export default function SavingsCalculator() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         {[
                             { name: 'EV EMI Calculator', desc: 'Forecast loan details and monthly interest schedules.', href: '/tools/ev-emi-calculator' },
-                            { name: 'EV Running Cost Calculator', desc: 'Analyze electrical charging cost compared to petrol.', href: '/tools/ev-running-cost-calculator' },
+                            { name: 'EV Trip Cost Calculator', desc: 'Analyze electrical charging cost compared to petrol.', href: '/tools/ev-running-cost-calculator' },
                             { name: 'EV Charging Time Calculator', desc: 'Compute battery charging durations.', href: '/tools/ev-charging-time-calculator' },
                         ].map(tool => (
                             <Link

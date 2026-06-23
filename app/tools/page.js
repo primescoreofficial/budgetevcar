@@ -34,12 +34,12 @@ export default function ToolsLandingPage() {
       comingSoon: false,
     },
     {
-      name: 'EV Running Cost Calculator',
+      name: 'EV Trip Cost Calculator',
       desc: 'Compare charging electrical expenses with standard internal combustion engine fuel expenses.',
       href: '/tools/ev-running-cost-calculator',
       icon: <Zap className="w-8 h-8 text-amber-500" />,
-      tag: 'Coming Soon',
-      comingSoon: true,
+      tag: 'Active',
+      comingSoon: false,
     },
     {
       name: 'EV Charging Time Calculator',

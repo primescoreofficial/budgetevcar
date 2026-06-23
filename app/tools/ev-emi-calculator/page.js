@@ -158,7 +158,7 @@ function CalculatorContent() {
                     EV EMI Calculator
                   </Link>
                   <Link href="/tools/ev-running-cost-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                    EV Running Cost Calculator
+                    EV Trip Cost Calculator
                   </Link>
                   <Link href="/tools/ev-savings-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
                     EV Savings Calculator
@@ -232,7 +232,7 @@ function CalculatorContent() {
                       onClick={() => setMenuOpen(false)}
                       className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
                     >
-                      EV Running Cost Calculator
+                      EV Trip Cost Calculator
                     </Link>
                     <Link
                       href="/tools/ev-savings-calculator"
@@ -585,7 +585,7 @@ function CalculatorContent() {
 
             <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Navigating Electric Vehicle Finance Options</h3>
             <p>
-              Securing optimized <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">electric vehicle finance</Link> requires shopping around for lenders who offer green auto loans. In addition to special interest schemes, check if you qualify for tax benefits under Section 80EEB of the Income Tax Act (where applicable), which allows deductions on interest paid. Before making a final commitment, evaluate long-term charging costs on our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV running cost calculator</Link> and compare similar vehicles on our <Link href="/compare" className="text-[#0249ad] font-bold hover:underline">compare EVs</Link> portal to ensure complete clarity.
+              Securing optimized <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">electric vehicle finance</Link> requires shopping around for lenders who offer green auto loans. In addition to special interest schemes, check if you qualify for tax benefits under Section 80EEB of the Income Tax Act (where applicable), which allows deductions on interest paid. Before making a final commitment, evaluate long-term charging costs on our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV trip cost calculator</Link> and compare similar vehicles on our <Link href="/compare" className="text-[#0249ad] font-bold hover:underline">compare EVs</Link> portal to ensure complete clarity.
             </p>
           </div>
         </div>
@@ -596,7 +596,7 @@ function CalculatorContent() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               { name: 'EV Savings Calculator', desc: 'Compute monthly and yearly fuel cost savings.', href: '/tools/ev-savings-calculator' },
-              { name: 'EV Running Cost Calculator', desc: 'Analyze electrical charging cost compared to petrol.', href: '/tools/ev-running-cost-calculator' },
+              { name: 'EV Trip Cost Calculator', desc: 'Analyze electrical charging cost compared to petrol.', href: '/tools/ev-running-cost-calculator' },
               { name: 'EV Charging Time Calculator', desc: 'Compute battery charging durations.', href: '/tools/ev-charging-time-calculator' },
             ].map(tool => (
               <Link
