@@ -30,6 +30,10 @@ export const metadata = {
     title: 'BudgetEV — Find Your Perfect Electric Car',
     description: 'Compare range, specs, and calculate fuel savings.',
   },
+  icons: {
+    icon: '/logo/logo.png',
+    apple: '/logo/logo.png',
+  },
 };
 
 export default function RootLayout({ children }) {

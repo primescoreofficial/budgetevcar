@@ -1,6 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
@@ -395,7 +396,12 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
       <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm shadow-slate-100/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
           <div className="flex items-center gap-6 sm:gap-12">
-            <Link href="/" className="text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">BudgetEV</Link>
+            <Link href="/" className="flex items-center gap-2.5 text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">
+              <div className="relative w-10 h-10 sm:w-11 sm:h-11 overflow-hidden rounded-full border border-slate-100 flex-shrink-0">
+                <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 40px, 44px" priority />
+              </div>
+              <span>BudgetEV</span>
+            </Link>
 
             <nav className="hidden md:flex items-center space-x-8 text-[14px] font-bold text-slate-500">
               {navLinks.map((link) => (
@@ -485,6 +491,12 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
               transition={{ duration: 0.2 }}
               className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
             >
+              <div className="flex items-center gap-2.5 px-4 py-3 mb-2 border-b border-slate-100">
+                <div className="relative w-7 h-7 overflow-hidden rounded-full border border-slate-100 flex-shrink-0">
+                  <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="28px" />
+                </div>
+                <span className="text-base font-bold text-[#1e3a8a] tracking-tight">BudgetEV</span>
+              </div>
               <nav className="flex flex-col gap-1">
                 {navLinks.map((link) => (
                   <Link

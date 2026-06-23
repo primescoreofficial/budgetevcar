@@ -463,38 +463,50 @@ function SplashScreen() {
         />
 
         {/* Logo/Brand Name & Subtitle */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{
-            opacity: { duration: 0.4 },
-            scale: { duration: 0.4 },
-            y: { duration: 0.4, ease: "easeIn" }
-          }}
-          className="flex flex-col items-center gap-1.5 text-center"
-        >
-          <span className="text-4xl sm:text-5xl font-extrabold text-[#0249ad] tracking-tight">
-            BudgetEV
-          </span>
-          <span className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-widest mt-1">
-            Discover Electric Mobility
-          </span>
+        <div className="flex flex-col items-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.4 }}
+            className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden rounded-full border border-slate-100 shadow-sm mb-4 flex-shrink-0"
+          >
+            <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 80px, 96px" priority />
+          </motion.div>
 
-          {/* Thin, elegant charging line animation */}
-          <div className="w-24 h-[1px] bg-slate-100 overflow-hidden relative mt-4">
-            <motion.div
-              initial={{ left: "-100%" }}
-              animate={{ left: "100%" }}
-              transition={{
-                duration: 1.0,
-                ease: "easeInOut",
-                repeat: Infinity
-              }}
-              className="absolute h-full w-1/2 bg-[#0249ad]"
-            />
-          </div>
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{
+              opacity: { duration: 0.4 },
+              scale: { duration: 0.4 },
+              y: { duration: 0.4, ease: "easeIn" }
+            }}
+            className="flex flex-col items-center gap-1.5 text-center"
+          >
+            <span className="text-4xl sm:text-5xl font-extrabold text-[#0249ad] tracking-tight">
+              BudgetEV
+            </span>
+            <span className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-widest mt-1">
+              Discover Electric Mobility
+            </span>
+          </motion.div>
+        </div>
+
+        {/* Thin, elegant charging line animation */}
+        <div className="w-24 h-[1px] bg-slate-100 overflow-hidden relative mt-4">
+          <motion.div
+            initial={{ left: "-100%" }}
+            animate={{ left: "100%" }}
+            transition={{
+              duration: 1.0,
+              ease: "easeInOut",
+              repeat: Infinity
+            }}
+            className="absolute h-full w-1/2 bg-[#0249ad]"
+          />
+        </div>
       </div>
     </motion.div>
   );
@@ -760,10 +772,15 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
         >
-          <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+          <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 ">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
               <div className="flex items-center gap-6 sm:gap-12">
-                <Link href="/" className="text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">BudgetEV</Link>
+                <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-bold text-[#1e3a8a] tracking-tight">
+                  <div className="relative w-10 h-10 sm:w-11 sm:h-11 overflow-hidden  flex-shrink-0">
+                    <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 40px, 44px" priority />
+                  </div>
+                  <span>BudgetEV</span>
+                </Link>
                 <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">
                   {navLinks.map((link) => (
                     <Link key={link.href} href={link.href} className={link.active ? "text-[#1e3a8a] border-b-2 border-[#1e3a8a] pb-1 font-semibold" : "hover:text-slate-900 transition"}>
@@ -813,6 +830,12 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
             <AnimatePresence>
               {menuOpen && (
                 <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="md:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40">
+                  <div className="flex items-center gap-2.5 px-4 py-3 mb-2 border-b border-slate-100">
+                    <div className="relative w-7 h-7 overflow-hidden rounded-full border border-slate-100 flex-shrink-0">
+                      <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="28px" />
+                    </div>
+                    <span className="text-base font-bold text-[#1e3a8a] tracking-tight">BudgetEV</span>
+                  </div>
                   <nav className="flex flex-col gap-1">
                     {navLinks.map((link) => (
                       <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${link.active ? "bg-blue-50 text-[#1e3a8a]" : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"}`}>

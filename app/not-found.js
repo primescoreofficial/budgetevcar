@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function NotFound() {
   return (
@@ -6,7 +7,12 @@ export default function NotFound() {
       <header className="w-full bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-12">
-            <Link href="/" className="text-2xl font-bold text-[#1e3a8a] tracking-tight">BudgetEV</Link>
+            <Link href="/" className="flex items-center gap-2.5 text-2xl font-bold text-[#1e3a8a] tracking-tight">
+              <div className="relative w-10 h-10 sm:w-11 sm:h-11 overflow-hidden rounded-full border border-slate-100 flex-shrink-0">
+                <Image src="/logo/logo.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 40px, 44px" priority />
+              </div>
+              <span>BudgetEV</span>
+            </Link>
             <nav className="hidden md:flex items-center space-x-8 text-[15px] font-medium text-slate-600">
               <Link href="/" className="hover:text-slate-900 transition">Home</Link>
               <Link href="/find-ev" className="hover:text-slate-900 transition">Find EV</Link>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Mail, Phone, MapPin, Zap } from 'lucide-react';
 
 export default function Footer({ brands = [], bodyTypes = [] }) {
@@ -25,8 +26,10 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           
           {/* Brand Column */}
           <div className="md:col-span-3 space-y-4">
-            <Link href="/" className="flex items-center gap-2 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity">
-              <Zap className="w-6 h-6 text-blue-500 fill-blue-500/20 animate-pulse" />
+            <Link href="/" className="flex items-center gap-2.5 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity">
+              <div className="relative w-6 h-6 overflow-hidden rounded-full border border-white/10 flex-shrink-0">
+                <Image src="/logo/logo_white_bg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="24px" />
+              </div>
               <span>BudgetEV</span>
             </Link>
             <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-sm">
