@@ -43,3 +43,6 @@ next-env.d.ts
 # scratch files
 /scratch
 
+# backup files
+/public/EV Cars Backup/
+
