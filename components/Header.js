@@ -32,7 +32,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
               - MD: Bumped to w-44 h-24
               - LG/XL: Bumped to w-48 h-24
             */}
-            <div className="relative w-24 h-14 sm:w-32 sm:h-16 md:w-44 md:h-24 lg:w-32 lg:h-16 overflow-hidden flex-shrink-0">
+            <div className="relative w-24 h-14 sm:w-32 sm:h-16 md:w-32 md:h-16 lg:w-32 lg:h-16 overflow-hidden flex-shrink-0">
               <Image
                 src="/logo/2.png"
                 alt="BudgetEV Logo"
@@ -45,18 +45,18 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
             </div>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-8 text-[14px] font-bold text-slate-500">
+          <nav className="hidden md:flex items-center gap-2 p-1.5">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
+
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={
-                    isActive
-                      ? "text-[#1e3a8a] border-b-2 border-[#1e3a8a] pb-1"
-                      : "hover:text-slate-900 transition"
-                  }
+                  className={`relative px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${isActive
+                      ? "bg-white text-[#1e3a8a] shadow-sm"
+                      : "text-slate-600 hover:text-[#1e3a8a] hover:bg-white/70"
+                    }`}
                 >
                   {link.label}
                 </Link>
