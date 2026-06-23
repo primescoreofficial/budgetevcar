@@ -775,7 +775,7 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                         EV EMI Calculator
                       </Link>
                       <Link href="/tools/ev-running-cost-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                        EV Running Cost Calculator
+                        EV Trip Cost Calculator
                       </Link>
                       <Link href="/tools/ev-savings-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
                         EV Savings Calculator
@@ -913,9 +913,9 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                 {/* Float & Fade-in Motion wrapper */}
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
-                  animate={{ 
-                    opacity: 1, 
-                    y: [0, -12, 0] 
+                  animate={{
+                    opacity: 1,
+                    y: [0, -12, 0]
                   }}
                   className="relative w-full flex items-center justify-center z-10"
                 >
@@ -930,13 +930,13 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                     />
                   </Link>
                 </motion.div>
-                
+
                 {/* Soft shadow underneath the vehicle */}
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ 
-                    opacity: [0.6, 0.4, 0.6], 
-                    scale: [1, 0.9, 1] 
+                  animate={{
+                    opacity: [0.6, 0.4, 0.6],
+                    scale: [1, 0.9, 1]
                   }}
                   transition={{
                     opacity: { repeat: Infinity, duration: 6, ease: "easeInOut" },

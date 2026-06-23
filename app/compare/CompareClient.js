@@ -314,6 +314,7 @@ export default function CompareClient({ cars }) {
         ) : (
           <div className="text-center py-12 sm:py-20 bg-white border border-slate-200 rounded-2xl px-4">
             <div className="flex justify-center items-center mb-4">
+              {/* Compare section placeholder image */}
               <img
                 src="/cars.png"
                 alt="Cars"
