@@ -12,12 +12,6 @@ import {
   Scale,
   ShieldCheck,
 } from "lucide-react";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 
 // ─── Dynamic Scroll Reveal Section Wrapper ─────────────────────────────────
 function LazySection({ children, className = '' }) {
@@ -935,61 +929,42 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                 </div>
               </div>
 
-              <div className="lg:col-span-6">
-                <div className="bg-transparent rounded-xl shadow-2xl overflow-hidden aspect-[4/3] relative group">
-                  <div className="absolute inset-0 w-full h-full z-0">
-                    <Swiper
-                      modules={[Autoplay, Navigation, Pagination]}
-                      autoplay={{
-                        delay: 4000,
-                        disableOnInteraction: false,
-                      }}
-                      loop={true}
-                      navigation={{
-                        nextEl: '.swiper-button-next-hero',
-                        prevEl: '.swiper-button-prev-hero',
-                      }}
-                      pagination={{
-                        clickable: true,
-                        el: '.swiper-pagination-hero',
-                        bulletClass: 'swiper-pagination-bullet-custom',
-                        bulletActiveClass: 'swiper-pagination-bullet-active-custom',
-                      }}
-                      className="w-full h-full"
-                    >
-                      {ads.map((ad, index) => (
-                        <SwiperSlide key={index} className="relative w-full h-full">
-                          <Link href={ad.href} className="block w-full h-full cursor-pointer relative overflow-hidden group/slide">
-                            <Image
-                              src={ad.image}
-                              alt={ad.title}
-                              fill
-                              sizes="(max-width: 768px) 100vw, 50vw"
-                              priority={index === 0}
-                              loading={index === 0 ? undefined : "lazy"}
-                              className="object-contain w-full h-full bg-[#0b131f] transition-all duration-500 hover:scale-[1.02] hover:brightness-105"
-                            />
-                          </Link>
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
+              <div className="lg:col-span-6 flex flex-col items-center justify-center relative min-h-[300px] lg:min-h-[400px] py-6">
+                {/* Float & Fade-in Motion wrapper */}
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: [0, -12, 0] 
+                  }}
+                  className="relative w-full flex items-center justify-center z-10"
+                >
+                  <div className="relative w-full max-w-[350px] sm:max-w-[550px] lg:max-w-[700px] aspect-[16/10]">
+                    <Image
+                      src="/EV%20Cars/EV%20Cars/Mahindra/be-6/mahindra-be-6-pack-two-79-kwh.png"
+                      alt="Mahindra BE 6"
+                      fill
+                      priority
+                      className="object-contain"
+                      sizes="(max-width: 640px) 350px, (max-width: 1024px) 550px, 700px"
+                    />
                   </div>
-
-                  {/* Custom navigation arrows (Desktop only) */}
-                  <button className="swiper-button-prev-hero hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-[#0249ad] shadow-lg backdrop-blur-sm transition-all cursor-pointer opacity-0 group-hover:opacity-100">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </button>
-                  <button className="swiper-button-next-hero hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-[#0249ad] shadow-lg backdrop-blur-sm transition-all cursor-pointer opacity-0 group-hover:opacity-100">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-
-                  {/* Custom pagination dots */}
-                  <div className="swiper-pagination-hero absolute bottom-4 left-0 right-0 mx-auto z-30 flex gap-1.5 justify-center items-center w-max px-3 py-1.5 rounded-full shadow-sm" />
-                </div>
+                </motion.div>
+                
+                {/* Soft shadow underneath the vehicle */}
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ 
+                    opacity: [0.6, 0.4, 0.6], 
+                    scale: [1, 0.9, 1] 
+                  }}
+                  transition={{
+                    opacity: { repeat: Infinity, duration: 6, ease: "easeInOut" },
+                    scale: { repeat: Infinity, duration: 6, ease: "easeInOut" },
+                    duration: 0.8
+                  }}
+                  className="w-[70%] h-4 bg-slate-950/10 rounded-[100%] blur-lg -mt-3 z-0"
+                />
               </div>
             </section>
 
