@@ -8,6 +8,7 @@ import TableOfContents from '@/components/TableOfContents';
 import ReadingProgressBar from '@/components/ReadingProgressBar';
 import { getPostBySlug, getAllPosts } from '@/lib/content';
 import { getUniqueBrands, getUniqueBodyTypes, getCarUrl } from '@/lib/queries';
+import '@/app/blog.css';
 
 export const dynamic = 'force-dynamic';
 
@@ -178,7 +179,7 @@ export default async function BlogDetailPage({ params }) {
           {/* Article Body */}
           <div className="lg:col-span-8">
             <div 
-              className="prose prose-slate max-w-none prose-headings:font-extrabold prose-h2:text-2xl prose-h3:text-xl prose-p:text-slate-600 prose-p:leading-relaxed prose-li:text-slate-600 prose-strong:text-slate-900"
+              className="blog-content"
               dangerouslySetInnerHTML={{ __html: post.contentHtml }}
             />
 
