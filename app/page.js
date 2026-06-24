@@ -1,6 +1,7 @@
 import { getAllCars, getUniqueBrands, getUniqueBodyTypes } from '@/lib/queries';
 import HomeClient from './HomeClient';
 import { enrichCarsWithLocalImages } from '@/lib/imageResolver';
+import { getAllPosts } from '@/lib/content';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +16,10 @@ export default async function HomePage() {
   const cars = enrichCarsWithLocalImages(rawCars);
   const brands = await getUniqueBrands();
   const bodyTypes = await getUniqueBodyTypes();
+
+  // Fetch latest blogs and news (limit to 4)
+  const latestBlogs = getAllPosts('blogs').slice(0, 4);
+  const latestNews = getAllPosts('news').slice(0, 4);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -34,7 +39,13 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <HomeClient cars={cars} brands={brands} bodyTypes={bodyTypes} />
+      <HomeClient 
+        cars={cars} 
+        brands={brands} 
+        bodyTypes={bodyTypes} 
+        latestBlogs={latestBlogs}
+        latestNews={latestNews}
+      />
     </>
   );
 }

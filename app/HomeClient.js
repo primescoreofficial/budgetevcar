@@ -515,7 +515,7 @@ function BrandCard({ brand }) {
 }
 
 // ─── Main Component ─────────────────────────────────────────────────────────
-export default function HomeClient({ cars, brands, bodyTypes }) {
+export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], latestNews = [] }) {
   const [activeCategory, setActiveCategory] = useState('SUV');
   const [searchCriteria, setSearchCriteria] = useState('budget');
   const [activeTab, setActiveTab] = useState('new');
@@ -1226,6 +1226,128 @@ export default function HomeClient({ cars, brands, bodyTypes }) {
                 </div>
               </section>
             </LazySection>
+
+            {/* ── LATEST EV NEWS ── */}
+            {latestNews && latestNews.length > 0 && (
+              <LazySection className="mb-16">
+                <section>
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">Latest EV News</h2>
+                      <p className="text-slate-500 text-sm font-medium mt-1">Stay updated with the latest happenings in the Indian EV ecosystem</p>
+                    </div>
+                    <Link href="/news" className="text-xs font-bold text-[#0249ad] hover:underline whitespace-nowrap">
+                      View All News →
+                    </Link>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {latestNews.map((item) => (
+                      <article 
+                        key={item.slug}
+                        className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="aspect-video bg-slate-50 relative overflow-hidden">
+                            <img 
+                              src={item.image} 
+                              alt={item.title} 
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                              loading="lazy"
+                            />
+                            {item.category && (
+                              <span className="absolute top-3 left-3 bg-orange-600/90 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded shadow-sm">
+                                {item.category}
+                              </span>
+                            )}
+                          </div>
+                          <div className="p-4">
+                            <span className="text-[10px] font-extrabold text-slate-400 block mb-1.5">{item.date}</span>
+                            <h3 className="font-extrabold text-slate-900 text-sm mb-2 group-hover:text-[#0249ad] transition-colors line-clamp-2 leading-snug">
+                              <Link href={`/news/${item.slug}`}>{item.title}</Link>
+                            </h3>
+                            <p className="text-slate-500 text-xs font-semibold leading-relaxed line-clamp-2">
+                              {item.description}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="px-4 pb-4 pt-1">
+                          <Link 
+                            href={`/news/${item.slug}`}
+                            className="text-xs font-bold text-[#0249ad] hover:text-blue-800 transition-colors inline-flex items-center gap-1"
+                          >
+                            Read Article →
+                          </Link>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              </LazySection>
+            )}
+
+            {/* ── LATEST EV GUIDES & BLOGS ── */}
+            {latestBlogs && latestBlogs.length > 0 && (
+              <LazySection className="mb-16">
+                <section>
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">Latest EV Guides & Blogs</h2>
+                      <p className="text-slate-500 text-sm font-medium mt-1">Expert buying guides, charging specs, and detailed total cost analyses</p>
+                    </div>
+                    <Link href="/blog" className="text-xs font-bold text-[#0249ad] hover:underline whitespace-nowrap">
+                      View All Blogs →
+                    </Link>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {latestBlogs.map((post) => (
+                      <article 
+                        key={post.slug}
+                        className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="aspect-video bg-slate-50 relative overflow-hidden">
+                            <img 
+                              src={post.image} 
+                              alt={post.title} 
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                              loading="lazy"
+                            />
+                            {post.category && (
+                              <span className="absolute top-3 left-3 bg-slate-900/90 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded">
+                                {post.category}
+                              </span>
+                            )}
+                          </div>
+                          <div className="p-4">
+                            <div className="flex items-center gap-2 text-[9px] font-extrabold text-slate-400 mb-1.5 uppercase tracking-wide">
+                              <span>{post.date}</span>
+                              <span>•</span>
+                              <span>{post.readingTime} read</span>
+                            </div>
+                            <h3 className="font-extrabold text-slate-900 text-sm mb-2 group-hover:text-[#0249ad] transition-colors line-clamp-2 leading-snug">
+                              <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                            </h3>
+                            <p className="text-slate-500 text-xs font-semibold leading-relaxed line-clamp-2">
+                              {post.description}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="px-4 pb-4 pt-1">
+                          <Link 
+                            href={`/blog/${post.slug}`}
+                            className="text-xs font-bold text-[#0249ad] hover:text-blue-800 transition-colors inline-flex items-center gap-1"
+                          >
+                            Read Guide →
+                          </Link>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              </LazySection>
+            )}
 
             {/* ── SAVINGS CTA ── */}
             <LazySection className="mt-12">
