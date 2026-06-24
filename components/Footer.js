@@ -115,17 +115,21 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             {/* Contact Column */}
             <div className="space-y-4">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Contact Support</h4>
-              <ul className="space-y-3.5 text-sm font-semibold">
-                <li className="flex items-center gap-3 text-slate-400">
-                  <Phone className="w-4 h-4 text-blue-500 shrink-0" />
+              <ul className="space-y-3.5 text-xs sm:text-sm font-semibold">
+                <li className="flex items-start gap-2.5 text-slate-400 min-w-0">
+                  <Phone className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                   <a href="tel:+916350671636" className="hover:text-blue-400 transition-colors duration-200">
                     +91 63506-71636
                   </a>
                 </li>
-                <li className="flex items-center gap-3 text-slate-400 min-w-0">
-                  <Mail className="w-4 h-4 text-blue-500 shrink-0" />
-                  <div className="min-w-0">
-                    <a href="mailto:info@budgetevcar.com" className="hover:text-blue-400 transition-colors duration-200 break-all block">
+                <li className="flex items-start gap-2.5 text-slate-400 min-w-0">
+                  <Mail className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+                  <div className="min-w-0 flex-1">
+                    <a 
+                      href="mailto:info@budgetevcar.com" 
+                      className="hover:text-blue-400 transition-colors duration-200 block"
+                      style={{ wordBreak: 'break-all' }}
+                    >
                       info@budgetevcar.com
                     </a>
                   </div>
