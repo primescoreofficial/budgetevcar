@@ -22,10 +22,10 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
   return (
     <footer className="bg-slate-950 text-slate-100 pt-16 pb-12 border-t border-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-slate-900">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pb-12 border-b border-slate-900">
 
           {/* Brand Column */}
-          <div className="col-span-full md:col-span-3 space-y-4">
+          <div className="col-span-full lg:col-span-3 space-y-4">
             <Link
               href="/"
               className="flex items-center gap-2.5 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity"
@@ -55,7 +55,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           </div>
 
           {/* Links Wrapper Grid */}
-          <div className="col-span-full md:col-span-9 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="col-span-full lg:col-span-9 grid grid-cols-2 sm:grid-cols-4 gap-8">
             {/* Quick Links Column */}
             <div className="space-y-4">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Quick Links</h4>
@@ -122,11 +122,13 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
                     +91 63506-71636
                   </a>
                 </li>
-                <li className="flex items-center gap-3 text-slate-400">
+                <li className="flex items-center gap-3 text-slate-400 min-w-0">
                   <Mail className="w-4 h-4 text-blue-500 shrink-0" />
-                  <a href="mailto:info@budgetevcar.com" className="hover:text-blue-400 transition-colors duration-200">
-                    info@budgetevcar.com
-                  </a>
+                  <div className="min-w-0">
+                    <a href="mailto:info@budgetevcar.com" className="hover:text-blue-400 transition-colors duration-200 break-all block">
+                      info@budgetevcar.com
+                    </a>
+                  </div>
                 </li>
               </ul>
             </div>
