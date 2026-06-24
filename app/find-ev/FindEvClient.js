@@ -442,8 +442,8 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
           <div className="flex-1 w-full">
 
             {/* Header / Search bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between justify-start gap-3 mb-5 pb-3 border-b border-slate-200/40">
-              <div>
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between justify-start gap-4 mb-5 pb-3 border-b border-slate-200/40">
+              <div className="flex-1 min-w-0 pr-0 sm:pr-4">
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                   {searchQuery || selectedBrands.length > 0 || selectedBodyType
                     ? 'Search Results'
@@ -452,10 +452,13 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                 <p className="text-xs text-slate-400 font-extrabold uppercase tracking-wider mt-1">
                   {filteredCars.length} vehicles matching
                 </p>
+                <p className="text-slate-500 text-xs font-semibold mt-2 max-w-2xl leading-relaxed">
+                  Explore and compare the latest electric vehicles available in India. Use our comprehensive filters to find electric cars matching your budget, range requirements, charging speed, and body style.
+                </p>
               </div>
 
               {/* Search input in Listings top bar */}
-              <div className="relative w-full sm:w-64">
+              <div className="relative w-full sm:w-64 shrink-0">
                 <input
                   type="text"
                   value={searchQuery}
