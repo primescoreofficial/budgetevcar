@@ -23,7 +23,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
 
   return (
     <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm shadow-slate-100/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         <div className="flex items-center gap-6 sm:gap-12">
           <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">
             {/* INCREASED LOGO SIZE CONTAINER: 
