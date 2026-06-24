@@ -1,10 +1,16 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link2, Check } from 'lucide-react';
 
 export default function ShareButtons({ title = '', url = '' }) {
   const [copied, setCopied] = useState(false);
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : url;
+  const [shareUrl, setShareUrl] = useState(`https://budgetevcar.com${url}`);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setShareUrl(window.location.href);
+    }
+  }, [url]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shareUrl);

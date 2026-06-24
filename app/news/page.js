@@ -41,19 +41,21 @@ export default async function NewsPage({ searchParams }) {
           </div>
 
           {/* Search bar */}
-          <form action="/news" method="GET" className="relative w-full md:w-80">
-            <input
-              type="text"
-              name="search"
-              defaultValue={search}
-              placeholder="Search news, brands, variants..."
-              className="bg-white border border-slate-200 text-slate-800 pl-4 pr-10 py-3 rounded-xl text-xs font-bold focus:outline-none focus:border-[#0249ad] focus:bg-white transition w-full shadow-sm"
-            />
-            <button type="submit" className="absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-blue-600 transition-colors">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
+          <form action="/news" method="GET" className="w-full md:w-80 md:translate-y-5">
+            <div className="relative">
+              <input
+                type="text"
+                name="search"
+                defaultValue={search}
+                placeholder="Search news, brands, variants..."
+                className="bg-white border border-slate-200 text-slate-800 pl-4 pr-10 py-3 rounded-xl text-xs font-bold focus:outline-none focus:border-[#0249ad] focus:bg-white transition w-full shadow-sm"
+              />
+              <button type="submit" className="absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-blue-600 transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+            </div>
           </form>
         </div>
 
@@ -78,9 +80,9 @@ export default async function NewsPage({ searchParams }) {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          <div className="w-full">
             {/* News listing layout grid */}
-            <div className="md:col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {news.map((item) => (
                 <article
                   key={item.slug}

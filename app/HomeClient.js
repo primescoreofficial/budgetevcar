@@ -1241,11 +1241,11 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                     </Link>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:px-0 sm:mx-0 sm:pb-0">
                     {latestNews.map((item) => (
                       <article 
                         key={item.slug}
-                        className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                        className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between min-w-[82vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center"
                       >
                         <div>
                           <div className="aspect-video bg-slate-50 relative overflow-hidden">
@@ -1300,11 +1300,11 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                     </Link>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:px-0 sm:mx-0 sm:pb-0">
                     {latestBlogs.map((post) => (
                       <article 
                         key={post.slug}
-                        className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                        className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between min-w-[82vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center"
                       >
                         <div>
                           <div className="aspect-video bg-slate-50 relative overflow-hidden">

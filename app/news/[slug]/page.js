@@ -169,8 +169,8 @@ export default async function NewsDetailPage({ params }) {
           </div>
 
           {/* Article Body */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-8">
+          <div className="flex flex-col lg:flex-row gap-8 items-start">
+            <div className="flex-1 w-full">
               <div
                 className="blog-content"
                 dangerouslySetInnerHTML={{ __html: item.contentHtml }}
@@ -192,7 +192,7 @@ export default async function NewsDetailPage({ params }) {
             </div>
 
             {/* Sidebar with related news */}
-            <aside className="lg:col-span-4 space-y-6">
+            <aside className="w-full lg:w-80 shrink-0 space-y-6">
               {relatedNews.length > 0 && (
                 <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
                   <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-4">Latest EV News</h4>

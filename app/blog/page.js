@@ -20,18 +20,18 @@ export default async function BlogPage({ searchParams }) {
   const { search = '' } = await searchParams;
   const posts = getAllPosts('blogs', { search });
   const allPosts = getAllPosts('blogs'); // For category/tag listing calculations
-  
+
   // Extract unique categories and tags
   const categories = [...new Set(allPosts.map(p => p.category).filter(Boolean))];
   const tags = [...new Set(allPosts.flatMap(p => p.tags || []).filter(Boolean))];
-  
+
   const brands = await getUniqueBrands();
   const bodyTypes = await getUniqueBodyTypes();
 
   return (
     <div className="min-h-screen bg-slate-50/50">
       <Header />
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-5 pb-24">
         <Breadcrumbs items={[{ label: 'Blog', href: '/blog' }]} />
 
@@ -47,25 +47,27 @@ export default async function BlogPage({ searchParams }) {
           </div>
 
           {/* Search Form */}
-          <form action="/blog" method="GET" className="relative w-full md:w-80">
-            <input
-              type="text"
-              name="search"
-              defaultValue={search}
-              placeholder="Search guides, categories, tags..."
-              className="bg-white border border-slate-200 text-slate-800 pl-4 pr-10 py-3 rounded-xl text-xs font-bold focus:outline-none focus:border-[#0249ad] focus:bg-white transition w-full shadow-sm"
-            />
-            <button type="submit" className="absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-blue-600 transition-colors">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
+          <form action="/blog" method="GET" className="w-full md:w-80 md:translate-y-5">
+            <div className="relative">
+              <input
+                type="text"
+                name="search"
+                defaultValue={search}
+                placeholder="Search guides, categories, tags..."
+                className="bg-white border border-slate-200 text-slate-800 pl-4 pr-10 py-3 rounded-xl text-xs font-bold focus:outline-none focus:border-[#0249ad] focus:bg-white transition w-full shadow-sm"
+              />
+              <button type="submit" className="absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-blue-600 transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+            </div>
           </form>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="w-full">
           {/* Main Listings */}
-          <div className="lg:col-span-8 space-y-8">
+          <div className="space-y-8">
             {search && (
               <p className="text-sm font-bold text-slate-500 bg-blue-50/50 border border-blue-100/50 rounded-xl px-4 py-3">
                 Showing search results for: <span className="text-[#0249ad]">"{search}"</span> ({posts.length} matches)
@@ -87,10 +89,10 @@ export default async function BlogPage({ searchParams }) {
                 </Link>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.map((post) => (
-                  <article 
-                    key={post.slug} 
+                  <article
+                    key={post.slug}
                     className="group bg-white border border-slate-200/60 rounded-2xl overflow-hidden hover:shadow-xl hover:border-blue-200 transition-all duration-300 flex flex-col justify-between"
                   >
                     <div>
@@ -116,11 +118,11 @@ export default async function BlogPage({ searchParams }) {
                           <span>•</span>
                           <span>{post.readingTime}</span>
                         </div>
-                        
+
                         <h2 className="text-base font-black text-slate-900 tracking-tight leading-snug group-hover:text-[#0249ad] transition-colors duration-200 mb-2">
                           <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                         </h2>
-                        
+
                         <p className="text-slate-500 text-xs font-semibold leading-relaxed line-clamp-3">
                           {post.description}
                         </p>
@@ -140,50 +142,6 @@ export default async function BlogPage({ searchParams }) {
               </div>
             )}
           </div>
-
-          {/* Sidebar */}
-          <aside className="lg:col-span-4 space-y-6">
-            {/* Categories */}
-            <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
-              <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-4">Categories</h4>
-              <div className="space-y-2">
-                {categories.map(c => {
-                  const slug = c.toLowerCase().replace(/\s+/g, '-');
-                  return (
-                    <Link
-                      key={c}
-                      href={`/blog/category/${slug}`}
-                      className="flex items-center justify-between text-xs font-bold text-slate-600 hover:text-[#0249ad] py-1.5 transition-colors"
-                    >
-                      <span>{c}</span>
-                      <span className="bg-slate-50 text-slate-400 px-2 py-0.5 rounded text-[10px] font-bold">
-                        {allPosts.filter(p => p.category === c).length}
-                      </span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Tag Cloud */}
-            <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
-              <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest mb-4 font-bold">Tags</h4>
-              <div className="flex flex-wrap gap-2">
-                {tags.map(t => {
-                  const slug = t.toLowerCase().replace(/\s+/g, '-');
-                  return (
-                    <Link
-                      key={t}
-                      href={`/blog/tag/${slug}`}
-                      className="bg-slate-50 hover:bg-blue-50 text-slate-500 hover:text-[#0249ad] border border-slate-200/60 hover:border-blue-200 text-[10px] font-bold px-3 py-1.5 rounded-lg transition"
-                    >
-                      #{t}
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </aside>
         </div>
       </main>
 

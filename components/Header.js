@@ -10,6 +10,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
   const pathname = usePathname();
   const [localMenuOpen, setLocalMenuOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [newsBlogsOpen, setNewsBlogsOpen] = useState(false);
 
   const menuOpen = customMenuOpen !== undefined ? customMenuOpen : localMenuOpen;
   const setMenuOpen = customSetMenuOpen !== undefined ? customSetMenuOpen : setLocalMenuOpen;
@@ -85,6 +86,24 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
                 </Link>
                 <Link href="/tools/ev-charging-time-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
                   EV Charging Time Calculator
+                </Link>
+              </div>
+            </div>
+
+            {/* News/Blogs Dropdown */}
+            <div className="relative group py-2 px-2 ml-4">
+              <button className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer text-slate-600 font-medium">
+                <span>News/Blogs</span>
+                <svg className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div className="absolute left-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl py-3 hidden group-hover:block z-50 animate-fadeIn">
+                <Link href="/news" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                  News
+                </Link>
+                <Link href="/blog" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                  Blogs
                 </Link>
               </div>
             </div>
@@ -186,6 +205,37 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
                       className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
                     >
                       EV Charging Time Calculator
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* News/Blogs accordion */}
+              <div>
+                <button
+                  onClick={() => setNewsBlogsOpen(!newsBlogsOpen)}
+                  className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a] transition"
+                >
+                  <span>News/Blogs</span>
+                  <svg className={`w-4 h-4 text-slate-400 transition-transform ${newsBlogsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {newsBlogsOpen && (
+                  <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
+                    <Link
+                      href="/news"
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
+                    >
+                      News
+                    </Link>
+                    <Link
+                      href="/blog"
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
+                    >
+                      Blogs
                     </Link>
                   </div>
                 )}

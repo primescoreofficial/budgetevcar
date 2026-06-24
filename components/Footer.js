@@ -90,6 +90,50 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
               </ul>
             </div>
 
+            {/* News Column */}
+            <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
+              <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">News</h4>
+              <ul className="space-y-2.5 text-sm font-semibold">
+                {[
+                  { href: '/news', label: 'Latest EV News' },
+                  { href: '/news', label: 'Industry Updates' },
+                  { href: '/news', label: 'New Launches' },
+                  { href: '/news', label: 'Charging Network Updates' }
+                ].map((item, idx) => (
+                  <li key={idx}>
+                    <Link
+                      href={item.href}
+                      className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Blogs Column */}
+            <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
+              <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Blogs</h4>
+              <ul className="space-y-2.5 text-sm font-semibold">
+                {[
+                  { href: '/blog/category/buying-guide', label: 'EV Buying Guides' },
+                  { href: '/blog/category/analysis', label: 'EV Comparisons' },
+                  { href: '/blog/category/charging', label: 'Charging Guides' },
+                  { href: '/blog/category/technology', label: 'Battery & Technology' }
+                ].map((item, idx) => (
+                  <li key={idx}>
+                    <Link
+                      href={item.href}
+                      className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             {/* Tools Column */}
             <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Tools</h4>
