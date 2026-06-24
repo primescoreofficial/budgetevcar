@@ -95,10 +95,10 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Tools</h4>
               <ul className="space-y-2.5 text-sm font-semibold">
                 {[
-                  { href: '/tools/ev-emi-calculator', label: 'EV EMI Calculator' },
-                  { href: '/tools/ev-running-cost-calculator', label: 'EV Trip Cost Calculator' },
-                  { href: '/tools/ev-savings-calculator', label: 'EV Savings Calculator' },
-                  { href: '/tools/ev-charging-time-calculator', label: 'EV Charging Time Calculator' }
+                  { href: '/tools/ev-emi-calculator', label: 'EMI Calculator' },
+                  { href: '/tools/ev-running-cost-calculator', label: 'Trip Cost Calculator' },
+                  { href: '/tools/ev-savings-calculator', label: 'Savings Calculator' },
+                  { href: '/tools/ev-charging-time-calculator', label: 'Charging Calculator' }
                 ].map((tool) => (
                   <li key={tool.label}>
                     <Link
