@@ -46,7 +46,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
             </div>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-2 p-1.5">
+          <nav className="hidden min-[960px]:flex items-center gap-2 p-1.5">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
 
@@ -113,7 +113,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
         <div className="flex items-center gap-3">
           <Link
             href="/find-ev"
-            className="hidden lg:inline-flex bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm shadow-blue-900/10"
+            className="hidden min-[960px]:inline-flex bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm shadow-blue-900/10"
           >
             Get Started
           </Link>
@@ -122,7 +122,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden p-2.5 rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition focus:outline-none"
+            className="min-[960px]:hidden p-2.5 rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition focus:outline-none"
             aria-label="Toggle menu"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,7 +142,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
+            className="min-[960px]:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
           >
             <nav className="flex flex-col gap-1">
               {navLinks.map((link) => {
