@@ -25,7 +25,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-slate-900">
 
           {/* Brand Column */}
-          <div className="md:col-span-3 space-y-4">
+          <div className="col-span-full md:col-span-3 space-y-4">
             <Link
               href="/"
               className="flex items-center gap-2.5 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity"
@@ -54,79 +54,82 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             </div>
           </div>
 
-          {/* Quick Links Column */}
-          <div className="md:col-span-2 space-y-4">
-            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Quick Links</h4>
-            <ul className="space-y-2.5 text-sm font-semibold">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Links Wrapper Grid */}
+          <div className="col-span-full md:col-span-9 grid grid-cols-2 md:grid-cols-4 gap-8">
+            {/* Quick Links Column */}
+            <div className="space-y-4">
+              <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Quick Links</h4>
+              <ul className="space-y-2.5 text-sm font-semibold">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* EV Categories Column */}
-          <div className="md:col-span-2 space-y-4">
-            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">EV Categories</h4>
-            <ul className="space-y-2.5 text-sm font-semibold">
-              {displayBodyTypes.map((type) => (
-                <li key={type}>
-                  <Link
-                    href={`/find-ev?bodyType=${encodeURIComponent(type)}`}
-                    className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
-                  >
-                    {type}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* EV Categories Column */}
+            <div className="space-y-4">
+              <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">EV Categories</h4>
+              <ul className="space-y-2.5 text-sm font-semibold">
+                {displayBodyTypes.map((type) => (
+                  <li key={type}>
+                    <Link
+                      href={`/find-ev?bodyType=${encodeURIComponent(type)}`}
+                      className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
+                    >
+                      {type}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Tools Column */}
-          <div className="md:col-span-2 space-y-4">
-            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Tools</h4>
-            <ul className="space-y-2.5 text-sm font-semibold">
-              {[
-                { href: '/tools/ev-emi-calculator', label: 'EV EMI Calculator' },
-                { href: '/tools/ev-running-cost-calculator', label: 'EV Trip Cost Calculator' },
-                { href: '/tools/ev-savings-calculator', label: 'EV Savings Calculator' },
-                { href: '/tools/ev-charging-time-calculator', label: 'EV Charging Time Calculator' }
-              ].map((tool) => (
-                <li key={tool.label}>
-                  <Link
-                    href={tool.href}
-                    className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
-                  >
-                    {tool.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Tools Column */}
+            <div className="space-y-4">
+              <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Tools</h4>
+              <ul className="space-y-2.5 text-sm font-semibold">
+                {[
+                  { href: '/tools/ev-emi-calculator', label: 'EV EMI Calculator' },
+                  { href: '/tools/ev-running-cost-calculator', label: 'EV Trip Cost Calculator' },
+                  { href: '/tools/ev-savings-calculator', label: 'EV Savings Calculator' },
+                  { href: '/tools/ev-charging-time-calculator', label: 'EV Charging Time Calculator' }
+                ].map((tool) => (
+                  <li key={tool.label}>
+                    <Link
+                      href={tool.href}
+                      className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5"
+                    >
+                      {tool.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Contact Column */}
-          <div className="md:col-span-3 space-y-4">
-            <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Contact Support</h4>
-            <ul className="space-y-3.5 text-sm font-semibold">
-              <li className="flex items-center gap-3 text-slate-400">
-                <Phone className="w-4 h-4 text-blue-500 shrink-0" />
-                <a href="tel:+916350671636" className="hover:text-blue-400 transition-colors duration-200">
-                  +91 63506-71636
-                </a>
-              </li>
-              <li className="flex items-center gap-3 text-slate-400">
-                <Mail className="w-4 h-4 text-blue-500 shrink-0" />
-                <a href="mailto:info@budgetevcar.com" className="hover:text-blue-400 transition-colors duration-200">
-                  info@budgetevcar.com
-                </a>
-              </li>
-            </ul>
+            {/* Contact Column */}
+            <div className="space-y-4">
+              <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Contact Support</h4>
+              <ul className="space-y-3.5 text-sm font-semibold">
+                <li className="flex items-center gap-3 text-slate-400">
+                  <Phone className="w-4 h-4 text-blue-500 shrink-0" />
+                  <a href="tel:+916350671636" className="hover:text-blue-400 transition-colors duration-200">
+                    +91 63506-71636
+                  </a>
+                </li>
+                <li className="flex items-center gap-3 text-slate-400">
+                  <Mail className="w-4 h-4 text-blue-500 shrink-0" />
+                  <a href="mailto:info@budgetevcar.com" className="hover:text-blue-400 transition-colors duration-200">
+                    info@budgetevcar.com
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
 
         </div>
