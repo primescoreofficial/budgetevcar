@@ -24,105 +24,117 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
 
   return (
     <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm shadow-slate-100/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        <div className="flex items-center gap-6 sm:gap-12">
-          <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">
-            {/* INCREASED LOGO SIZE CONTAINER: 
-              - Mobile/Default: Bumped from w-24 h-24 to w-36 h-24
-              - SM: Bumped to w-40 h-24
-              - MD: Bumped to w-44 h-24
-              - LG/XL: Bumped to w-48 h-24
-            */}
-            <div className="relative w-24 h-14 sm:w-32 sm:h-16 md:w-32 md:h-16 lg:w-32 lg:h-16 overflow-hidden flex-shrink-0">
-              <Image
-                src="/logo/2.png"
-                alt="BudgetEV Logo"
-                fill
-                className="object-contain"
-                // Adjusted sizes prop to match the new max-widths for accurate performance budget optimization
+      <style dangerouslySetInnerHTML={{__html: `
+        :root {
+          --desktop-display: none !important;
+          --desktop-inline-display: none !important;
+          --mobile-display: inline-flex !important;
+          --mobile-block-display: block !important;
+        }
+        @media (min-width: 1024px) {
+          :root {
+            --desktop-display: flex !important;
+            --desktop-inline-display: inline-flex !important;
+            --mobile-display: none !important;
+            --mobile-block-display: none !important;
+          }
+        }
+      `}} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between lg:justify-around">
 
-                priority
-              />
+        <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">
+          <div className="relative w-24 h-14 sm:w-32 sm:h-16 md:w-32 md:h-16 lg:w-32 lg:h-16 overflow-hidden flex-shrink-0">
+            <Image
+              src="/logo/2.png"
+              alt="BudgetEV Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+        </Link>
+
+        {/* Desktop Nav — only lg and above */}
+        <nav className="items-center gap-2 p-1.5" style={{ display: 'var(--desktop-display)' }}>
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="relative px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-300"
+                style={{
+                  backgroundColor: isActive ? "#1e40af" : "transparent",
+                  color: isActive ? "#ffffff" : "#475569",
+                  boxShadow: isActive ? "0 1px 3px rgba(0,0,0,0.12)" : "none",
+                }}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+
+          {/* Tools Dropdown */}
+          <div className="relative group py-2 px-1">
+            <button className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer text-slate-600 font-semibold text-sm px-3 py-2.5 rounded-full hover:bg-slate-50">
+              <span>Tools</span>
+              <svg className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div className="absolute left-0 mt-2 w-64 bg-white border border-slate-100 rounded-2xl shadow-xl py-3 hidden group-hover:block z-50">
+              <Link href="/tools/ev-emi-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                EV EMI Calculator
+              </Link>
+              <Link href="/tools/ev-running-cost-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                EV Trip Cost Calculator
+              </Link>
+              <Link href="/tools/ev-savings-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                EV Savings Calculator
+              </Link>
+              <Link href="/tools/ev-charging-time-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                EV Charging Time Calculator
+              </Link>
             </div>
-          </Link>
+          </div>
 
-          <nav className="hidden min-[960px]:flex items-center gap-2 p-1.5">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="relative px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300"
-                  style={{
-                    backgroundColor: isActive ? "#1e40af" : "transparent",
-                    color: isActive ? "#ffffff" : "#475569",
-                    boxShadow: isActive ? "0 1px 3px rgba(0,0,0,0.12)" : "none",
-                  }}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-
-            {/* Tools Dropdown */}
-            <div className="relative group py-2">
-              <button className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer text-slate-600 font-medium">
-                <span>Tools</span>
-                <svg className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div className="absolute left-0 mt-2 w-64 bg-white border border-slate-100 rounded-2xl shadow-xl py-3 hidden group-hover:block z-50 animate-fadeIn">
-                <Link href="/tools/ev-emi-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                  EV EMI Calculator
-                </Link>
-                <Link href="/tools/ev-running-cost-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                  EV Trip Cost Calculator
-                </Link>
-                <Link href="/tools/ev-savings-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                  EV Savings Calculator
-                </Link>
-                <Link href="/tools/ev-charging-time-calculator" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                  EV Charging Time Calculator
-                </Link>
-              </div>
+          {/* News/Blogs Dropdown */}
+          <div className="relative group py-2 px-1">
+            <button className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer text-slate-600 font-semibold text-sm px-3 py-2.5 rounded-full hover:bg-slate-50">
+              <span>News/Blogs</span>
+              <svg className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div className="absolute left-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl py-3 hidden group-hover:block z-50">
+              <Link href="/news" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                News
+              </Link>
+              <Link href="/blog" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
+                Blogs
+              </Link>
             </div>
+          </div>
+        </nav>
 
-            {/* News/Blogs Dropdown */}
-            <div className="relative group py-2 px-2 ml-4">
-              <button className="flex items-center gap-1 hover:text-slate-900 transition cursor-pointer text-slate-600 font-medium">
-                <span>News/Blogs</span>
-                <svg className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div className="absolute left-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl py-3 hidden group-hover:block z-50 animate-fadeIn">
-                <Link href="/news" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                  News
-                </Link>
-                <Link href="/blog" className="block px-5 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-[#0249ad] font-bold transition">
-                  Blogs
-                </Link>
-              </div>
-            </div>
-          </nav>
-        </div>
-
+        {/* RIGHT: CTA + Hamburger */}
         <div className="flex items-center gap-3">
+          {/* "Get Started" — desktop only */}
           <Link
             href="/find-ev"
-            className="hidden min-[960px]:inline-flex bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm shadow-blue-900/10"
+            className="bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-sm shadow-blue-900/10"
+            style={{ display: 'var(--desktop-inline-display)' }}
           >
             Get Started
           </Link>
 
           {extraMobileActions}
 
+          {/* Hamburger — mobile + tablet only (hidden on lg+) */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="min-[960px]:hidden p-2.5 rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition focus:outline-none"
+            className="p-2.5 rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition focus:outline-none"
+            style={{ display: 'var(--mobile-display)' }}
             aria-label="Toggle menu"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,6 +147,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
         </div>
       </div>
 
+      {/* Mobile/Tablet Dropdown Menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -142,7 +155,8 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="min-[960px]:hidden bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
+            className="bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
+            style={{ display: 'var(--mobile-block-display)' }}
           >
             <nav className="flex flex-col gap-1">
               {navLinks.map((link) => {
@@ -178,32 +192,16 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
                 </button>
                 {toolsOpen && (
                   <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
-                    <Link
-                      href="/tools/ev-emi-calculator"
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                    >
+                    <Link href="/tools/ev-emi-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
                       EV EMI Calculator
                     </Link>
-                    <Link
-                      href="/tools/ev-running-cost-calculator"
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                    >
+                    <Link href="/tools/ev-running-cost-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
                       EV Running Cost Calculator
                     </Link>
-                    <Link
-                      href="/tools/ev-savings-calculator"
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                    >
+                    <Link href="/tools/ev-savings-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
                       EV Savings Calculator
                     </Link>
-                    <Link
-                      href="/tools/ev-charging-time-calculator"
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                    >
+                    <Link href="/tools/ev-charging-time-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
                       EV Charging Time Calculator
                     </Link>
                   </div>
@@ -223,22 +221,25 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
                 </button>
                 {newsBlogsOpen && (
                   <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
-                    <Link
-                      href="/news"
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                    >
+                    <Link href="/news" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
                       News
                     </Link>
-                    <Link
-                      href="/blog"
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"
-                    >
+                    <Link href="/blog" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
                       Blogs
                     </Link>
                   </div>
                 )}
+              </div>
+
+              {/* Get Started CTA in mobile menu */}
+              <div className="pt-2 mt-1 border-t border-slate-100">
+                <Link
+                  href="/find-ev"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center justify-center w-full bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-3 rounded-xl text-sm font-bold transition"
+                >
+                  Get Started
+                </Link>
               </div>
             </nav>
           </motion.div>
