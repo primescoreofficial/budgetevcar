@@ -22,10 +22,10 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
   return (
     <footer className="bg-slate-950 text-slate-100 pt-16 pb-12 border-t border-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-slate-900">
+        <div className="flex flex-col md:flex-row flex-wrap md:flex-nowrap gap-8 md:gap-12 pb-12 border-b border-slate-900">
 
           {/* Brand Column */}
-          <div className="col-span-full md:col-span-3 space-y-4">
+          <div className="w-full md:w-1/4 space-y-4 shrink-0">
             <Link
               href="/"
               className="flex items-center gap-2.5 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity"
@@ -55,9 +55,9 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           </div>
 
           {/* Links Wrapper Grid */}
-          <div className="col-span-full md:col-span-9 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="w-full md:w-3/4 flex flex-wrap md:flex-nowrap justify-between gap-8 md:gap-4">
             {/* Quick Links Column */}
-            <div className="space-y-4">
+            <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Quick Links</h4>
               <ul className="space-y-2.5 text-sm font-semibold">
                 {navLinks.map((link) => (
@@ -74,7 +74,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             </div>
 
             {/* EV Categories Column */}
-            <div className="space-y-4">
+            <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">EV Categories</h4>
               <ul className="space-y-2.5 text-sm font-semibold">
                 {displayBodyTypes.map((type) => (
@@ -91,7 +91,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             </div>
 
             {/* Tools Column */}
-            <div className="space-y-4">
+            <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Tools</h4>
               <ul className="space-y-2.5 text-sm font-semibold">
                 {[
@@ -113,7 +113,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             </div>
 
             {/* Contact Column */}
-            <div className="space-y-4">
+            <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Contact Support</h4>
               <ul className="space-y-3.5 text-xs sm:text-sm font-semibold">
                 <li className="flex items-start gap-2.5 text-slate-400 min-w-0">
