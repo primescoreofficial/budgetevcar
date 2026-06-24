@@ -22,10 +22,10 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
   return (
     <footer className="bg-slate-950 text-slate-100 pt-16 pb-12 border-t border-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-slate-900">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-slate-900">
 
           {/* Brand Column */}
-          <div className="col-span-1 sm:col-span-2 md:col-span-3 space-y-4">
+          <div className="md:col-span-3 space-y-4">
             <Link
               href="/"
               className="flex items-center gap-2.5 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity"
@@ -45,7 +45,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
               India's most trusted platform for finding, comparing, and analyzing electric vehicles within your budget. Simplifying your switch to green energy.
             </p>
             {/* Social Links */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-2">
+            <div className="flex items-center gap-3.5 pt-2">
               {['twitter', 'facebook', 'linkedin', 'instagram'].map((platform) => (
                 <a key={platform} href={`#${platform}`} className="text-slate-500 hover:text-white transition-colors duration-200" aria-label={platform}>
                   <span className="capitalize text-xs font-bold">{platform}</span>
@@ -55,7 +55,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           </div>
 
           {/* Quick Links Column */}
-          <div className="col-span-1 md:col-span-2 space-y-4">
+          <div className="md:col-span-2 space-y-4">
             <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Quick Links</h4>
             <ul className="space-y-2.5 text-sm font-semibold">
               {navLinks.map((link) => (
@@ -72,7 +72,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           </div>
 
           {/* EV Categories Column */}
-          <div className="col-span-1 md:col-span-2 space-y-4">
+          <div className="md:col-span-2 space-y-4">
             <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">EV Categories</h4>
             <ul className="space-y-2.5 text-sm font-semibold">
               {displayBodyTypes.map((type) => (
@@ -89,9 +89,9 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           </div>
 
           {/* Tools Column */}
-          <div className="col-span-1 sm:col-span-2 md:col-span-2 space-y-4">
+          <div className="md:col-span-2 space-y-4">
             <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Tools</h4>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-2.5 text-sm font-semibold">
+            <ul className="space-y-2.5 text-sm font-semibold">
               {[
                 { href: '/tools/ev-emi-calculator', label: 'EV EMI Calculator' },
                 { href: '/tools/ev-running-cost-calculator', label: 'EV Trip Cost Calculator' },
@@ -111,9 +111,9 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           </div>
 
           {/* Contact Column */}
-          <div className="col-span-1 sm:col-span-2 md:col-span-3 space-y-4">
+          <div className="md:col-span-3 space-y-4">
             <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Contact Support</h4>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-3.5 text-sm font-semibold">
+            <ul className="space-y-3.5 text-sm font-semibold">
               <li className="flex items-center gap-3 text-slate-400">
                 <Phone className="w-4 h-4 text-blue-500 shrink-0" />
                 <a href="tel:+916350671636" className="hover:text-blue-400 transition-colors duration-200">
