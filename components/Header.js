@@ -40,7 +40,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
           }
         }
       `}} />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between lg:justify-around">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
 
         <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">
           <div className="relative w-24 h-14 sm:w-32 sm:h-16 md:w-32 md:h-16 lg:w-32 lg:h-16 overflow-hidden flex-shrink-0">
