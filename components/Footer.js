@@ -21,7 +21,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
   return (
     <footer className="bg-slate-950 text-slate-100 pt-16 pb-12 border-t border-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex flex-col md:flex-row flex-wrap md:flex-nowrap gap-8 md:gap-12 pb-12 border-b border-slate-900">
+        <div className="flex flex-col flex-wrap gap-8 md:gap-12 pb-12 border-b border-slate-900">
 
           {/* Brand Column */}
           <div className="w-full md:w-1/4 space-y-4 shrink-0">
@@ -54,7 +54,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           </div>
 
           {/* Links Wrapper Grid */}
-          <div className="w-full md:w-3/4 flex flex-wrap md:flex-nowrap justify-between gap-8 md:gap-4">
+          <div className="w-full  flex flex-wrap  justify-between gap-8 md:gap-4">
             {/* Quick Links Column */}
             <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Quick Links</h4>
