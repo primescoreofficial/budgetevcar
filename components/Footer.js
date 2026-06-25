@@ -24,7 +24,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
         <div className="flex flex-col flex-wrap gap-8 md:gap-12 pb-12 border-b border-slate-900">
 
           {/* Brand Column */}
-          <div className="w-full md:w-1/4 space-y-4 shrink-0">
+          <div className="w-full space-y-4 shrink-0">
             <Link
               href="/"
               className="flex items-center gap-2.5 text-2xl font-black tracking-tight text-white hover:opacity-90 transition-opacity"
@@ -54,7 +54,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           </div>
 
           {/* Links Wrapper Grid */}
-          <div className="w-full  flex flex-wrap  justify-between gap-8 md:gap-4">
+          <div className="w-full flex flex-wrap justify-between gap-8">
             {/* Quick Links Column */}
             <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Quick Links</h4>
