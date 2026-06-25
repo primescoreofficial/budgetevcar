@@ -9,10 +9,34 @@ import { getUniqueBrands, getUniqueBodyTypes } from '@/lib/queries';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'EV Guides & Blogs — BudgetEV',
-  description: 'Learn everything about electric vehicles in India. Read expert guides, battery technology analyses, charging tips, and cost comparisons.',
+  title: 'EV Guides & Blogs — Expert Electric Vehicle Articles | BudgetEV',
+  description: 'Learn everything about electric vehicles in India. Read expert guides, battery technology analyses, charging tips, cost comparisons, and buying advice.',
+  keywords: [
+    'EV guides India',
+    'electric vehicle blog',
+    'EV buying guide',
+    'electric car tips',
+    'EV charging guide',
+    'electric vehicle comparison',
+    'EV battery technology',
+    'EV cost savings tips',
+  ],
   alternates: {
     canonical: '/blog',
+  },
+  openGraph: {
+    title: 'EV Guides & Blogs — BudgetEV',
+    description: 'Expert guides, analyses, and tips about electric vehicles in India.',
+    url: 'https://budgetevcar.com/blog',
+    siteName: 'BudgetEV',
+    type: 'website',
+    images: [{ url: 'https://budgetevcar.com/logo/2.png', width: 512, height: 512, alt: 'BudgetEV Blog' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'EV Guides & Blogs — BudgetEV',
+    description: 'Expert guides and tips about electric vehicles in India.',
+    images: ['https://budgetevcar.com/logo/2.png'],
   },
 };
 

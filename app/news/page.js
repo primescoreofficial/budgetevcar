@@ -8,10 +8,35 @@ import { getUniqueBrands, getUniqueBodyTypes } from '@/lib/queries';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'EV News — Latest Electric Vehicle Updates in India',
+  title: 'EV News — Latest Electric Vehicle Updates & Launches in India | BudgetEV',
   description: 'Stay updated with the latest electric vehicle news, new EV launches, pricing revisions, and charging infrastructure projects in India.',
+  keywords: [
+    'EV news India',
+    'electric vehicle news',
+    'new EV launch India',
+    'electric car updates',
+    'EV pricing news',
+    'charging infrastructure India',
+    'Tata EV news',
+    'MG EV news',
+    'Mahindra EV news',
+  ],
   alternates: {
     canonical: '/news',
+  },
+  openGraph: {
+    title: 'EV News — Latest Electric Vehicle Updates | BudgetEV',
+    description: 'Latest electric vehicle news, launches, pricing, and infrastructure updates in India.',
+    url: 'https://budgetevcar.com/news',
+    siteName: 'BudgetEV',
+    type: 'website',
+    images: [{ url: 'https://budgetevcar.com/logo/2.png', width: 512, height: 512, alt: 'BudgetEV News' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'EV News — Latest Electric Vehicle Updates | BudgetEV',
+    description: 'Latest EV news, launches, and updates in India.',
+    images: ['https://budgetevcar.com/logo/2.png'],
   },
 };
 

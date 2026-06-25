@@ -6,6 +6,16 @@ import { getAllPosts } from '@/lib/content';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
+  keywords: [
+    'best electric car India',
+    'budget electric vehicle',
+    'EV comparison India',
+    'electric car price India',
+    'EV specifications',
+    'compare electric cars',
+    'electric SUV India',
+    'cheapest EV India',
+  ],
   alternates: {
     canonical: '/',
   },

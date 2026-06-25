@@ -2,8 +2,31 @@ export const metadata = {
   title: 'EV Savings Calculator – Calculate Electric Vehicle Savings | BudgetEV',
   description:
     'Calculate how much you save by switching to an electric vehicle. Compare petrol vs EV costs by month, year, and 5 years using BudgetEV\'s EV Savings Calculator.',
+  keywords: [
+    'EV savings calculator',
+    'electric vehicle savings India',
+    'petrol vs EV cost',
+    'EV running cost comparison',
+    'electric car savings',
+    'fuel savings electric car',
+    'EV vs petrol cost India',
+  ],
   alternates: {
     canonical: 'https://budgetevcar.com/tools/ev-savings-calculator',
+  },
+  openGraph: {
+    title: 'EV Savings Calculator — BudgetEV',
+    description: 'Calculate how much you save by switching to an electric vehicle. Compare petrol vs EV costs.',
+    url: 'https://budgetevcar.com/tools/ev-savings-calculator',
+    siteName: 'BudgetEV',
+    type: 'website',
+    images: [{ url: 'https://budgetevcar.com/logo/2.png', width: 512, height: 512, alt: 'BudgetEV Savings Calculator' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'EV Savings Calculator — BudgetEV',
+    description: 'Calculate EV vs petrol savings in India.',
+    images: ['https://budgetevcar.com/logo/2.png'],
   },
 };
 

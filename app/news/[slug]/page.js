@@ -19,6 +19,13 @@ export async function generateMetadata({ params }) {
   return {
     title: `${item.frontmatter.title} — EV News BudgetEV`,
     description: item.frontmatter.description,
+    keywords: [
+      ...(item.frontmatter.tags || []),
+      item.frontmatter.category,
+      'EV news',
+      'electric vehicle news India',
+      'BudgetEV',
+    ].filter(Boolean),
     alternates: {
       canonical: `/news/${slug}`,
     },
@@ -36,6 +43,12 @@ export async function generateMetadata({ params }) {
           alt: item.frontmatter.title,
         },
       ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: item.frontmatter.title,
+      description: item.frontmatter.description?.slice(0, 200),
+      images: [item.frontmatter.image],
     },
   };
 }

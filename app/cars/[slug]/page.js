@@ -14,11 +14,51 @@ export async function generateMetadata({ params, searchParams }) {
   if (!car) {
     return { title: 'Car Not Found — BudgetEV' };
   }
+
+  const carName = car.model_name || car.detailed_name;
+  const carBrand = car.brand || '';
+  const description = car.web_search_summary || `${carName} electric vehicle — View complete specifications, battery capacity, range, pricing, and compare with other EVs in India on BudgetEV.`;
+  const carImage = car.vehicle_image || 'https://budgetevcar.com/logo/2.png';
+
   return {
-    title: `${car.model_name || car.detailed_name} — BudgetEV`,
-    description: car.web_search_summary || `View details of ${car.model_name || car.detailed_name} electric vehicle.`,
+    title: `${carName} ${car.variant_name ? `(${car.variant_name})` : ''} — Specs, Price & Range | BudgetEV`.replace(/\s+/g, ' '),
+    description,
+    keywords: [
+      carName,
+      carBrand,
+      `${carBrand} ${carName}`,
+      `${carName} price India`,
+      `${carName} specifications`,
+      `${carName} range`,
+      `${carName} battery capacity`,
+      `${carName} electric car`,
+      `${carBrand} electric car India`,
+      'electric car specs India',
+      'EV comparison',
+    ].filter(Boolean),
     alternates: {
       canonical: `/cars/${slug}`,
+    },
+    openGraph: {
+      title: `${carBrand} ${carName} — Electric Vehicle Specs & Price | BudgetEV`,
+      description,
+      type: 'website',
+      url: `https://budgetevcar.com/cars/${slug}`,
+      siteName: 'BudgetEV',
+      images: [
+        {
+          url: carImage,
+          width: 800,
+          height: 500,
+          alt: `${carBrand} ${carName} Electric Vehicle`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${carBrand} ${carName} — Specs & Price | BudgetEV`,
+      description: description.slice(0, 200),
+      images: [carImage],
     },
   };
 }
@@ -42,43 +82,75 @@ export default async function CarDetailPage({ params, searchParams }) {
 
   const localImages = getCarLocalImages(car.brand, car.model_name || car.detailed_name);
 
+  const carName = car.model_name || car.detailed_name;
+  const carBrand = car.brand || '';
+
+  // Build Product schema with real data only
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: car.model_name || car.detailed_name,
+    name: car.detailed_name || carName,
     image: car.vehicle_image,
-    description: car.web_search_summary || `View details of ${car.model_name || car.detailed_name} electric vehicle.`,
+    description: car.web_search_summary || `View details of ${carName} electric vehicle.`,
     brand: {
       '@type': 'Brand',
-      name: car.brand,
+      name: carBrand,
     },
+    category: 'Electric Vehicle',
     offers: {
       '@type': 'AggregateOffer',
       priceCurrency: 'INR',
-      offers: [
-        {
-          '@type': 'Offer',
-          url: `https://budgetevcar.com${getCarUrl(car)}`,
-        }
-      ]
+      availability: 'https://schema.org/InStock',
+      url: `https://budgetevcar.com${getCarUrl(car)}`,
     },
     additionalProperty: [
-      {
+      car.battery_capacity && {
         '@type': 'PropertyValue',
         name: 'Battery Capacity',
-        value: car.battery_capacity ? `${car.battery_capacity} kWh` : 'N/A'
+        value: `${car.battery_capacity} kWh`,
       },
-      {
+      car.body_type && {
         '@type': 'PropertyValue',
         name: 'Body Type',
-        value: car.body_type || 'N/A'
+        value: car.body_type,
       },
-      {
+      car.segment && {
         '@type': 'PropertyValue',
         name: 'Segment',
-        value: car.segment || 'N/A'
-      }
-    ]
+        value: car.segment,
+      },
+      car.variant_name && {
+        '@type': 'PropertyValue',
+        name: 'Variant',
+        value: car.variant_name,
+      },
+    ].filter(Boolean),
+  };
+
+  // BreadcrumbList schema for car pages
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://budgetevcar.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Find EV',
+        item: 'https://budgetevcar.com/find-ev',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: `${carBrand} ${carName}`,
+        item: `https://budgetevcar.com/cars/${slug}`,
+      },
+    ],
   };
 
   return (
@@ -86,6 +158,10 @@ export default async function CarDetailPage({ params, searchParams }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <CarDetailClient car={car} relatedCars={relatedCars} localImages={localImages} allCars={enrichedAllCars} />
     </>

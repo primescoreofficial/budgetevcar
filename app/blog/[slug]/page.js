@@ -20,6 +20,13 @@ export async function generateMetadata({ params }) {
   return {
     title: `${post.frontmatter.title} — BudgetEV`,
     description: post.frontmatter.description,
+    keywords: [
+      ...(post.frontmatter.tags || []),
+      post.frontmatter.category,
+      'electric vehicle',
+      'EV India',
+      'BudgetEV',
+    ].filter(Boolean),
     alternates: {
       canonical: `/blog/${slug}`,
     },
@@ -37,6 +44,12 @@ export async function generateMetadata({ params }) {
           alt: post.frontmatter.title,
         },
       ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.frontmatter.title,
+      description: post.frontmatter.description?.slice(0, 200),
+      images: [post.frontmatter.image],
     },
   };
 }
