@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, Phone, MapPin, Zap } from 'lucide-react';
+import { MapPin, Zap } from 'lucide-react';
+import FooterQueryForm from './FooterQueryForm';
 
 export default function Footer({ brands = [], bodyTypes = [] }) {
   const displayBrands = brands.length > 0
@@ -59,7 +60,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             {/* Quick Links Column */}
             <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Quick Links</h4>
-              <ul className="space-y-2.5 text-sm font-semibold">
+              <ul className="space-y-2.5 text-xs font-semibold">
                 {navLinks.map((link) => (
                   <li key={link.href}>
                     <Link
@@ -76,7 +77,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             {/* EV Categories Column */}
             <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">EV Categories</h4>
-              <ul className="space-y-2.5 text-sm font-semibold">
+              <ul className="space-y-2.5 text-xs font-semibold">
                 {displayBodyTypes.map((type) => (
                   <li key={type}>
                     <Link
@@ -93,7 +94,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             {/* News Column */}
             <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">News</h4>
-              <ul className="space-y-2.5 text-sm font-semibold">
+              <ul className="space-y-2.5 text-xs font-semibold">
                 {[
                   { href: '/news', label: 'Latest EV News' },
                   { href: '/news', label: 'Industry Updates' },
@@ -115,7 +116,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             {/* Blogs Column */}
             <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Blogs</h4>
-              <ul className="space-y-2.5 text-sm font-semibold">
+              <ul className="space-y-2.5 text-xs font-semibold">
                 {[
                   { href: '/blog/category/buying-guide', label: 'EV Buying Guides' },
                   { href: '/blog/category/analysis', label: 'EV Comparisons' },
@@ -137,7 +138,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             {/* Tools Column */}
             <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Tools</h4>
-              <ul className="space-y-2.5 text-sm font-semibold">
+              <ul className="space-y-2.5 text-xs font-semibold">
                 {[
                   { href: '/tools/ev-emi-calculator', label: 'EMI Calculator' },
                   { href: '/tools/ev-running-cost-calculator', label: 'Trip Cost Calculator' },
@@ -157,28 +158,11 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             </div>
 
             {/* Contact Column */}
-            <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
+            <div className="w-full sm:w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[220px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Contact Support</h4>
-              <ul className="space-y-3.5 text-xs sm:text-sm font-semibold">
-                <li className="flex items-start gap-2.5 text-slate-400 min-w-0">
-                  <Phone className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
-                  <a href="tel:+916350671636" className="hover:text-blue-400 transition-colors duration-200">
-                    +91 63506-71636
-                  </a>
-                </li>
-                <li className="flex items-start gap-2.5 text-slate-400 min-w-0">
-                  <Mail className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
-                  <div className="min-w-0 flex-1">
-                    <a 
-                      href="mailto:info@budgetevcar.com" 
-                      className="hover:text-blue-400 transition-colors duration-200 block"
-                      style={{ wordBreak: 'break-all' }}
-                    >
-                      info@budgetevcar.com
-                    </a>
-                  </div>
-                </li>
-              </ul>
+              <div className="pt-2">
+                <FooterQueryForm />
+              </div>
             </div>
           </div>
 
