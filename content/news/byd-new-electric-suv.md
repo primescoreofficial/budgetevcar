@@ -8,7 +8,7 @@ tags:
   - New Launch
   - SUV
 author: "budgetev-team"
-image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80"
+image: "https://imgs.search.brave.com/qiu_TuPEPouwfrO5V8wayW9sdhjZqRLFXkWHCVjrJpY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Y2FyYW5kYmlrZS5j/b20vX25leHQvaW1h/Z2U_dXJsPWh0dHBz/Oi8vaW1hZ2VzLmNh/cmFuZGJpa2UuY29t/L2Ntcy9OZXdfZ2Vu/X0JZRF9BdHRvXzNf/MWI5ZTlkYjhkOC5q/cGcmdz02NDAmcT05/MA"
 readingTime: "3 min"
 relatedEvs:
   - "byd-byd-atto-3"

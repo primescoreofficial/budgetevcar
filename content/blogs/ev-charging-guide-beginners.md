@@ -8,7 +8,7 @@ tags:
   - Beginners
   - Infrastructure
 author: "budgetev-team"
-image: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800&q=80"
+image: "https://imgs.search.brave.com/86a7uLpvQXPYOfT0ISPuJ6kj1K8GqwCLYdWc_tfWYlI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jYXJ3/b3ctdWstd3AtMy5p/bWdpeC5uZXQvS2lh/LWludHJvZHVjZXMt/c2VhbWxlc3MtRVYt/Y2hhcmdpbmctdGVj/aG5vbG9neS1QbHVn/Q2hhcmdlLTEuanBn/P2F1dG89Zm9ybWF0/JmNzPXRpbnlzcmdi/JmZpdD1jbGlwJml4/bGliPXJiLTEuMS4w/JnE9MTAmdz00NjA"
 readingTime: "5 min"
 relatedEvs:
   - "tata-motors-punch-ev"

@@ -8,7 +8,7 @@ tags:
   - Curvv EV
   - New Launch
 author: "budgetev-team"
-image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80"
+image: "https://imgs.search.brave.com/1Y0Z1-1V72vSQpj0BszMdd1abSci_DfdziLsP_eku2k/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jb250/ZW50LmNhcmxlbG8u/Y29tL3VwbG9hZHMv/TmV3c19pbWcvbmV3/LXZhcmlhbnRzLWNv/bWluZy1zb29uLndl/YnA"
 readingTime: "3 min"
 relatedEvs:
   - "tata-motors-curvv-ev"

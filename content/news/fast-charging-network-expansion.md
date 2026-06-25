@@ -8,7 +8,7 @@ tags:
   - Infrastructure
   - Network
 author: "budgetev-team"
-image: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=800&q=80"
+image: "https://imgs.search.brave.com/kP0ejPhXooyQswF5_asMxGuNmw0QeiMIuZS_MyfogWQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tbWNt/LmluL3dwLWNvbnRl/bnQvdXBsb2Fkcy8y/MDI2LzA1L0VWLUNo/YXJnaW5nLTEwMjR4/NTc0LndlYnA"
 readingTime: "3 min"
 relatedEvs:
   - "tata-motors-nexon-ev"

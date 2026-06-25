@@ -8,7 +8,7 @@ tags:
   - Windsor EV
   - Pricing
 author: "budgetev-team"
-image: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf0a3?auto=format&fit=crop&w=800&q=80"
+image: "https://imgs.search.brave.com/eI-4FGP4KdA7tEFipTIvPf8yXl4y3M0idLJ_UHAQwOs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMtY2RuLmNhcnMy/NC5jb20vcHJvZC9h/dXRvLW5ld3MyNC1j/bXMvTmV3c3Jvb20v/MjAyNS8wNS8wNi9k/ZjIyYjYxMC1jNzIw/LTRkNDctOTA1Zi0z/NmZiYTk2NDRjNmMt/bmV3LTIwMjUtbWct/d2luZHNvci1ldi1w/cm8tcHJpY2UtaW4t/aW5kaWEtbGF1bmNo/ZWQtbWcud2VicD93/PTI3NiZkcHI9MyZv/cHRpbWl6ZT1sb3cm/Zm9ybWF0PWF1dG8m/cXVhbGl0eT01MA"
 readingTime: "2 min"
 relatedEvs:
   - "mg-jsw-mg-motor--windsor-ev"

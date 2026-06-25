@@ -8,7 +8,7 @@ tags:
   - Maintenance
   - Technology
 author: "budgetev-team"
-image: "https://images.unsplash.com/photo-1548345680-f5475ea5df84?auto=format&fit=crop&w=800&q=80"
+image: "https://imgs.search.brave.com/kkQ6kp_vPVlMtrII13LRvK4fIUYLR-r0o4qBkYVJSt8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy8yMDIw/LXBvcnNjaGUtdGF5/Y2FuLTRzLTEyOS0x/NTc2MDAxMzUxLmpw/Zz9jcm9wPTAuNTMy/eHc6MC40ODl4aDsw/LjMzNXh3LDAuNDEx/eGgmcmVzaXplPTY0/MDoq"
 readingTime: "5 min"
 relatedEvs:
   - "mg-jsw-mg-motor--zs-ev"

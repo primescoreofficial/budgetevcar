@@ -8,7 +8,7 @@ tags:
   - BE 6
   - Launch
 author: "budgetev-team"
-image: "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=800&q=80"
+image: "https://imgs.search.brave.com/pX7J-J9iWevDSKgw8i0l-jY71WRv9zaSycHFT5aDCwY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMtY2RuLmNhcnMy/NC5jb20vcHJvZC9u/ZXctY2FyLWNtcy9N/YWhpbmRyYS9CRS02/RS8yMDI0LzExLzI3/LzY0MDlmOTZkLTI0/ZDItNGQzZS05MDll/LWVlNDU0OGM0ZTIw/Yy02LV8xN18ucG5n/P3c9NTU3JmRwcj0z/Jm9wdGltaXplPWxv/dyZmb3JtYXQ9YXV0/byZxdWFsaXR5PTUw"
 readingTime: "3 min"
 relatedEvs:
   - "mahindra-be-6"
