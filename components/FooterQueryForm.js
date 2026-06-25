@@ -11,8 +11,6 @@ export default function FooterQueryForm() {
 
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
 
   const validate = () => {
     const tempErrors = {};
@@ -50,57 +48,30 @@ export default function FooterQueryForm() {
         [name]: '',
       }));
     }
-    if (submitError) {
-      setSubmitError('');
-    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validate()) return;
-
-    setIsSubmitting(true);
-    setSubmitError('');
-
-    try {
-      const res = await fetch('/api/send', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+    if (validate()) {
+      setSubmitted(true);
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: '',
       });
-
-      const result = await res.json();
-
-      if (res.ok && result.success) {
-        setSubmitted(true);
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          message: '',
-        });
-        setErrors({});
-      } else {
-        setSubmitError(result.error || 'Failed to send query. Please try again.');
-      }
-    } catch (err) {
-      setSubmitError('An unexpected error occurred. Please try again later.');
-    } finally {
-      setIsSubmitting(false);
+      setErrors({});
     }
   };
 
   if (submitted) {
     return (
       <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 text-center space-y-2">
-        <p className="text-xs font-bold text-emerald-400">✅ Query Sent Successfully!</p>
+        <p className="text-xs font-bold text-emerald-400">✅ Query Submitted Successfully!</p>
         <p className="text-[11px] text-slate-400">We will get back to you soon.</p>
         <button
           onClick={() => {
             setSubmitted(false);
-            setSubmitError('');
           }}
           className="text-[10px] text-blue-400 hover:text-blue-300 font-bold transition-colors duration-200"
         >
@@ -118,13 +89,12 @@ export default function FooterQueryForm() {
           type="text"
           name="name"
           value={formData.name}
-          disabled={isSubmitting}
           onChange={handleChange}
           placeholder="Name *"
           aria-label="Name"
           className={`w-full bg-slate-900 ${
             errors.name ? 'ring-1 ring-red-500/70' : ''
-          } text-slate-100 placeholder-slate-500 px-3 py-2.5 sm:py-1.5 rounded-lg text-sm sm:text-xs font-medium focus:ring-1 focus:ring-slate-800 focus:outline-none transition disabled:opacity-50`}
+          } text-slate-100 placeholder-slate-500 px-3 py-2.5 sm:py-1.5 rounded-lg text-sm sm:text-xs font-medium focus:ring-1 focus:ring-slate-800 focus:outline-none transition`}
           aria-required="true"
         />
         {errors.name && <p className="text-[10px] text-red-400 mt-1 font-semibold">{errors.name}</p>}
@@ -136,13 +106,12 @@ export default function FooterQueryForm() {
           type="email"
           name="email"
           value={formData.email}
-          disabled={isSubmitting}
           onChange={handleChange}
           placeholder="Email *"
           aria-label="Email"
           className={`w-full bg-slate-900 ${
             errors.email ? 'ring-1 ring-red-500/70' : ''
-          } text-slate-100 placeholder-slate-500 px-3 py-2.5 sm:py-1.5 rounded-lg text-sm sm:text-xs font-medium focus:ring-1 focus:ring-slate-800 focus:outline-none transition disabled:opacity-50`}
+          } text-slate-100 placeholder-slate-500 px-3 py-2.5 sm:py-1.5 rounded-lg text-sm sm:text-xs font-medium focus:ring-1 focus:ring-slate-800 focus:outline-none transition`}
           aria-required="true"
         />
         {errors.email && <p className="text-[10px] text-red-400 mt-1 font-semibold">{errors.email}</p>}
@@ -154,28 +123,22 @@ export default function FooterQueryForm() {
           name="message"
           rows={2}
           value={formData.message}
-          disabled={isSubmitting}
           onChange={handleChange}
           placeholder="Query / Message *"
           aria-label="Query or Message"
           className={`w-full bg-slate-900 ${
             errors.message ? 'ring-1 ring-red-500/70' : ''
-          } text-slate-100 placeholder-slate-500 px-3 py-2.5 sm:py-1.5 rounded-lg text-sm sm:text-xs font-medium focus:ring-1 focus:ring-slate-800 focus:outline-none transition resize-none disabled:opacity-50`}
+          } text-slate-100 placeholder-slate-500 px-3 py-2.5 sm:py-1.5 rounded-lg text-sm sm:text-xs font-medium focus:ring-1 focus:ring-slate-800 focus:outline-none transition resize-none`}
           aria-required="true"
         />
         {errors.message && <p className="text-[10px] text-red-400 mt-1 font-semibold">{errors.message}</p>}
       </div>
 
-      {submitError && (
-        <p className="text-[10px] text-red-400 font-semibold">{submitError}</p>
-      )}
-
       <button
         type="submit"
-        disabled={isSubmitting}
-        className="w-full bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-2.5 sm:py-1.5 px-4 rounded-lg text-sm sm:text-xs transition shadow-sm disabled:opacity-50 cursor-pointer"
+        className="w-full bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-2.5 sm:py-1.5 px-4 rounded-lg text-sm sm:text-xs transition shadow-sm cursor-pointer"
       >
-        {isSubmitting ? 'Sending...' : 'Submit Query'}
+        Submit Query
       </button>
     </form>
   );
