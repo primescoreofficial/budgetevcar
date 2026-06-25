@@ -8,9 +8,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
     ? brands.slice(0, 5)
     : ['Tata', 'MG', 'Mahindra', 'BYD', 'Hyundai'];
 
-  const displayBodyTypes = bodyTypes.length > 0
-    ? bodyTypes.slice(0, 5)
-    : ['SUV', 'Hatchback', 'Sedan', 'Luxury'];
+  const displayBodyTypes = ['Hatchback', 'Micro SUV', 'Compact SUV', 'Coupe SUV', 'SUV'];
 
   const navLinks = [
     { href: '/', label: 'Home' },
