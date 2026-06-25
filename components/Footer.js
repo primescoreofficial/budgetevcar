@@ -43,7 +43,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
               </div>
             </Link>
             <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-sm">
-              India's most trusted platform for finding, comparing, and analyzing electric vehicles within your budget. Simplifying your switch to green energy.
+              {"India's"} most trusted platform for finding, comparing, and analyzing electric vehicles within your budget. Simplifying your switch to green energy.
             </p>
             {/* Social Links */}
             <div className="flex items-center gap-3.5 pt-2">
@@ -172,7 +172,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-500">
           <p>© {new Date().getFullYear()} BudgetEV. All rights reserved.</p>
           <div className="flex items-center gap-1.5">
-            <span>Made for India's EV revolution</span>
+            <span>Made for {"India's"} EV revolution</span>
             <Zap className="w-3.5 h-3.5 text-blue-500" />
           </div>
         </div>
