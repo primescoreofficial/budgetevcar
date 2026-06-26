@@ -129,36 +129,36 @@ function getCarSpecs(car) {
 function getSimilarityScore(otherCar, currentCar) {
   const currentSpecs = getCarSpecs(currentCar);
   const otherSpecs = getCarSpecs(otherCar);
-  
+
   const currentBattery = parseFloat(currentCar.battery_capacity) || 30;
   const otherBattery = parseFloat(otherCar.battery_capacity) || 30;
-  
+
   let score = 0;
-  
+
   // 1. Similar price range (highest priority)
   const priceDiff = Math.abs(currentSpecs.minPrice - otherSpecs.minPrice);
   score += Math.max(0, 100 - priceDiff * 8);
-  
+
   // 2. Similar body type
-  if (currentCar.body_type && otherCar.body_type && 
-      currentCar.body_type.toLowerCase() === otherCar.body_type.toLowerCase()) {
+  if (currentCar.body_type && otherCar.body_type &&
+    currentCar.body_type.toLowerCase() === otherCar.body_type.toLowerCase()) {
     score += 40;
   }
-  
+
   // 3. Similar battery size
   const batteryDiff = Math.abs(currentBattery - otherBattery);
   score += Math.max(0, 30 - batteryDiff * 1.5);
-  
+
   // 4. Similar driving range
   const rangeDiff = Math.abs(currentSpecs.rangeKm - otherSpecs.rangeKm);
   score += Math.max(0, 30 - rangeDiff * 0.2);
-  
+
   // 5. Similar segment
-  if (currentCar.segment && otherCar.segment && 
-      currentCar.segment.toLowerCase() === otherCar.segment.toLowerCase()) {
+  if (currentCar.segment && otherCar.segment &&
+    currentCar.segment.toLowerCase() === otherCar.segment.toLowerCase()) {
     score += 15;
   }
-  
+
   return score;
 }
 
@@ -344,9 +344,8 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                             setDirection(idx > currentIndex ? 1 : -1);
                             setCurrentIndex(idx);
                           }}
-                          className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                            idx === currentIndex ? 'bg-white w-4' : 'bg-white/50 hover:bg-white/80'
-                          }`}
+                          className={`w-2 h-2 rounded-full transition-all duration-200 ${idx === currentIndex ? 'bg-white w-4' : 'bg-white/50 hover:bg-white/80'
+                            }`}
                           aria-label={`Go to slide ${idx + 1}`}
                         />
                       ))}
@@ -357,7 +356,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
 
               {/* Dynamic Categories Tab Switcher */}
               <div className="mt-5 flex justify-center sm:justify-start">
-                <div className=" p-1 rounded-full flex gap-1 w-full max-w-[320px] ">
+                <div className=" p-1 rounded-full flex gap-2 w-full  ">
                   {Object.keys(categories).map((tabKey) => {
                     const cat = categories[tabKey];
                     const hasImages = cat.images && cat.images.length > 0;
@@ -371,13 +370,12 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                         aria-selected={isActive}
                         aria-disabled={!hasImages ? "true" : "false"}
                         role="tab"
-                        className={`relative flex-1 py-2.5 px-4 rounded-xl font-extrabold text-xs tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40 select-none ${
-                          isActive
+                        className={`relative flex-1 py-2.5 px-4 rounded-xl font-extrabold text-xs tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40 select-none ${isActive
                             ? 'bg-[#0249ad] text-white shadow-md shadow-blue-500/10 scale-[1.02]'
                             : !hasImages
-                            ? 'opacity-40 cursor-not-allowed text-slate-400'
-                            : 'bg-white border-2 border-[#0249ad] text-[#0249ad] hover:text-[#0249ad] hover:bg-slate-50 hover:scale-[1.01] active:scale-[0.98]'
-                        }`}
+                              ? 'opacity-40 cursor-not-allowed text-slate-400'
+                              : 'bg-white border-2 border-[#0249ad] text-[#0249ad] hover:text-[#0249ad] hover:bg-slate-50 hover:scale-[1.01] active:scale-[0.98]'
+                          }`}
                       >
                         {isActive && (
                           <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
