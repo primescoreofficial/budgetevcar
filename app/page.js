@@ -7,14 +7,14 @@ export const dynamic = 'force-dynamic';
 
 export const metadata = {
   keywords: [
-    'best electric car India',
-    'budget electric vehicle',
-    'EV comparison India',
-    'electric car price India',
-    'EV specifications',
-    'compare electric cars',
-    'electric SUV India',
-    'cheapest EV India',
+    'best budget electric car India 2026',
+    'cheapest electric car under 10 lakh',
+    'budget EV car comparison India',
+    'electric car price under 15 lakh India',
+    'affordable EV specifications India',
+    'compare budget electric cars India',
+    'budget electric SUV India',
+    'cheapest EV with best range India',
   ],
   alternates: {
     canonical: '/',
@@ -34,7 +34,7 @@ export default async function HomePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'BudgetEV',
+    name: 'Budget EV Car',
     url: 'https://budgetevcar.com',
     potentialAction: {
       '@type': 'SearchAction',
