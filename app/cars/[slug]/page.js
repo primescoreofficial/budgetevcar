@@ -1,7 +1,7 @@
 import { getCarBySlug, getAllCars, getCarUrl } from '@/lib/queries';
 import CarDetailClient from './CarDetailClient';
 import { notFound } from 'next/navigation';
-import { getCarLocalImages, enrichCarWithLocalImage, enrichCarsWithLocalImages } from '@/lib/imageResolver';
+import { getCarLocalImages, enrichCarWithLocalImage, enrichCarsWithLocalImages, getCarImagesCategorized } from '@/lib/imageResolver';
 
 export const dynamic = 'force-dynamic';
 
@@ -153,6 +153,8 @@ export default async function CarDetailPage({ params, searchParams }) {
     ],
   };
 
+  const categorizedImages = getCarImagesCategorized(car.brand, car.model_name || car.detailed_name);
+
   return (
     <>
       <script
@@ -163,7 +165,13 @@ export default async function CarDetailPage({ params, searchParams }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <CarDetailClient car={car} relatedCars={relatedCars} localImages={localImages} allCars={enrichedAllCars} />
+      <CarDetailClient
+        car={car}
+        relatedCars={relatedCars}
+        localImages={localImages}
+        allCars={enrichedAllCars}
+        categorizedImages={categorizedImages}
+      />
     </>
   );
 }

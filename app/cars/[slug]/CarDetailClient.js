@@ -8,6 +8,8 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { getCarUrl } from '@/lib/queries';
 
+const MotionImage = motion(Image);
+
 // -------------------- SPEC / PRICE MAP HELPER --------------------
 function getCarSpecs(car) {
   if (!car) return { minPrice: 0, maxPrice: 0, rangeKm: 0, chargeTime: '', chargeMinutes: 0 };
@@ -160,7 +162,7 @@ function getSimilarityScore(otherCar, currentCar) {
   return score;
 }
 
-export default function CarDetailClient({ car, relatedCars, localImages = [], allCars = [] }) {
+export default function CarDetailClient({ car, relatedCars, localImages = [], allCars = [], categorizedImages }) {
 
   // Get similar electric vehicles
   const currentModel = (car.model_name || '').toLowerCase();
@@ -182,12 +184,36 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
     }, [])
     .slice(0, 4); // Keep exactly 4 recommended EVs
 
-  const images = localImages && localImages.length > 0
-    ? localImages
-    : [car.vehicle_image || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=400&q=80'];
+  const categories = categorizedImages || {
+    exterior: {
+      label: 'Exterior',
+      images: localImages && localImages.length > 0
+        ? localImages
+        : [car.vehicle_image || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=400&q=80']
+    },
+    interior: {
+      label: 'Interior',
+      images: []
+    }
+  };
+
+  const [activeTab, setActiveTab] = useState('exterior');
+  const activeImages = categories[activeTab]?.images || [];
+  const images = activeImages.length > 0
+    ? activeImages
+    : (categories.exterior?.images || [car.vehicle_image || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=400&q=80']);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+
+  const handleTabChange = (tabKey) => {
+    const tabImages = categories[tabKey]?.images || [];
+    if (tabImages.length === 0) return;
+    if (currentIndex >= tabImages.length) {
+      setCurrentIndex(0);
+    }
+    setActiveTab(tabKey);
+  };
 
   const slideVariants = {
     enter: (dir) => ({
@@ -246,26 +272,40 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
             <div className="lg:col-span-7">
               <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm relative group">
                 <div className="w-full h-[240px] sm:h-[400px] bg-slate-50 relative flex items-center justify-center overflow-hidden touch-pan-y">
-                  <AnimatePresence initial={false} custom={direction}>
-                    <motion.img
-                      key={currentIndex}
-                      src={images[currentIndex]}
-                      alt={`${car.model_name || car.detailed_name} - View ${currentIndex + 1}`}
-                      custom={direction}
-                      variants={slideVariants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{
-                        x: { type: "spring", stiffness: 300, damping: 30 },
-                        opacity: { duration: 0.2 }
-                      }}
-                      drag="x"
-                      dragConstraints={{ left: 0, right: 0 }}
-                      dragElastic={1}
-                      onDragEnd={handleDragEnd}
-                      className="absolute w-full h-full object-cover cursor-grab active:cursor-grabbing select-none"
-                    />
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeTab}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
+                      className="absolute inset-0 w-full h-full"
+                    >
+                      <AnimatePresence initial={false} custom={direction}>
+                        <MotionImage
+                          key={currentIndex}
+                          src={images[currentIndex]}
+                          alt={`${car.model_name || car.detailed_name} - View ${currentIndex + 1}`}
+                          custom={direction}
+                          variants={slideVariants}
+                          initial="enter"
+                          animate="center"
+                          exit="exit"
+                          transition={{
+                            x: { type: "spring", stiffness: 300, damping: 30 },
+                            opacity: { duration: 0.2 }
+                          }}
+                          drag="x"
+                          dragConstraints={{ left: 0, right: 0 }}
+                          dragElastic={1}
+                          onDragEnd={handleDragEnd}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 800px"
+                          priority={currentIndex === 0}
+                          className="absolute w-full h-full object-cover cursor-grab active:cursor-grabbing select-none"
+                        />
+                      </AnimatePresence>
+                    </motion.div>
                   </AnimatePresence>
 
                   {/* Left Arrow Button */}
@@ -312,6 +352,42 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                       ))}
                     </div>
                   )}
+                </div>
+              </div>
+
+              {/* Dynamic Categories Tab Switcher */}
+              <div className="mt-5 flex justify-center sm:justify-start">
+                <div className=" p-1 rounded-full flex gap-1 w-full max-w-[320px] ">
+                  {Object.keys(categories).map((tabKey) => {
+                    const cat = categories[tabKey];
+                    const hasImages = cat.images && cat.images.length > 0;
+                    const isActive = activeTab === tabKey;
+
+                    return (
+                      <button
+                        key={tabKey}
+                        onClick={() => handleTabChange(tabKey)}
+                        disabled={!hasImages}
+                        aria-selected={isActive}
+                        aria-disabled={!hasImages ? "true" : "false"}
+                        role="tab"
+                        className={`relative flex-1 py-2.5 px-4 rounded-xl font-extrabold text-xs tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40 select-none ${
+                          isActive
+                            ? 'bg-[#0249ad] text-white shadow-md shadow-blue-500/10 scale-[1.02]'
+                            : !hasImages
+                            ? 'opacity-40 cursor-not-allowed text-slate-400'
+                            : 'bg-white border-2 border-[#0249ad] text-[#0249ad] hover:text-[#0249ad] hover:bg-slate-50 hover:scale-[1.01] active:scale-[0.98]'
+                        }`}
+                      >
+                        {isActive && (
+                          <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
+                        <span>{cat.label}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
