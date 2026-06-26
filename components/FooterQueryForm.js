@@ -11,6 +11,7 @@ export default function FooterQueryForm() {
 
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validate = () => {
     const tempErrors = {};
@@ -48,11 +49,37 @@ export default function FooterQueryForm() {
         [name]: '',
       }));
     }
+    if (errors.submit) {
+      setErrors((prev) => ({
+        ...prev,
+        submit: '',
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          query: formData.message,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit query.');
+      }
+
       setSubmitted(true);
       // Reset form
       setFormData({
@@ -61,8 +88,16 @@ export default function FooterQueryForm() {
         message: '',
       });
       setErrors({});
+    } catch (error) {
+      setErrors((prev) => ({
+        ...prev,
+        submit: error.message || 'An error occurred. Please try again.',
+      }));
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
 
   if (submitted) {
     return (
@@ -134,11 +169,18 @@ export default function FooterQueryForm() {
         {errors.message && <p className="text-[10px] text-red-400 mt-1 font-semibold">{errors.message}</p>}
       </div>
 
+      {errors.submit && (
+        <p className="text-[10px] text-red-400 mt-1 font-semibold text-center">{errors.submit}</p>
+      )}
+
       <button
         type="submit"
-        className="w-full bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-2.5 sm:py-1.5 px-4 rounded-lg text-sm sm:text-xs transition shadow-sm cursor-pointer"
+        disabled={isSubmitting}
+        className={`w-full bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold py-2.5 sm:py-1.5 px-4 rounded-lg text-sm sm:text-xs transition shadow-sm ${
+          isSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+        }`}
       >
-        Submit Query
+        {isSubmitting ? 'Submitting...' : 'Submit Query'}
       </button>
     </form>
   );
