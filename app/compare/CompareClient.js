@@ -170,22 +170,30 @@ export default function CompareClient({ cars }) {
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li>
-                <strong>Compare EV Prices:</strong> Look beyond the ex-showroom cost. Factor in state-level subsidies, road tax exemptions, and registration discounts, which vary significantly across regions.
+                <strong>Compare EV Prices:</strong> Look beyond the ex-showroom cost. Factor in state-level subsidies, road tax exemptions, and registration discounts, which vary significantly across regions. Make sure to compute insurance costs and local registration fees.
               </li>
               <li>
-                <strong>Compare EV Range:</strong> Understand the difference between certified range (like MIDC) and real-world range. Select a battery capacity that covers your daily commute comfortably with a 20-30% safety margin.
+                <strong>Compare EV Range:</strong> Understand the difference between certified range (like MIDC) and real-world range. Select a battery capacity that covers your daily commute comfortably with a 20-30% safety margin to account for traffic, weather, and accessories.
               </li>
               <li>
-                <strong>Battery Capacity and Lifespan:</strong> Compare chemistry types like LFP (Lithium Iron Phosphate) and NMC (Nickel Manganese Cobalt) along with their thermal management systems to ensure durability.
+                <strong>Battery Capacity and Lifespan:</strong> Compare chemistry types like LFP (Lithium Iron Phosphate) and NMC (Nickel Manganese Cobalt) along with their thermal management systems. LFP is highly durable, whereas NMC is lighter and denser, providing better performance.
               </li>
               <li>
-                <strong>Charging Speeds:</strong> Check the maximum DC charging rate accepted by each vehicle. A car that supports faster charging saves valuable time on long-distance highway road trips.
+                <strong>Charging Speeds:</strong> Check the maximum DC charging rate accepted by each vehicle. A car that supports faster charging (e.g. 50 kW or more) saves valuable time on long-distance highway road trips.
               </li>
             </ul>
 
+            <h3 className="text-lg font-bold text-slate-805 tracking-tight mt-6">Popular EV Matchups and Buying Guidelines</h3>
+            <p>
+              Many buyers evaluate vehicles like the **Tata Punch EV** vs the **Tata Nexon EV** to decide if the larger model justifies the price gap. Similarly, comparisons like the **MG Comet EV** vs **Tata Tiago EV** help city drivers choose between ultra-compact footprint and traditional 5-door utility. More premium shoppers look at the **MG Windsor EV** vs **BYD Atto 3** to find the sweet spot of passenger space, luxury features, and battery range.
+            </p>
+            <p>
+              Our tool compares all electrical, mechanical, and safety dimensions so you can find which features match your priorities, whether that is crash test ratings, ADAS capability, or boot capacity.
+            </p>
+
             <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">How to Choose the Right EV for Your Lifestyle</h3>
             <p>
-              Your driving habits dictate the perfect EV specifications. For daily city runs and tight parking spots, compact hatchbacks with moderate battery packs offer high efficiency. For regular highway travel or family trips, prioritising aerodynamic SUVs with high DC fast-charging support is key. Before finalizing your choice, use our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV running cost calculator</Link> to estimate fuel savings, and plan your budgets using our <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">EV EMI calculator</Link>.
+              Your driving habits dictate the perfect EV specifications. For daily city runs and tight parking spots, compact hatchbacks with moderate battery packs offer high efficiency. For regular highway travel or family trips, prioritising aerodynamic SUVs with high DC fast-charging support is key. Before finalizing your choice, use our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV running cost calculator</Link> to estimate fuel savings, evaluate your charging schedules with our <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">EV charging time calculator</Link>, and plan your budgets using our <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">EV EMI calculator</Link>.
             </p>
           </div>
         </div>

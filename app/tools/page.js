@@ -103,6 +103,40 @@ export default function ToolsLandingPage() {
               </div>
             ))}
           </div>
+
+          {/* SEO Informational Content Section */}
+          <div className="mt-16 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
+            <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-4">Interactive EV Utilities & Financial Calculators</h2>
+            <div className="text-slate-650 text-sm font-medium leading-relaxed space-y-6">
+              <p>
+                Switching to an electric vehicle involves analyzing new financial paradigms, charging schedules, and energy metrics. Our suite of free <Link href="/tools" className="text-[#0249ad] font-bold hover:underline">EV calculators</Link> is engineered to help Indian car buyers transition from internal combustion engine (ICE) cars to electric vehicles with confidence. By planning your loan EMI, trip budgets, and home charging configurations, you ensure complete clarity before stepping into a dealership.
+              </p>
+              
+              <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">How Our Specialized EV Tools Help You Make Smart Decisions</h3>
+              <p>
+                Each utility addresses a specific concern that car buyers face when selecting their vehicle:
+              </p>
+              <ul className="list-disc pl-5 space-y-2">
+                <li>
+                  <strong>EV EMI Calculator:</strong> Auto loans for electric cars often have different parameters, and many banks offer lower "green car loan" interest rates. Use our <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">EV EMI calculator</Link> to estimate monthly payments, compute total accumulated interest, and configure terms to fit your budget.
+                </li>
+                <li>
+                  <strong>EV Savings Calculator:</strong> Estimate your potential savings on energy, fuel, and routine services compared to petrol or diesel. Calculate monthly, annual, and 5-year accumulations using our specialized <Link href="/calculator" className="text-[#0249ad] font-bold hover:underline">EV savings calculator</Link>.
+                </li>
+                <li>
+                  <strong>EV Trip Cost Calculator:</strong> Highway journeys require mapping DC fast chargers and estimating electrical consumption. Check out our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV running cost calculator</Link> to budget trip costs and compare them with standard fuel costs.
+                </li>
+                <li>
+                  <strong>EV Charging Time Calculator:</strong> Compute the exact duration needed to charge your battery pack using our <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">EV charging time calculator</Link>. Model scenarios for standard home AC sockets (15A, 3.3 kW, 7.2 kW) and public DC fast chargers (30 kW, 50 kW, 60 kW, 120 kW).
+                </li>
+              </ul>
+              
+              <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Maximizing Value from Your First Electric Car</h3>
+              <p>
+                Using these tools collectively lets you draft a comprehensive ownership budget. For instance, you can use the EMI calculator to set your target purchase price, check the savings calculator to see how quickly you cover that initial price premium, and utilize the charging time calculator to plan your weekly charging routine. Discover and filter all available options in our <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">electric car finder</Link> and make side-by-side spec comparisons on our <Link href="/compare" className="text-[#0249ad] font-bold hover:underline">compare EVs</Link> portal.
+              </p>
+            </div>
+          </div>
         </main>
       </div>
 

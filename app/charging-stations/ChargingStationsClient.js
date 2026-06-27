@@ -547,19 +547,35 @@ export default function ChargingStationsClient() {
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li>
-                <strong>AC Chargers (Slow/Moderate):</strong> Typically rated from 3.3 kW to 22 kW, AC chargers are common for residential basements, office parking, and shopping malls. They are best suited for vehicles parked for several hours or overnight.
+                <strong>AC Chargers (Slow/Moderate):</strong> Typically rated from 3.3 kW to 22 kW, AC chargers are common for residential basements, office parking, and shopping malls. They are best suited for vehicles parked for several hours or overnight. Connectors include Type 2 plugs, which are standard for most Indian EVs.
               </li>
               <li>
-                <strong>DC Fast Chargers (High Speed):</strong> Rated from 30 kW up to 150 kW and beyond. A DC <Link href="/charging-stations" className="text-[#0249ad] font-bold hover:underline">fast charging station</Link> feeds electrical current directly to your battery pack, typically replenishment from 10% to 80% in under an hour.
+                <strong>DC Fast Chargers (High Speed):</strong> Rated from 30 kW up to 150 kW and beyond. A DC <Link href="/charging-stations" className="text-[#0249ad] font-bold hover:underline">fast charging station</Link> feeds electrical current directly to your battery pack, typically replenishing from 10% to 80% in under an hour. CCS2 (Combined Charging System 2) is the standard high-power connector format.
+              </li>
+            </ul>
+
+            <h3 className="text-lg font-bold text-slate-805 tracking-tight mt-6">Major Charging Networks (CPOs) in India</h3>
+            <p>
+              The Indian charging space includes several key networks that offer robust coverage:
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                <strong>Tata Power EZ Charge:</strong> India's largest public charging network with thousands of points across cities and major national highways.
               </li>
               <li>
-                <strong>Public Networks:</strong> Prominent charge point operators (CPOs) across India are building highway corridors, enabling seamless long-distance journeys between major cities.
+                <strong>Jio-bp pulse:</strong> Joint venture providing high-speed DC charging stations at fuel retail outlets and standalone commercial centers.
+              </li>
+              <li>
+                <strong>Ather Grid:</strong> Extensive fast-charging network for two-wheelers, expanding to support passenger car networks in urban clusters.
+              </li>
+              <li>
+                <strong>Zeon Charging & Statiq:</strong> Key independent operators specializing in high-uptime highway charging corridors, particularly across Southern and Northern highway links.
               </li>
             </ul>
 
             <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">How to Optimize Highway Travels & Charging Routines</h3>
             <p>
-              To ensure hassle-free travel, verify that your route has multiple active charging points. Before heading out, you can search for "charging stations near me" or utilize our dynamic map to view available sockets. You can calculate battery charging durations beforehand using our <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">EV charging time calculator</Link> to spend less time waiting at stations, and check out our <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">find EV directory</Link> to choose vehicles with maximum highway range capacity.
+              To ensure hassle-free travel, verify that your route has multiple active charging points. Before heading out, you can search for "charging stations near me" or utilize our dynamic map to view available sockets. You can calculate battery charging durations beforehand using our <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">EV charging time calculator</Link> to spend less time waiting at stations, check running costs with our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV running cost calculator</Link>, and check out our <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">find EV directory</Link> to choose vehicles with maximum highway range capacity.
             </p>
           </div>
         </div>

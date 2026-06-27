@@ -382,6 +382,43 @@ export default function SavingsCalculator() {
                     </div>
                 </div>
 
+                {/* SEO Informational Content Section */}
+                <div className="mt-16 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
+                    <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-4">How Much Can You Save by Switching to an Electric Vehicle?</h2>
+                    <div className="text-slate-650 text-sm font-medium leading-relaxed space-y-6">
+                        <p>
+                            With rising petrol and diesel prices in India, fuel expense has become a major recurring cost for vehicle owners. Swapping traditional internal combustion engine (ICE) cars for electric passenger vehicles offers a substantial financial benefit. Utilizing our interactive <Link href="/calculator" className="text-[#0249ad] font-bold hover:underline">EV savings calculator</Link> allows you to model these savings over time based on your average monthly commute, local electricity tariffs, and typical fuel prices.
+                        </p>
+                        
+                        <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Calculating Your Monthly running cost: EV vs Petrol</h3>
+                        <p>
+                            The core driver of EV savings lies in running efficiency. Petrol-powered hatchbacks and compact SUVs generally achieve a fuel economy of 12 to 18 km per liter. At a petrol price of ₹100 per liter, this translates to a running expense of ₹5.5 to ₹8.3 per kilometer. 
+                        </p>
+                        <p>
+                            In contrast, an electric vehicle like the **Tata Punch EV** or **MG Windsor EV** consumes approximately 1 unit (kWh) of electricity to cover 7 to 9 kilometers. Assuming an average residential electricity tariff of ₹7 to ₹9 per unit, the cost to drive an EV is only ₹0.8 to ₹1.3 per kilometer. This represents an immediate **80-85% reduction** in energy outgoings.
+                        </p>
+
+                        <h3 className="text-lg font-bold text-slate-805 tracking-tight mt-6">Factors That Accelerate Your Break-Even Period</h3>
+                        <p>
+                            While electric cars often have a higher upfront purchase price compared to their petrol equivalents, this premium is offset by:
+                        </p>
+                        <ul className="list-disc pl-5 space-y-2">
+                            <li>
+                                <strong>Reduced Routine Service Costs:</strong> EVs do not require engine oil changes, spark plug replacements, air filter swaps, or exhaust maintenance.
+                            </li>
+                            <li>
+                                <strong>Government Incentives:</strong> Subsidies under state EV policies, exemption from road tax, and reduced registration fees significantly lower on-road pricing.
+                            </li>
+                            <li>
+                                <strong>preferential Green Loans:</strong> Banks offer lower interest rates for EV loans, saving you money over your repayment term. Compute this with our <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">EV EMI calculator</Link>.
+                            </li>
+                        </ul>
+                        <p>
+                            Verify charging speed options using our <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">EV charging time calculator</Link> and find matching models in our comprehensive <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">find EV directory</Link>.
+                        </p>
+                    </div>
+                </div>
+
                 {/* Related Tools Links */}
                 <div className="mt-16 pt-8 border-t border-slate-200">
                     <h2 className="text-lg font-black text-slate-900 uppercase tracking-wider mb-6">Explore More EV Tools</h2>

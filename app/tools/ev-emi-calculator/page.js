@@ -439,7 +439,7 @@ function CalculatorContent() {
 
         {/* SEO Informational Content Section */}
         <div className="mt-12 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
-          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-4">Understanding Electric Vehicle Financing</h2>
+          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-4">Understanding Electric Vehicle Financing & Green Loans in India</h2>
           <div className="text-slate-600 text-sm font-medium leading-relaxed space-y-6">
             <p>
               Purchasing an electric vehicle is an exciting step toward sustainable living, but understanding how to finance this investment is equally critical. Utilizing a dedicated <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">EV EMI calculator</Link> allows you to forecast monthly outgoings and build a healthy repayment schedule. When exploring options, a reliable <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">electric car loan calculator</Link> helps simplify complicated interest rate components.
@@ -461,9 +461,30 @@ function CalculatorContent() {
               </li>
             </ul>
 
+            <h3 className="text-lg font-bold text-slate-805 tracking-tight mt-6">Green Car Loans vs Regular Car Loans</h3>
+            <p>
+              Major Indian banks, including **State Bank of India (SBI)**, **HDFC Bank**, **ICICI Bank**, and **Axis Bank**, offer specialized **Green Car Loan** schemes. These initiatives typically provide:
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                Preferential interest rates that are 10-25 basis points (0.1% to 0.25%) lower than standard auto loans.
+              </li>
+              <li>
+                Longer repayment tenures of up to 8 years in some cases to ease the monthly payment burden.
+              </li>
+              <li>
+                Reduced or waived processing fees to incentivize environment-friendly transportation.
+              </li>
+            </ul>
+
+            <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Tax Benefits Under Section 80EEB</h3>
+            <p>
+              Under **Section 80EEB** of the Income Tax Act, individual taxpayers can claim a deduction of up to **₹1.5 Lakh** per year on the interest paid for an electric vehicle loan. This benefit is designed to lower the net cost of ownership significantly over the loan tenure. To qualify, the loan must be sanctioned by a financial institution or non-banking financial company (NBFC) within the government-stipulated window.
+            </p>
+
             <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Navigating Electric Vehicle Finance Options</h3>
             <p>
-              Securing optimized <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">electric vehicle finance</Link> requires shopping around for lenders who offer green auto loans. In addition to special interest schemes, check if you qualify for tax benefits under Section 80EEB of the Income Tax Act (where applicable), which allows deductions on interest paid. Before making a final commitment, evaluate long-term charging costs on our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV trip cost calculator</Link> and compare similar vehicles on our <Link href="/compare" className="text-[#0249ad] font-bold hover:underline">compare EVs</Link> portal to ensure complete clarity.
+              Securing optimized <Link href="/tools/ev-emi-calculator" className="text-[#0249ad] font-bold hover:underline">electric vehicle finance</Link> requires shopping around for lenders who offer green auto loans. In addition to special interest schemes, check if you qualify for tax benefits under Section 80EEB of the Income Tax Act (where applicable), which allows deductions on interest paid. Before making a final commitment, evaluate long-term charging costs on our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV trip cost calculator</Link>, compute potential fuel savings on our <Link href="/calculator" className="text-[#0249ad] font-bold hover:underline">EV savings calculator</Link>, and compare similar vehicles on our <Link href="/compare" className="text-[#0249ad] font-bold hover:underline">compare EVs</Link> portal to ensure complete clarity.
             </p>
           </div>
         </div>

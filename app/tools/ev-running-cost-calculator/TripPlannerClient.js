@@ -1170,13 +1170,34 @@ export default function TripPlannerClient({ cars }) {
 
         {/* Informational block and FAQs */}
         <div className="mt-12 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm">
-          <h2 className="text-xl font-extrabold text-slate-900 tracking-tight mb-4">Optimizing Highway Routes for Electric Cars</h2>
-          <div className="text-slate-600 text-sm font-medium leading-relaxed space-y-4">
+          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-4">Optimizing Highway Routes & Trip Costs for Electric Cars</h2>
+          <div className="text-slate-600 text-sm font-medium leading-relaxed space-y-6">
             <p>
               Navigating long distances in an electric vehicle (EV) is highly practical, provided you plan routes to account for charging stops, battery degradation factors, and local power tariffs. Using home-charging options yields the most cost-effective rates, whereas utilizing public fast-charging terminals increases the rate per unit. Take advantage of our interactive tools to verify details beforehand.
             </p>
             <p>
-              By comparing your planned EV travel expenses with petrol vehicles side-by-side, you can observe direct direct savings of up to 70-80% on fuel alone, showing that upgrading to green energy is financially wise.
+              By comparing your planned EV travel expenses with petrol vehicles side-by-side, you can observe direct savings of up to 70-80% on fuel alone, showing that upgrading to green energy is financially wise.
+            </p>
+
+            <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Factors That Impact EV Highway Range</h3>
+            <p>
+              Planning a road trip requires keeping a few key variables in mind that do not usually affect city driving:
+            </p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li>
+                <strong>Aerodynamic Drag (Speed):</strong> Driving at higher speeds (above 80-90 km/h) increases wind resistance significantly, which drains the battery faster than city stop-and-go driving.
+              </li>
+              <li>
+                <strong>Battery Safety Buffer (10-80% Rule):</strong> For fast and efficient travel, plan stops to keep your battery between 10% and 80%. Charging slows down dramatically after 80% to protect the battery.
+              </li>
+              <li>
+                <strong>Auxiliary Power Consumption:</strong> Running heavy air conditioning in hot climates adds constant draw on the battery pack, reducing overall range by 5-10%.
+              </li>
+            </ul>
+
+            <h3 className="text-lg font-bold text-slate-805 tracking-tight mt-6">Calculate and Compare Your Trip Costs</h3>
+            <p>
+              Before embarking on a highway trip, use our tools to calculate expected charging stops and compare trip costs. For instance, you can use our <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">EV charging time calculator</Link> to estimate how long you will spend at each charger, verify savings on our <Link href="/calculator" className="text-[#0249ad] font-bold hover:underline">EV savings calculator</Link>, and locate public charging plugs using our <Link href="/charging-stations" className="text-[#0249ad] font-bold hover:underline">EV charging station map</Link>.
             </p>
           </div>
         </div>

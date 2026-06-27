@@ -492,19 +492,27 @@ function ChargingCalculatorContent() {
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li>
-                <strong>Battery Capacity (Size):</strong> Larger battery packs store more kilowatt-hours (kWh) of electricity, which naturally takes longer to fill than smaller commuter packs.
+                <strong>Battery Capacity (Size):</strong> Larger battery packs store more kilowatt-hours (kWh) of electricity, which naturally takes longer to fill than smaller commuter packs. For example, a 19 kWh pack in an MG Comet charges much quicker than a 72 kWh pack in a BYD Seal.
               </li>
               <li>
-                <strong>Charger Output Power:</strong> AC home charging (3.3 kW to 11 kW) is best for overnight charging, whereas public DC fast chargers (30 kW to 150+ kW) replenish capacity in minutes.
+                <strong>Charger Output Power:</strong> AC home charging (3.3 kW to 7.2 kW or 11 kW) is best for overnight charging, whereas public DC fast chargers (30 kW, 50 kW, 60 kW, up to 150+ kW) replenish capacity in minutes.
               </li>
               <li>
-                <strong>The 80% Charging Curve Crossover:</strong> Charging speed drops off sharply after reaching 80% capacity to protect battery cell longevity and prevent overheating.
+                <strong>Onboard Charger Limits:</strong> Even if you plug into a 22 kW AC charger, if your vehicle's onboard AC charger is capped at 7.2 kW, the charging speed will be limited to 7.2 kW.
+              </li>
+              <li>
+                <strong>The 80% Charging Curve Crossover:</strong> Charging speed drops off sharply after reaching 80% capacity. This slowdown is managed by the car's Battery Management System (BMS) to protect battery cell longevity and prevent overheating.
               </li>
             </ul>
 
+            <h3 className="text-lg font-bold text-slate-805 tracking-tight mt-6">Home Charging vs Public Fast Charging Systems</h3>
+            <p>
+              Most EV owners do 80-90% of their charging at home using standard Alternating Current (AC) electricity. Home charging setups typically leverage either standard 15A wall outlets (3.3 kW charging rate) or dedicated wallbox chargers (7.2 kW to 11 kW rate). On the other hand, public highway stations leverage Direct Current (DC) fast-charging technology. DC chargers bypass the car's onboard charger to pump energy directly into the battery pack, providing rapid turnaround times.
+            </p>
+
             <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Estimating Your EV Charging Duration and Routine</h3>
             <p>
-              By structuring your charging sessions between 20% and 80%, you maximize battery health and spend less time waiting. Before hitting the road, use our interactive <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">electric vehicle charging time</Link> estimator to map out your stops, check our live <Link href="/charging-stations" className="text-[#0249ad] font-bold hover:underline">EV charger map</Link> to locate stations along your route, and check our <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">find EV directory</Link> to analyze range options side-by-side.
+              By structuring your charging sessions between 20% and 80%, you maximize battery health and spend less time waiting. Before hitting the road, use our interactive <Link href="/tools/ev-charging-time-calculator" className="text-[#0249ad] font-bold hover:underline">electric vehicle charging time</Link> estimator to map out your stops, check our live <Link href="/charging-stations" className="text-[#0249ad] font-bold hover:underline">EV charger map</Link> to locate stations along your route, estimate costs with our <Link href="/tools/ev-running-cost-calculator" className="text-[#0249ad] font-bold hover:underline">EV trip cost calculator</Link>, and check our <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">find EV directory</Link> to analyze range options side-by-side.
             </p>
           </div>
         </div>
