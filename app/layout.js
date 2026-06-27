@@ -19,6 +19,17 @@ export const metadata = {
     "electric car vs petrol cost India",
     "affordable electric vehicle India",
     "upcoming budget electric cars 2026",
+    "Tata electric car price",
+    "MG electric car India",
+    "Mahindra electric SUV",
+    "BYD electric car India",
+    "Hyundai electric car India",
+    "Kia electric car India",
+    "electric car battery life India",
+    "EV subsidy India 2026",
+    "electric car range comparison",
+    "best electric car for city driving India",
+    "electric car maintenance cost India",
   ],
   metadataBase: new URL('https://budgetevcar.com'),
   robots: {
@@ -27,7 +38,15 @@ export const metadata = {
     'max-image-preview': 'large',
     'max-snippet': -1,
     'max-video-preview': -1,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
+  category: 'automotive',
   openGraph: {
     title: 'Budget EV Car India — Compare Prices, Range & Save Lakhs on Your First Electric Car',
     description: "India's #1 platform to find the best budget electric car under ₹10-15 Lakh. Compare range, price, specs & calculate real savings vs petrol. 50+ EVs compared!",
@@ -50,6 +69,9 @@ export const metadata = {
     description: 'Compare range, specs, pricing & calculate fuel savings for every budget electric car in India. Free tools: EMI Calculator, Savings Calculator & more.',
     images: ['https://budgetevcar.com/logo/2.png'],
   },
+  alternates: {
+    canonical: 'https://budgetevcar.com',
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -57,14 +79,89 @@ export default function RootLayout({ children }) {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Budget EV Car',
+    alternateName: 'BudgetEV',
     url: 'https://budgetevcar.com',
     logo: 'https://budgetevcar.com/logo/2.png',
     description: "India's #1 platform to find the best budget electric car. Compare range, price, specs & calculate real savings vs petrol for every affordable EV in India.",
+    foundingDate: '2025',
+    areaServed: {
+      '@type': 'Country',
+      name: 'India',
+    },
+    knowsAbout: [
+      'Electric Vehicles',
+      'Electric Cars in India',
+      'EV Charging Stations',
+      'EV Battery Technology',
+      'Electric Vehicle Pricing',
+      'EV EMI Calculation',
+      'EV Running Cost',
+      'EV Savings vs Petrol',
+    ],
     contactPoint: {
       '@type': 'ContactPoint',
       email: 'info@budgetevcar.com',
       contactType: 'customer support',
+      availableLanguage: ['English', 'Hindi'],
     },
+  };
+
+  const siteNavigationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SiteNavigationElement',
+    name: 'Main Navigation',
+    hasPart: [
+      {
+        '@type': 'SiteNavigationElement',
+        name: 'Home',
+        url: 'https://budgetevcar.com',
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        name: 'Find Electric Vehicle',
+        url: 'https://budgetevcar.com/find-ev',
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        name: 'Compare Electric Cars',
+        url: 'https://budgetevcar.com/compare',
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        name: 'EV Charging Stations',
+        url: 'https://budgetevcar.com/charging-stations',
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        name: 'EV EMI Calculator',
+        url: 'https://budgetevcar.com/tools/ev-emi-calculator',
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        name: 'EV Savings Calculator',
+        url: 'https://budgetevcar.com/tools/ev-savings-calculator',
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        name: 'EV Trip Cost Calculator',
+        url: 'https://budgetevcar.com/tools/ev-running-cost-calculator',
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        name: 'EV Charging Time Calculator',
+        url: 'https://budgetevcar.com/tools/ev-charging-time-calculator',
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        name: 'EV Blog & Guides',
+        url: 'https://budgetevcar.com/blog',
+      },
+      {
+        '@type': 'SiteNavigationElement',
+        name: 'EV News',
+        url: 'https://budgetevcar.com/news',
+      },
+    ],
   };
 
   return (
@@ -76,6 +173,10 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationSchema) }}
         />
       </head>
       <body className="text-slate-900 antialiased">

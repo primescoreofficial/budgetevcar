@@ -17,32 +17,43 @@ export async function generateMetadata({ params, searchParams }) {
 
   const carName = car.model_name || car.detailed_name;
   const carBrand = car.brand || '';
-  const description = car.web_search_summary || `${carName} electric vehicle — View complete specifications, battery capacity, range, pricing, and compare with other EVs in India on BudgetEV.`;
+  const description = car.web_search_summary || `${carBrand} ${carName} electric vehicle — View complete specifications, battery capacity, range, pricing, charging time, and compare with other EVs in India on BudgetEV.`;
   const carImage = car.vehicle_image || 'https://budgetevcar.com/logo/2.png';
 
   return {
-    title: `${carName} ${car.variant_name ? `(${car.variant_name})` : ''} — Specs, Price & Range | BudgetEV`.replace(/\s+/g, ' '),
+    title: `${carBrand} ${carName} ${car.variant_name ? `(${car.variant_name})` : ''} — Price, Specs, Range & Review | BudgetEV India`.replace(/\s+/g, ' '),
     description,
     keywords: [
       carName,
       carBrand,
       `${carBrand} ${carName}`,
-      `${carName} price India`,
+      `${carBrand} ${carName} price India`,
+      `${carBrand} ${carName} price India 2026`,
       `${carName} specifications`,
-      `${carName} range`,
-      `${carName} battery capacity`,
-      `${carName} electric car`,
+      `${carName} range km`,
+      `${carName} battery capacity kWh`,
+      `${carName} charging time`,
+      `${carName} electric car review`,
+      `${carName} on road price`,
+      `${carName} vs`,
       `${carBrand} electric car India`,
+      `buy ${carName} India`,
+      `${carName} EMI`,
+      `${carName} mileage per charge`,
+      `${carName} colors`,
+      `${carName} top speed`,
+      `${carName} features`,
       'electric car specs India',
-      'EV comparison',
+      'EV comparison India',
+      'budget electric car India',
     ].filter(Boolean),
     alternates: {
       canonical: `/cars/${slug}`,
     },
     openGraph: {
-      title: `${carBrand} ${carName} — Electric Vehicle Specs & Price | BudgetEV`,
+      title: `${carBrand} ${carName} — Electric Vehicle Price, Specs & Range | BudgetEV India`,
       description,
-      type: 'website',
+      type: 'article',
       url: `https://budgetevcar.com/cars/${slug}`,
       siteName: 'BudgetEV',
       images: [
@@ -50,13 +61,13 @@ export async function generateMetadata({ params, searchParams }) {
           url: carImage,
           width: 800,
           height: 500,
-          alt: `${carBrand} ${carName} Electric Vehicle`,
+          alt: `${carBrand} ${carName} Electric Vehicle India`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${carBrand} ${carName} — Specs & Price | BudgetEV`,
+      title: `${carBrand} ${carName} — Price, Specs & Range | BudgetEV India`,
       description: description.slice(0, 200),
       images: [carImage],
     },
@@ -85,18 +96,25 @@ export default async function CarDetailPage({ params, searchParams }) {
   const carName = car.model_name || car.detailed_name;
   const carBrand = car.brand || '';
 
-  // Build Product schema with real data only
+  // Build Product + Vehicle schema with real data
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Product',
+    '@type': ['Product', 'Vehicle'],
     name: car.detailed_name || carName,
     image: car.vehicle_image,
-    description: car.web_search_summary || `View details of ${carName} electric vehicle.`,
+    description: car.web_search_summary || `Complete specifications, pricing, and review of ${carBrand} ${carName} electric vehicle in India.`,
     brand: {
       '@type': 'Brand',
       name: carBrand,
     },
     category: 'Electric Vehicle',
+    vehicleConfiguration: car.variant_name || undefined,
+    fuelType: 'ElectricFuel',
+    vehicleEngine: car.battery_capacity ? {
+      '@type': 'EngineSpecification',
+      fuelType: 'ElectricFuel',
+      name: `${car.battery_capacity} kWh Battery`,
+    } : undefined,
     offers: {
       '@type': 'AggregateOffer',
       priceCurrency: 'INR',
@@ -108,6 +126,7 @@ export default async function CarDetailPage({ params, searchParams }) {
         '@type': 'PropertyValue',
         name: 'Battery Capacity',
         value: `${car.battery_capacity} kWh`,
+        unitCode: 'KWH',
       },
       car.body_type && {
         '@type': 'PropertyValue',

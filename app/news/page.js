@@ -8,34 +8,45 @@ import { getUniqueBrands, getUniqueBodyTypes } from '@/lib/queries';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'EV News — Latest Electric Vehicle Updates & Launches in India | BudgetEV',
-  description: 'Stay updated with the latest electric vehicle news, new EV launches, pricing revisions, and charging infrastructure projects in India.',
+  title: 'EV News — Latest Electric Vehicle Updates, Launches & Pricing in India | BudgetEV',
+  description: 'Stay updated with the latest electric vehicle news in India. New EV launches, pricing revisions, government subsidies, charging infrastructure updates, and exclusive EV industry analysis.',
   keywords: [
     'EV news India',
     'electric vehicle news',
-    'new EV launch India',
-    'electric car updates',
-    'EV pricing news',
-    'charging infrastructure India',
+    'new EV launch India 2026',
+    'electric car updates India',
+    'EV pricing news India',
+    'charging infrastructure India news',
     'Tata EV news',
     'MG EV news',
     'Mahindra EV news',
+    'BYD India news',
+    'Hyundai EV launch India',
+    'Kia EV news India',
+    'EV subsidy news India',
+    'FAME subsidy electric car',
+    'upcoming electric cars India 2026',
+    'EV industry news India',
+    'electric car price drop India',
+    'new electric SUV India',
+    'EV charging station news India',
+    'electric vehicle policy India',
   ],
   alternates: {
     canonical: '/news',
   },
   openGraph: {
-    title: 'EV News — Latest Electric Vehicle Updates | BudgetEV',
-    description: 'Latest electric vehicle news, launches, pricing, and infrastructure updates in India.',
+    title: 'EV News — Latest Electric Vehicle Updates & Launches | BudgetEV India',
+    description: 'Latest electric vehicle news, launches, pricing revisions, subsidies, and infrastructure updates in India.',
     url: 'https://budgetevcar.com/news',
     siteName: 'BudgetEV',
     type: 'website',
-    images: [{ url: 'https://budgetevcar.com/logo/2.png', width: 512, height: 512, alt: 'BudgetEV News' }],
+    images: [{ url: 'https://budgetevcar.com/logo/2.png', width: 512, height: 512, alt: 'BudgetEV News — EV Updates India' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'EV News — Latest Electric Vehicle Updates | BudgetEV',
-    description: 'Latest EV news, launches, and updates in India.',
+    title: 'EV News — Latest Electric Vehicle Updates | BudgetEV India',
+    description: 'Latest EV news, launches, pricing, and subsidy updates in India.',
     images: ['https://budgetevcar.com/logo/2.png'],
   },
 };
@@ -47,8 +58,51 @@ export default async function NewsPage({ searchParams }) {
   const brands = await getUniqueBrands();
   const bodyTypes = await getUniqueBodyTypes();
 
+  const allNews = getAllPosts('news');
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://budgetevcar.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'EV News',
+        item: 'https://budgetevcar.com/news',
+      },
+    ],
+  };
+
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'EV News India',
+    description: 'Latest electric vehicle news, launches, pricing updates, and charging infrastructure developments in India.',
+    url: 'https://budgetevcar.com/news',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Budget EV Car',
+      url: 'https://budgetevcar.com',
+    },
+    numberOfItems: allNews.length,
+  };
+
   return (
     <div className="min-h-screen bg-slate-50/50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-5 pb-24">

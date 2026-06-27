@@ -196,7 +196,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
                       EV EMI Calculator
                     </Link>
                     <Link href="/tools/ev-running-cost-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
-                      EV Running Cost Calculator
+                      EV Trip Cost Calculator
                     </Link>
                     <Link href="/tools/ev-savings-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
                       EV Savings Calculator

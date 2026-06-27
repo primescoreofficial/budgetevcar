@@ -9,33 +9,43 @@ import { getUniqueBrands, getUniqueBodyTypes } from '@/lib/queries';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'EV Guides & Blogs — Expert Electric Vehicle Articles | BudgetEV',
-  description: 'Learn everything about electric vehicles in India. Read expert guides, battery technology analyses, charging tips, cost comparisons, and buying advice.',
+  title: 'EV Guides & Blogs — Expert Electric Vehicle Articles & Buying Advice | BudgetEV India',
+  description: 'Learn everything about electric vehicles in India. Read expert guides, battery technology analyses, charging tips, cost comparisons, EV buying advice, and maintenance guides for Indian EV owners.',
   keywords: [
     'EV guides India',
     'electric vehicle blog',
-    'EV buying guide',
-    'electric car tips',
-    'EV charging guide',
-    'electric vehicle comparison',
-    'EV battery technology',
-    'EV cost savings tips',
+    'EV buying guide India',
+    'electric car tips India',
+    'EV charging guide India',
+    'electric vehicle comparison guide',
+    'EV battery technology explained',
+    'EV cost savings tips India',
+    'electric car maintenance India',
+    'EV battery life tips',
+    'how to charge electric car at home India',
+    'electric car buying checklist India',
+    'EV insurance guide India',
+    'electric car pros and cons India',
+    'best time to buy electric car India',
+    'EV road trip guide India',
+    'electric car winter tips',
+    'EV resale value India',
   ],
   alternates: {
     canonical: '/blog',
   },
   openGraph: {
-    title: 'EV Guides & Blogs — BudgetEV',
-    description: 'Expert guides, analyses, and tips about electric vehicles in India.',
+    title: 'EV Guides & Blogs — Expert Electric Vehicle Articles | BudgetEV India',
+    description: 'Expert guides, analyses, buying advice, and tips about electric vehicles in India.',
     url: 'https://budgetevcar.com/blog',
     siteName: 'BudgetEV',
     type: 'website',
-    images: [{ url: 'https://budgetevcar.com/logo/2.png', width: 512, height: 512, alt: 'BudgetEV Blog' }],
+    images: [{ url: 'https://budgetevcar.com/logo/2.png', width: 512, height: 512, alt: 'BudgetEV Blog — EV Guides India' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'EV Guides & Blogs — BudgetEV',
-    description: 'Expert guides and tips about electric vehicles in India.',
+    title: 'EV Guides & Blogs — Expert Articles | BudgetEV India',
+    description: 'Expert guides, buying advice, and tips about electric vehicles in India.',
     images: ['https://budgetevcar.com/logo/2.png'],
   },
 };
@@ -52,8 +62,49 @@ export default async function BlogPage({ searchParams }) {
   const brands = await getUniqueBrands();
   const bodyTypes = await getUniqueBodyTypes();
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://budgetevcar.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'EV Blog & Guides',
+        item: 'https://budgetevcar.com/blog',
+      },
+    ],
+  };
+
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'EV Guides & Blogs',
+    description: 'Expert electric vehicle guides, buying advice, battery technology analyses, and cost comparison articles for Indian EV buyers.',
+    url: 'https://budgetevcar.com/blog',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Budget EV Car',
+      url: 'https://budgetevcar.com',
+    },
+    numberOfItems: allPosts.length,
+  };
+
   return (
     <div className="min-h-screen bg-slate-50/50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-5 pb-24">

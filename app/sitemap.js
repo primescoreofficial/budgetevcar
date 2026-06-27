@@ -1,9 +1,10 @@
-import { getAllCars, getCarUrl } from '@/lib/queries';
+import { getAllCars, getCarUrl, getUniqueBrands, getUniqueBodyTypes } from '@/lib/queries';
 import { getAllPosts } from '@/lib/content';
 
 export default async function sitemap() {
   const baseUrl = 'https://budgetevcar.com';
 
+  // ── DYNAMIC CAR URLS ──
   let carUrls = [];
   try {
     const cars = await getAllCars();
@@ -18,7 +19,7 @@ export default async function sitemap() {
           url: fullUrl,
           lastModified: new Date(),
           changeFrequency: 'weekly',
-          priority: 0.8,
+          priority: 0.9,
         });
       }
     });
@@ -26,7 +27,7 @@ export default async function sitemap() {
     console.error('Failed to generate dynamic urls for sitemap:', error);
   }
 
-  // Dynamic Blog & News URLs
+  // ── DYNAMIC BLOG & NEWS URLS ──
   let contentUrls = [];
   try {
     const blogs = getAllPosts('blogs');
@@ -91,11 +92,48 @@ export default async function sitemap() {
     console.error('Failed to generate content urls for sitemap:', error);
   }
 
+  // ── BRAND-SPECIFIC FIND EV LANDING PAGES ──
+  let brandUrls = [];
+  try {
+    const brands = await getUniqueBrands();
+    brands.forEach(brand => {
+      brandUrls.push({
+        url: `${baseUrl}/find-ev?brand=${encodeURIComponent(brand)}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly',
+        priority: 0.8,
+      });
+    });
+  } catch (error) {
+    console.error('Failed to generate brand urls for sitemap:', error);
+  }
+
+  // ── BODY TYPE FILTER LANDING PAGES ──
+  const bodyTypeUrls = ['Hatchback', 'SUV', 'Sedan', 'Compact'].map(bodyType => ({
+    url: `${baseUrl}/find-ev?bodyType=${encodeURIComponent(bodyType)}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
+
+  // ── BUDGET FILTER LANDING PAGES ──
+  const budgetUrls = [
+    { slug: 'under-10', label: 'Under 10 Lakh' },
+    { slug: '10-15', label: '10 to 15 Lakh' },
+    { slug: '15-20', label: '15 to 20 Lakh' },
+    { slug: 'above-20', label: 'Above 20 Lakh' },
+  ].map(budget => ({
+    url: `${baseUrl}/find-ev?budget=${budget.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
+
+  // ── STATIC ROUTES ──
   const routes = [
     '',
     '/find-ev',
     '/compare',
-    '/calculator',
     '/charging-stations',
     '/tools',
     '/tools/ev-emi-calculator',
@@ -107,9 +145,9 @@ export default async function sitemap() {
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
-    changeFrequency: 'daily',
-    priority: route === '' ? 1.0 : (route.startsWith('/tools/') ? 0.8 : 0.9),
+    changeFrequency: route === '' ? 'daily' : 'daily',
+    priority: route === '' ? 1.0 : (route === '/find-ev' ? 0.95 : route.startsWith('/tools/') ? 0.85 : 0.9),
   }));
 
-  return [...routes, ...carUrls, ...contentUrls];
+  return [...routes, ...carUrls, ...brandUrls, ...bodyTypeUrls, ...budgetUrls, ...contentUrls];
 }
