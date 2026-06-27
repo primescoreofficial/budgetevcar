@@ -466,7 +466,7 @@ function SplashScreen() {
             transition={{ duration: 0.4 }}
             className="relative w-20 h-20 sm:w-24 sm:h-24 overflow-hidden rounded-full border border-slate-100 shadow-sm flex-shrink-0"
           >
-            <Image src="/logo/newlogo-removebg.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 80px, 96px" priority />
+            <Image src="/logo/2.png" alt="BudgetEV Logo" fill className="object-cover" sizes="(max-width: 640px) 80px, 96px" priority />
           </motion.div>
         </div>
 
@@ -1031,7 +1031,7 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                 {/* ── QUICK COMPARE STRIP ── hidden on mobile, visible sm and above */}
                 <div className="hidden sm:flex mt-8 pt-6 border-t border-slate-100 flex-col md:flex-row md:items-center justify-between gap-4">
                   <div className="flex items-center gap-2 text-sm font-extrabold text-slate-800">
-                    <span className="text-[#0249ad]">⚡</span> Compare Top EVs
+                    <span className="text-[#0249ad]"></span> Compare Top EVs
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
                     <Link href="/compare?car1=tata-motors-nexon-ev" className="bg-slate-50 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-[#0249ad] hover:border-blue-200 text-xs font-bold px-4 py-2 rounded-xl transition">
