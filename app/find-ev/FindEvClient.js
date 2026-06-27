@@ -218,16 +218,18 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
 
 
 
-  const FilterPanel = () => (
+  const FilterPanel = ({ showHeader = true }) => (
     <div className="flex flex-col gap-6 text-slate-800">
-      <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-        <h3 className="text-base font-black text-slate-900 uppercase tracking-wider">Filters</h3>
-        {activeFilterCount > 0 && (
-          <button onClick={clearFilters} className="text-xs font-extrabold text-[#0249ad] hover:text-blue-800 transition">
-            Clear All ({activeFilterCount})
-          </button>
-        )}
-      </div>
+      {showHeader && (
+        <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+          <h3 className="text-base font-black text-slate-900 uppercase tracking-wider">Filters</h3>
+          {activeFilterCount > 0 && (
+            <button onClick={clearFilters} className="text-xs font-extrabold text-[#0249ad] hover:text-blue-800 transition">
+              Clear All ({activeFilterCount})
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Price Range Slider */}
       <div>
@@ -391,42 +393,58 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
         extraMobileActions={
-          <button
-            onClick={() => { setFilterOpen(p => !p); setMenuOpen(false); }}
-            className="md:hidden relative p-2.5 rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition focus:outline-none"
-            aria-label="Toggle filters"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 4h18M7 8h10M11 12h2M9 16h6" />
-            </svg>
-            {activeFilterCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#0249ad] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-sm">
-                {activeFilterCount}
-              </span>
-            )}
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => { setFilterOpen(p => !p); setMenuOpen(false); }}
+              className="md:hidden relative p-2.5 rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition focus:outline-none"
+              aria-label="Toggle filters"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 4h18M7 8h10M11 12h2M9 16h6" />
+              </svg>
+              {activeFilterCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#0249ad] text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-sm">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+
+            <AnimatePresence>
+              {filterOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.2 }}
+                  className="md:hidden fixed inset-0 z-50 w-screen min-h-screen bg-white overflow-y-auto p-6"
+                >
+                  <div>
+                    <div className="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                      <div className="flex items-center gap-3">
+                        <span className="text-base font-black text-slate-900 uppercase tracking-wider">Filters</span>
+                        {activeFilterCount > 0 && (
+                          <button onClick={clearFilters} className="text-xs font-extrabold text-[#0249ad] hover:text-blue-800 transition">
+                            Clear All ({activeFilterCount})
+                          </button>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => setFilterOpen(false)}
+                        className="p-2 text-slate-500 hover:text-slate-700 bg-slate-50 rounded-full"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                    <FilterPanel showHeader={false} />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         }
       />
-
-      <AnimatePresence>
-        {filterOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-white border-t border-slate-100 shadow-xl px-5 pb-6 pt-5 max-h-[80vh] overflow-y-auto absolute left-0 right-0 z-40"
-          >
-            <FilterPanel />
-            <button
-              onClick={() => setFilterOpen(false)}
-              className="w-full mt-5 bg-[#0249ad] hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-xs tracking-wider uppercase transition shadow-md"
-            >
-              Apply Filters ({filteredCars.length} Matches)
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* ── MAIN LAYOUT LAYER ── */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-5 pb-24">
