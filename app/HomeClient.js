@@ -920,11 +920,12 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                 </div>
 
                 {/* Premium Category Cards */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="flex gap-2 mb-8 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
                   {[
                     {
                       id: 'SUV',
-                      name: 'SUV & Crossover',
+                      name: '[SUV & Crossover]',
+                      shortName: 'SUV',
                       svg: (
                         <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 14h2a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h2V9.5L18.5 7h-9L7 10H3v4z" />
@@ -936,7 +937,8 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                     },
                     {
                       id: 'Hatchback',
-                      name: 'Hatchback & Compact',
+                      name: '[Hatchback & Compact]',
+                      shortName: 'Hatchback',
                       svg: (
                         <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 15h2a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h2v-3.5L18 8h-7L7.5 11.5H3V15z" />
@@ -947,7 +949,8 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                     },
                     {
                       id: 'Sedan',
-                      name: 'Sedan & Saloon',
+                      name: '[Sedan & Saloon]',
+                      shortName: 'Sedan',
                       svg: (
                         <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
                           <path d="M2 14h3a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h3v-2.5l-2.5-3h-9L8 11.5H2V14z" />
@@ -958,7 +961,8 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                     },
                     {
                       id: 'Luxury',
-                      name: 'Luxury & Premium',
+                      name: '[Luxury & Premium]',
+                      shortName: 'Luxury',
                       svg: (
                         <svg className="w-10 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.0} strokeLinecap="round" strokeLinejoin="round">
                           <path d="M2 14h3a2 2 0 0 1 4 0h6a2 2 0 0 1 4 0h3v-3l-3.5-3.5h-8L5.5 11H2v3z" />
@@ -974,12 +978,13 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                       <button
                         key={cat.id}
                         onClick={() => handleCategoryChange(cat.id)}
-                        className={`flex flex-col items-center justify-center p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${isActive ? 'bg-[#0249ad] text-white border-[#0249ad] shadow-md shadow-blue-100' : 'bg-slate-50/50 border-slate-100 text-slate-700 hover:border-blue-200 hover:bg-slate-50'}`}
+                        className={`flex-1 flex flex-col items-center justify-center py-2.5 px-1 sm:p-5 rounded-xl sm:rounded-2xl border transition-all duration-300 cursor-pointer ${isActive ? 'bg-[#0249ad] text-white border-[#0249ad] shadow-md shadow-blue-100' : 'bg-slate-50/50 border-slate-100 text-slate-700 hover:border-blue-200 hover:bg-slate-50'}`}
                       >
-                        <div className={`mb-3 transition-transform duration-300 ${isActive ? 'scale-110 text-white' : 'text-[#0249ad]'}`}>
+                        <div className={`hidden sm:block mb-3 transition-transform duration-300 ${isActive ? 'scale-110 text-white' : 'text-[#0249ad]'}`}>
                           {cat.svg}
                         </div>
-                        <span className="text-xs font-extrabold tracking-wide">{cat.name}</span>
+                        <span className="text-[11px] sm:text-xs font-extrabold tracking-wide">{cat.shortName}</span>
+                        <span className="hidden sm:block text-[10px] font-extrabold tracking-wide opacity-70 mt-0.5">{cat.name}</span>
                       </button>
                     );
                   })}
@@ -1023,8 +1028,8 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                   )}
                 </div>
 
-                {/* ── QUICK COMPARE STRIP ── */}
-                <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                {/* ── QUICK COMPARE STRIP ── hidden on mobile, visible sm and above */}
+                <div className="hidden sm:flex mt-8 pt-6 border-t border-slate-100 flex-col md:flex-row md:items-center justify-between gap-4">
                   <div className="flex items-center gap-2 text-sm font-extrabold text-slate-800">
                     <span className="text-[#0249ad]">⚡</span> Compare Top EVs
                   </div>
@@ -1243,15 +1248,15 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
 
                   <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:px-0 sm:mx-0 sm:pb-0">
                     {latestNews.map((item) => (
-                      <article 
+                      <article
                         key={item.slug}
                         className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between min-w-[82vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center"
                       >
                         <div>
                           <div className="aspect-video bg-slate-50 relative overflow-hidden">
-                            <img 
-                              src={item.image} 
-                              alt={item.title} 
+                            <img
+                              src={item.image}
+                              alt={item.title}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                               loading="lazy"
                             />
@@ -1272,7 +1277,7 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                           </div>
                         </div>
                         <div className="px-4 pb-4 pt-1">
-                          <Link 
+                          <Link
                             href={`/news/${item.slug}`}
                             className="text-xs font-bold text-[#0249ad] hover:text-blue-800 transition-colors inline-flex items-center gap-1"
                           >
@@ -1302,15 +1307,15 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
 
                   <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:px-0 sm:mx-0 sm:pb-0">
                     {latestBlogs.map((post) => (
-                      <article 
+                      <article
                         key={post.slug}
                         className="group bg-white border border-slate-100 hover:border-blue-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between min-w-[82vw] max-w-[340px] sm:min-w-0 sm:max-w-none snap-center"
                       >
                         <div>
                           <div className="aspect-video bg-slate-50 relative overflow-hidden">
-                            <img 
-                              src={post.image} 
-                              alt={post.title} 
+                            <img
+                              src={post.image}
+                              alt={post.title}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                               loading="lazy"
                             />
@@ -1335,7 +1340,7 @@ export default function HomeClient({ cars, brands, bodyTypes, latestBlogs = [], 
                           </div>
                         </div>
                         <div className="px-4 pb-4 pt-1">
-                          <Link 
+                          <Link
                             href={`/blog/${post.slug}`}
                             className="text-xs font-bold text-[#0249ad] hover:text-blue-800 transition-colors inline-flex items-center gap-1"
                           >
