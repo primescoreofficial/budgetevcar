@@ -170,7 +170,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
 
   const handleShare = async () => {
     const title = `${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim();
-    const url = window.location.href;
+    const url = `https://www.budgetevcar.com${getCarUrl(car)}`;
 
     if (navigator.share) {
       try {
@@ -191,7 +191,8 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
 
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      const url = `https://www.budgetevcar.com${getCarUrl(car)}`;
+      await navigator.clipboard.writeText(url);
       setToastMessage('Link copied to clipboard!');
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
@@ -665,7 +666,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                 </button>
 
                 <a
-                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim() + '\n' + window.location.href)}`}
+                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim() + '\n' + `https://www.budgetevcar.com${getCarUrl(car)}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
@@ -679,7 +680,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                 </a>
 
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim())}&url=${encodeURIComponent(window.location.href)}`}
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim())}&url=${encodeURIComponent(`https://www.budgetevcar.com${getCarUrl(car)}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
@@ -693,7 +694,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                 </a>
 
                 <a
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`}
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://www.budgetevcar.com${getCarUrl(car)}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
@@ -707,7 +708,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                 </a>
 
                 <a
-                  href={`mailto:?subject=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim())}&body=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim() + '\n\n' + window.location.href)}`}
+                  href={`mailto:?subject=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim())}&body=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim() + '\n\n' + `https://www.budgetevcar.com${getCarUrl(car)}`)}`}
                   className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
                 >
                   <div className="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0">
