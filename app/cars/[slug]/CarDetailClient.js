@@ -302,6 +302,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 60vw, 800px"
                           priority={currentIndex === 0}
+                          quality={100}
                           className="absolute w-full h-full object-cover cursor-grab active:cursor-grabbing select-none"
                         />
                       </AnimatePresence>
