@@ -210,10 +210,10 @@
     "interior": {
       "label": "Interior",
       "images": [
-        "/EV Cars Interior/Citroen/eC3/1.webp",
-        "/EV Cars Interior/Citroen/eC3/2.webp",
-        "/EV Cars Interior/Citroen/eC3/3.webp",
-        "/EV Cars Interior/Citroen/eC3/4.webp"
+        "/EV Cars Interior/Citroen/ec3/1.webp",
+        "/EV Cars Interior/Citroen/ec3/2.webp",
+        "/EV Cars Interior/Citroen/ec3/3.webp",
+        "/EV Cars Interior/Citroen/ec3/4.webp"
       ]
     }
   },
@@ -232,12 +232,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Hyndai/creata-electric/1.webp",
-        "/EV Cars Interior/Hyndai/creata-electric/2.webp",
-        "/EV Cars Interior/Hyndai/creata-electric/3.webp",
-        "/EV Cars Interior/Hyndai/creata-electric/4.webp"
-      ]
+      "images": []
     }
   },
   "hyundai/ioniq5": {
@@ -249,12 +244,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Hyndai/ioniq-5/1.webp",
-        "/EV Cars Interior/Hyndai/ioniq-5/2.webp",
-        "/EV Cars Interior/Hyndai/ioniq-5/3.webp",
-        "/EV Cars Interior/Hyndai/ioniq-5/4.webp"
-      ]
+      "images": []
     }
   },
   "kia/carensclavisev": {
@@ -326,11 +316,11 @@
     "interior": {
       "label": "Interior",
       "images": [
-        "/EV Cars Interior/Mahindra/be-6/1.webp",
-        "/EV Cars Interior/Mahindra/be-6/2.webp",
-        "/EV Cars Interior/Mahindra/be-6/3.webp",
-        "/EV Cars Interior/Mahindra/be-6/4.webp",
-        "/EV Cars Interior/Mahindra/be-6/5.webp"
+        "/EV Cars Interior/Mahindra/Be-6/1.webp",
+        "/EV Cars Interior/Mahindra/Be-6/2.webp",
+        "/EV Cars Interior/Mahindra/Be-6/3.webp",
+        "/EV Cars Interior/Mahindra/Be-6/4.webp",
+        "/EV Cars Interior/Mahindra/Be-6/5.webp"
       ]
     }
   },
@@ -424,13 +414,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Mercedes/cla-ev/1.webp",
-        "/EV Cars Interior/Mercedes/cla-ev/2.webp",
-        "/EV Cars Interior/Mercedes/cla-ev/3.webp",
-        "/EV Cars Interior/Mercedes/cla-ev/4.webp",
-        "/EV Cars Interior/Mercedes/cla-ev/5.webp"
-      ]
+      "images": []
     }
   },
   "mercedesbenz/eqa": {
@@ -442,12 +426,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Mercedes/EQA/1.webp",
-        "/EV Cars Interior/Mercedes/EQA/2.webp",
-        "/EV Cars Interior/Mercedes/EQA/3.webp",
-        "/EV Cars Interior/Mercedes/EQA/4.webp"
-      ]
+      "images": []
     }
   },
   "mercedesbenz/eqb": {
@@ -460,13 +439,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Mercedes/EQB/1.webp",
-        "/EV Cars Interior/Mercedes/EQB/2.webp",
-        "/EV Cars Interior/Mercedes/EQB/3.webp",
-        "/EV Cars Interior/Mercedes/EQB/4.webp",
-        "/EV Cars Interior/Mercedes/EQB/5.webp"
-      ]
+      "images": []
     }
   },
   "mercedesbenz/eqs": {
@@ -478,12 +451,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Mercedes/EQS/1.webp",
-        "/EV Cars Interior/Mercedes/EQS/2.webp",
-        "/EV Cars Interior/Mercedes/EQS/3.webp",
-        "/EV Cars Interior/Mercedes/EQS/4.webp"
-      ]
+      "images": []
     }
   },
   "mgjswmgmotor/cometev": {
@@ -511,13 +479,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Mg/windsor-ev/1.webp",
-        "/EV Cars Interior/Mg/windsor-ev/2.webp",
-        "/EV Cars Interior/Mg/windsor-ev/3.webp",
-        "/EV Cars Interior/Mg/windsor-ev/4.webp",
-        "/EV Cars Interior/Mg/windsor-ev/5.webp"
-      ]
+      "images": []
     }
   },
   "mgjswmgmotor/windsorevpro": {
@@ -531,12 +493,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Mg/windsor-ev-pro/1.webp",
-        "/EV Cars Interior/Mg/windsor-ev-pro/2.webp",
-        "/EV Cars Interior/Mg/windsor-ev-pro/3.webp",
-        "/EV Cars Interior/Mg/windsor-ev-pro/4.webp"
-      ]
+      "images": []
     }
   },
   "mgjswmgmotor/zsev": {
@@ -549,13 +506,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Mg/zs-ev/1.webp",
-        "/EV Cars Interior/Mg/zs-ev/2.webp",
-        "/EV Cars Interior/Mg/zs-ev/3.webp",
-        "/EV Cars Interior/Mg/zs-ev/4.webp",
-        "/EV Cars Interior/Mg/zs-ev/5.webp"
-      ]
+      "images": []
     }
   },
   "tatamotors/curvvev": {
@@ -569,13 +520,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Tata/curvv-ev/1.webp",
-        "/EV Cars Interior/Tata/curvv-ev/2.webp",
-        "/EV Cars Interior/Tata/curvv-ev/3.webp",
-        "/EV Cars Interior/Tata/curvv-ev/4.webp",
-        "/EV Cars Interior/Tata/curvv-ev/5.webp"
-      ]
+      "images": []
     }
   },
   "tatamotors/harrierev": {
@@ -590,13 +535,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Tata/harrier-ev/1.webp",
-        "/EV Cars Interior/Tata/harrier-ev/2.webp",
-        "/EV Cars Interior/Tata/harrier-ev/3.webp",
-        "/EV Cars Interior/Tata/harrier-ev/4.webp",
-        "/EV Cars Interior/Tata/harrier-ev/5.webp"
-      ]
+      "images": []
     }
   },
   "tatamotors/nexonev": {
@@ -610,13 +549,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Tata/nexon-ev/1.webp",
-        "/EV Cars Interior/Tata/nexon-ev/2.webp",
-        "/EV Cars Interior/Tata/nexon-ev/3.webp",
-        "/EV Cars Interior/Tata/nexon-ev/4.webp",
-        "/EV Cars Interior/Tata/nexon-ev/5.webp"
-      ]
+      "images": []
     }
   },
   "tatamotors/punchev": {
@@ -631,12 +564,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Tata/punch-ev/1.webp",
-        "/EV Cars Interior/Tata/punch-ev/2.webp",
-        "/EV Cars Interior/Tata/punch-ev/3.webp",
-        "/EV Cars Interior/Tata/punch-ev/4.webp"
-      ]
+      "images": []
     }
   },
   "tatamotors/tiagoev": {
@@ -651,12 +579,7 @@
     },
     "interior": {
       "label": "Interior",
-      "images": [
-        "/EV Cars Interior/Tata/tiago-ev/1.webp",
-        "/EV Cars Interior/Tata/tiago-ev/2.webp",
-        "/EV Cars Interior/Tata/tiago-ev/3.webp",
-        "/EV Cars Interior/Tata/tiago-ev/4.webp"
-      ]
+      "images": []
     }
   },
   "tesla/modely": {
@@ -787,6 +710,239 @@
         "/EV Cars Interior/Volvo/EX40/3.webp",
         "/EV Cars Interior/Volvo/EX40/4.webp",
         "/EV Cars Interior/Volvo/EX40/5.webp"
+      ]
+    }
+  },
+  "hyndai/creataelectric": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Hyndai/creata-electric/1.webp",
+        "/EV Cars Interior/Hyndai/creata-electric/2.webp",
+        "/EV Cars Interior/Hyndai/creata-electric/3.webp",
+        "/EV Cars Interior/Hyndai/creata-electric/4.webp"
+      ]
+    }
+  },
+  "hyndai/ioniq5": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Hyndai/ioniq-5/1.webp",
+        "/EV Cars Interior/Hyndai/ioniq-5/2.webp",
+        "/EV Cars Interior/Hyndai/ioniq-5/3.webp",
+        "/EV Cars Interior/Hyndai/ioniq-5/4.webp"
+      ]
+    }
+  },
+  "mercedes/eqa": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Mercedes/EQA/1.webp",
+        "/EV Cars Interior/Mercedes/EQA/2.webp",
+        "/EV Cars Interior/Mercedes/EQA/3.webp",
+        "/EV Cars Interior/Mercedes/EQA/4.webp"
+      ]
+    }
+  },
+  "mercedes/eqb": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Mercedes/EQB/1.webp",
+        "/EV Cars Interior/Mercedes/EQB/2.webp",
+        "/EV Cars Interior/Mercedes/EQB/3.webp",
+        "/EV Cars Interior/Mercedes/EQB/4.webp",
+        "/EV Cars Interior/Mercedes/EQB/5.webp"
+      ]
+    }
+  },
+  "mercedes/eqs": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Mercedes/EQS/1.webp",
+        "/EV Cars Interior/Mercedes/EQS/2.webp",
+        "/EV Cars Interior/Mercedes/EQS/3.webp",
+        "/EV Cars Interior/Mercedes/EQS/4.webp"
+      ]
+    }
+  },
+  "mercedes/claev": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Mercedes/cla-ev/1.webp",
+        "/EV Cars Interior/Mercedes/cla-ev/2.webp",
+        "/EV Cars Interior/Mercedes/cla-ev/3.webp",
+        "/EV Cars Interior/Mercedes/cla-ev/4.webp",
+        "/EV Cars Interior/Mercedes/cla-ev/5.webp"
+      ]
+    }
+  },
+  "mg/comet": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Mg/comet/1.webp",
+        "/EV Cars Interior/Mg/comet/2.webp",
+        "/EV Cars Interior/Mg/comet/3.webp",
+        "/EV Cars Interior/Mg/comet/4.webp",
+        "/EV Cars Interior/Mg/comet/5.webp"
+      ]
+    }
+  },
+  "mg/windsorevpro": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Mg/windsor-ev-pro/1.webp",
+        "/EV Cars Interior/Mg/windsor-ev-pro/2.webp",
+        "/EV Cars Interior/Mg/windsor-ev-pro/3.webp",
+        "/EV Cars Interior/Mg/windsor-ev-pro/4.webp"
+      ]
+    }
+  },
+  "mg/windsorev": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Mg/windsor-ev/1.webp",
+        "/EV Cars Interior/Mg/windsor-ev/2.webp",
+        "/EV Cars Interior/Mg/windsor-ev/3.webp",
+        "/EV Cars Interior/Mg/windsor-ev/4.webp",
+        "/EV Cars Interior/Mg/windsor-ev/5.webp"
+      ]
+    }
+  },
+  "mg/zsev": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Mg/zs-ev/1.webp",
+        "/EV Cars Interior/Mg/zs-ev/2.webp",
+        "/EV Cars Interior/Mg/zs-ev/3.webp",
+        "/EV Cars Interior/Mg/zs-ev/4.webp",
+        "/EV Cars Interior/Mg/zs-ev/5.webp"
+      ]
+    }
+  },
+  "tata/curvvev": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Tata/curvv-ev/1.webp",
+        "/EV Cars Interior/Tata/curvv-ev/2.webp",
+        "/EV Cars Interior/Tata/curvv-ev/3.webp",
+        "/EV Cars Interior/Tata/curvv-ev/4.webp",
+        "/EV Cars Interior/Tata/curvv-ev/5.webp"
+      ]
+    }
+  },
+  "tata/harrierev": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Tata/harrier-ev/1.webp",
+        "/EV Cars Interior/Tata/harrier-ev/2.webp",
+        "/EV Cars Interior/Tata/harrier-ev/3.webp",
+        "/EV Cars Interior/Tata/harrier-ev/4.webp",
+        "/EV Cars Interior/Tata/harrier-ev/5.webp"
+      ]
+    }
+  },
+  "tata/nexonev": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Tata/nexon-ev/1.webp",
+        "/EV Cars Interior/Tata/nexon-ev/2.webp",
+        "/EV Cars Interior/Tata/nexon-ev/3.webp",
+        "/EV Cars Interior/Tata/nexon-ev/4.webp",
+        "/EV Cars Interior/Tata/nexon-ev/5.webp"
+      ]
+    }
+  },
+  "tata/punchev": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Tata/punch-ev/1.webp",
+        "/EV Cars Interior/Tata/punch-ev/2.webp",
+        "/EV Cars Interior/Tata/punch-ev/3.webp",
+        "/EV Cars Interior/Tata/punch-ev/4.webp"
+      ]
+    }
+  },
+  "tata/tiagoev": {
+    "exterior": {
+      "label": "Exterior",
+      "images": []
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Tata/tiago-ev/1.webp",
+        "/EV Cars Interior/Tata/tiago-ev/2.webp",
+        "/EV Cars Interior/Tata/tiago-ev/3.webp",
+        "/EV Cars Interior/Tata/tiago-ev/4.webp"
       ]
     }
   }
