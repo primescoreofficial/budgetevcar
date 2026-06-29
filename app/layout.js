@@ -31,7 +31,7 @@ export const metadata = {
     "best electric car for city driving India",
     "electric car maintenance cost India",
   ],
-  metadataBase: new URL('https://budgetevcar.com'),
+  metadataBase: new URL('https://www.budgetevcar.com'),
   robots: {
     index: true,
     follow: true,
@@ -50,13 +50,13 @@ export const metadata = {
   openGraph: {
     title: 'Budget EV Car India — Compare Prices, Range & Save Lakhs on Your First Electric Car',
     description: "India's #1 platform to find the best budget electric car under ₹10-15 Lakh. Compare range, price, specs & calculate real savings vs petrol. 50+ EVs compared!",
-    url: 'https://budgetevcar.com',
+    url: 'https://www.budgetevcar.com',
     siteName: 'Budget EV Car',
     locale: 'en_IN',
     type: 'website',
     images: [
       {
-        url: 'https://budgetevcar.com/logo/2.png',
+        url: 'https://www.budgetevcar.com/logo/2.png',
         width: 512,
         height: 512,
         alt: 'Budget EV Car Logo — Affordable Electric Cars India',
@@ -67,10 +67,10 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Budget EV Car — Find the Cheapest Electric Cars in India Under ₹15 Lakh',
     description: 'Compare range, specs, pricing & calculate fuel savings for every budget electric car in India. Free tools: EMI Calculator, Savings Calculator & more.',
-    images: ['https://budgetevcar.com/logo/2.png'],
+    images: ['https://www.budgetevcar.com/logo/2.png'],
   },
   alternates: {
-    canonical: 'https://budgetevcar.com',
+    canonical: 'https://www.budgetevcar.com',
   },
 };
 
