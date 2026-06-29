@@ -169,14 +169,11 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
   const [toastMessage, setToastMessage] = useState('');
 
   const handleShare = async () => {
-    const title = `${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim();
     const url = `https://www.budgetevcar.com${getCarUrl(car)}`;
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: title,
-          text: title,
           url,
         });
       } catch (error) {
@@ -666,7 +663,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                 </button>
 
                 <a
-                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim() + '\n' + `https://www.budgetevcar.com${getCarUrl(car)}`)}`}
+                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`https://www.budgetevcar.com${getCarUrl(car)}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
@@ -680,7 +677,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                 </a>
 
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim())}&url=${encodeURIComponent(`https://www.budgetevcar.com${getCarUrl(car)}`)}`}
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://www.budgetevcar.com${getCarUrl(car)}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
@@ -708,7 +705,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                 </a>
 
                 <a
-                  href={`mailto:?subject=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim())}&body=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim() + '\n\n' + `https://www.budgetevcar.com${getCarUrl(car)}`)}`}
+                  href={`mailto:?body=${encodeURIComponent(`https://www.budgetevcar.com${getCarUrl(car)}`)}`}
                   className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
                 >
                   <div className="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0">
