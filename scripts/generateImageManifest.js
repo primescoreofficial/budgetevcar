@@ -2,6 +2,41 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+const brandToInteriorFolder = {
+  'tata-motors': 'Tata',
+  'tata': 'Tata',
+  'hyundai': 'Hyndai',
+  'mg-jsw-mg-motor': 'Mg',
+  'mg': 'Mg',
+  'mercedes-benz': 'Mercedes',
+  'mercedes': 'Mercedes',
+  'bmw': 'Bmw',
+  'byd': 'Byd',
+  'audi': 'Audi',
+  'citroen': 'Citroen',
+  'kia': 'Kia',
+  'mahindra': 'Mahindra',
+  'maruti-suzuki': 'Maruti-suzuki',
+  'tesla': 'Tesla',
+  'toyota': 'Toyota',
+  'vinfast': 'Vinfast',
+  'volvo': 'Volvo',
+};
+
+const modelToInteriorFolder = {
+  'creta-electric': 'creata-electric',
+};
+
+function getInteriorBrandFolder(brand) {
+  const key = brand.toLowerCase();
+  return brandToInteriorFolder[key] || brand;
+}
+
+function getInteriorModelFolder(model) {
+  const key = model.toLowerCase();
+  return modelToInteriorFolder[key] || model;
+}
+
 function normalize(str) {
   if (!str) return '';
   return str
@@ -67,9 +102,42 @@ try {
     } else if (parts[1] === 'EV Cars Interior') {
       // Interior: parts[0]='public', parts[1]='EV Cars Interior', parts[2]=Brand, parts[3]=Model
       if (parts.length >= 5) {
-        const brand = parts[2];
-        const model = parts[3];
-        const cacheKey = `${normalize(brand)}/${normalize(model)}`;
+        const interiorBrand = parts[2];
+        const interiorModel = parts[3];
+        
+        // Find matching brand and model in carImagesManifest
+        let matchedBrand = null;
+        let matchedModel = null;
+        
+        for (const brand of Object.keys(carImagesManifest)) {
+          if (normalize(getInteriorBrandFolder(brand)) === normalize(interiorBrand)) {
+            matchedBrand = brand;
+            const models = carImagesManifest[brand];
+            // 1. Try exact matches first
+            for (const model of Object.keys(models)) {
+              if (normalize(getInteriorModelFolder(model)) === normalize(interiorModel)) {
+                matchedModel = model;
+                break;
+              }
+            }
+            // 2. Try substring match if no exact match found
+            if (!matchedModel) {
+              for (const model of Object.keys(models)) {
+                const normModelFolder = normalize(getInteriorModelFolder(model));
+                const normIntModel = normalize(interiorModel);
+                if (normModelFolder.includes(normIntModel) || normIntModel.includes(normModelFolder)) {
+                  matchedModel = model;
+                  break;
+                }
+              }
+            }
+            if (matchedModel) break;
+          }
+        }
+        
+        const finalBrand = matchedBrand || interiorBrand;
+        const finalModel = matchedModel || interiorModel;
+        const cacheKey = `${normalize(finalBrand)}/${normalize(finalModel)}`;
         
         if (!cache[cacheKey]) {
           cache[cacheKey] = {
