@@ -17,7 +17,9 @@ export async function generateMetadata({ params, searchParams }) {
 
   const carName = car.model_name || car.detailed_name;
   const carBrand = car.brand || '';
+  const fullCarName = `${carBrand} ${carName}`.trim();
   const description = car.web_search_summary || `${carBrand} ${carName} electric vehicle — View complete specifications, battery capacity, range, pricing, charging time, and compare with other EVs in India on BudgetEV.`;
+  const ogDescription = `Check out the ${fullCarName} on BudgetEV. Explore complete specifications, battery capacity, real-world range, pricing, charging times, and key features to compare it with other electric cars.`;
   const carImage = car.vehicle_image || 'https://budgetevcar.com/logo/2.png';
 
   return {
@@ -51,24 +53,24 @@ export async function generateMetadata({ params, searchParams }) {
       canonical: `/cars/${slug}`,
     },
     openGraph: {
-      title: `${carBrand} ${carName} — Electric Vehicle Price, Specs & Range | BudgetEV India`,
-      description,
+      title: `Check out the ${fullCarName} on BudgetEV`,
+      description: ogDescription,
       type: 'article',
       url: `https://budgetevcar.com/cars/${slug}`,
       siteName: 'BudgetEV',
       images: [
         {
           url: carImage,
-          width: 800,
-          height: 500,
-          alt: `${carBrand} ${carName} Electric Vehicle India`,
+          width: 1200,
+          height: 630,
+          alt: `Check out the ${fullCarName} on BudgetEV`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${carBrand} ${carName} — Price, Specs & Range | BudgetEV India`,
-      description: description.slice(0, 200),
+      title: `Check out the ${fullCarName} on BudgetEV`,
+      description: ogDescription,
       images: [carImage],
     },
   };
