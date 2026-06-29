@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Share2 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { getCarUrl } from '@/lib/queries';
@@ -163,6 +164,42 @@ function getSimilarityScore(otherCar, currentCar) {
 }
 
 export default function CarDetailClient({ car, relatedCars, localImages = [], allCars = [], categorizedImages }) {
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
+  const handleShare = async () => {
+    const title = `${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim();
+    const url = window.location.href;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: title,
+          text: title,
+          url,
+        });
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error('Error sharing:', error);
+        }
+      }
+    } else {
+      setIsShareModalOpen(true);
+    }
+  };
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setToastMessage('Link copied to clipboard!');
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+      setIsShareModalOpen(false);
+    } catch (err) {
+      console.error('Failed to copy link:', err);
+    }
+  };
 
   // Get similar electric vehicles
   const currentModel = (car.model_name || '').toLowerCase();
@@ -393,12 +430,24 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
 
             <div className="lg:col-span-5">
               <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-                {car.brand && (
-                  <span className="inline-block text-[10px] font-black uppercase tracking-widest text-[#0249ad] bg-blue-50 px-3 py-1 rounded-md mb-3">{car.brand}</span>
-                )}
-                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 mb-1">
-                  {car.detailed_name || car.model_name}
-                </h1>
+                <div className="flex justify-between items-start gap-4">
+                  <div>
+                    {car.brand && (
+                      <span className="inline-block text-[10px] font-black uppercase tracking-widest text-[#0249ad] bg-blue-50 px-3 py-1 rounded-md mb-3">{car.brand}</span>
+                    )}
+                    <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 mb-1">
+                      {car.detailed_name || car.model_name}
+                    </h1>
+                  </div>
+                  <button
+                    onClick={handleShare}
+                    className="p-2.5 rounded-full border border-slate-200 hover:border-blue-200 text-slate-500 hover:text-[#0249ad] hover:bg-blue-50/50 transition-all duration-200 shadow-sm flex items-center justify-center shrink-0 mt-1 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
+                    title="Share vehicle"
+                    aria-label="Share vehicle"
+                  >
+                    <Share2 className="w-5 h-5" />
+                  </button>
+                </div>
                 {car.variant_name && (
                   <p className="text-sm text-slate-400 font-medium mb-4">{car.variant_name}</p>
                 )}
@@ -567,6 +616,129 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
 
       {/* ── FOOTER ── */}
       <Footer />
+
+      {/* ── SHARE MODAL ── */}
+      <AnimatePresence>
+        {isShareModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsShareModalOpen(false)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            
+            {/* Modal Content */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', duration: 0.4 }}
+              className="relative w-full max-w-sm bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden z-10 p-6"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-slate-900">Share vehicle</h3>
+                <button
+                  onClick={() => setIsShareModalOpen(false)}
+                  className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
+                  aria-label="Close modal"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 gap-2">
+                <button
+                  onClick={copyLink}
+                  className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-50 text-[#0249ad] flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0015 2.25h-1.5a2.251 2.251 0 00-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 00-9-9z" />
+                    </svg>
+                  </div>
+                  <span>Copy Link</span>
+                </button>
+
+                <a
+                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim() + '\n' + window.location.href)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
+                >
+                  <div className="w-8 h-8 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.453L0 24zm6.59-4.846c1.6.95 3.197 1.451 4.805 1.452 5.518 0 10.006-4.486 10.01-10.002.002-2.673-1.03-5.185-2.907-7.063-1.878-1.878-4.383-2.912-7.058-2.913-5.523 0-10.012 4.488-10.016 10.005-.001 1.77.462 3.5 1.34 5.024l-1.012 3.693 3.78-1.002zM17.51 14.3c-.303-.15-1.793-.88-2.054-.975-.26-.1-.45-.15-.64.15-.19.3-.74.95-.91 1.15-.17.19-.34.22-.64.07-1.125-.565-1.92-1.01-2.686-2.324-.2-.34.2-.32.57-1.07.09-.18.04-.34-.02-.49-.07-.15-.64-1.54-.87-2.11-.23-.55-.47-.48-.64-.49-.17-.01-.36-.01-.56-.01-.2 0-.52.07-.79.37-.27.3-1.03 1-1.03 2.44s1.05 2.84 1.2 3.04c.15.2 2.07 3.16 5.01 4.43.7.3 1.25.48 1.68.62.7.22 1.34.19 1.84.11.56-.08 1.79-.73 2.05-1.41.26-.68.26-1.27.18-1.41-.08-.12-.3-.2-.6-.35z"/>
+                    </svg>
+                  </div>
+                  <span>WhatsApp</span>
+                </a>
+
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim())}&url=${encodeURIComponent(window.location.href)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
+                >
+                  <div className="w-8 h-8 rounded-full bg-slate-100 text-slate-900 flex items-center justify-center shrink-0">
+                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  </div>
+                  <span>X (Twitter)</span>
+                </a>
+
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  </div>
+                  <span>Facebook</span>
+                </a>
+
+                <a
+                  href={`mailto:?subject=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim())}&body=${encodeURIComponent(`${car.brand || ''} ${car.model_name || car.detailed_name || ''}`.trim() + '\n\n' + window.location.href)}`}
+                  className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition text-left text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0249ad]/40"
+                >
+                  <div className="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                  </div>
+                  <span>Email</span>
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ── TOAST NOTIFICATION ── */}
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.95 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-2.5 text-sm font-semibold"
+          >
+            <svg className="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>{toastMessage}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
