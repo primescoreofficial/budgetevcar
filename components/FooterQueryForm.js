@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-export default function FooterQueryForm() {
+export default function FooterQueryForm({ onSuccess, isMobileSheet = false }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,6 +12,16 @@ export default function FooterQueryForm() {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const nameInputRef = useRef(null);
+
+  useEffect(() => {
+    if (isMobileSheet && nameInputRef.current) {
+      setTimeout(() => {
+        nameInputRef.current.focus();
+      }, 100);
+    }
+  }, [isMobileSheet]);
 
   const validate = () => {
     const tempErrors = {};
@@ -81,6 +91,9 @@ export default function FooterQueryForm() {
       }
 
       setSubmitted(true);
+      if (onSuccess) {
+        onSuccess();
+      }
       // Reset form
       setFormData({
         name: '',
@@ -101,8 +114,8 @@ export default function FooterQueryForm() {
 
   if (submitted) {
     return (
-      <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-4 text-center space-y-2">
-        <p className="text-xs font-bold text-emerald-400">✅ Query Submitted Successfully!</p>
+      <div className="bg-slate-900/45 border border-slate-800 rounded-xl p-4 text-center space-y-2">
+        <p className="text-xs font-bold text-emerald-400">\u2705 Query Submitted Successfully!</p>
         <p className="text-[11px] text-slate-400">We will get back to you soon.</p>
         <button
           onClick={() => {
@@ -121,6 +134,7 @@ export default function FooterQueryForm() {
       <div>
         <input
           id="footer-name"
+          ref={nameInputRef}
           type="text"
           name="name"
           value={formData.name}
@@ -129,7 +143,7 @@ export default function FooterQueryForm() {
           aria-label="Name"
           className={`w-full bg-slate-900 border border-slate-800 ${
             errors.name ? 'border-red-500 ring-1 ring-red-500/30' : 'hover:border-slate-700'
-          } text-slate-100 placeholder-slate-500 px-3 py-2 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
+          } text-slate-100 placeholder-slate-500 px-3 py-2.5 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
           aria-required="true"
         />
         {errors.name && <p className="text-[10px] text-red-400 mt-1 font-bold tracking-wide pl-1">{errors.name}</p>}
@@ -146,7 +160,7 @@ export default function FooterQueryForm() {
           aria-label="Email"
           className={`w-full bg-slate-900 border border-slate-800 ${
             errors.email ? 'border-red-500 ring-1 ring-red-500/30' : 'hover:border-slate-700'
-          } text-slate-100 placeholder-slate-500 px-3 py-2 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
+          } text-slate-100 placeholder-slate-500 px-3 py-2.5 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
           aria-required="true"
         />
         {errors.email && <p className="text-[10px] text-red-400 mt-1 font-bold tracking-wide pl-1">{errors.email}</p>}
@@ -163,7 +177,7 @@ export default function FooterQueryForm() {
           aria-label="Query or Message"
           className={`w-full bg-slate-900 border border-slate-800 ${
             errors.message ? 'border-red-500 ring-1 ring-red-500/30' : 'hover:border-slate-700'
-          } text-slate-100 placeholder-slate-500 px-3 py-2 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200 resize-none`}
+          } text-slate-100 placeholder-slate-500 px-3 py-2.5 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200 resize-none`}
           aria-required="true"
         />
         {errors.message && <p className="text-[10px] text-red-400 mt-1 font-bold tracking-wide pl-1">{errors.message}</p>}
@@ -176,7 +190,7 @@ export default function FooterQueryForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`w-full bg-blue-600 hover:bg-blue-500 active:scale-[0.98] text-white font-extrabold py-2 px-4 rounded-lg text-xs transition-all duration-200 shadow-md shadow-blue-900/10 ${
+        className={`w-full bg-blue-600 hover:bg-blue-500 active:scale-[0.98] text-white font-extrabold py-2.5 px-4 rounded-lg text-xs transition-all duration-200 shadow-md shadow-blue-900/10 ${
           isSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
         }`}
       >
