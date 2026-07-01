@@ -9,7 +9,7 @@ tags:
   - MG JSW
   - Buying Guide
 author: "budgetev-team"
-image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80"
+image: "https://i.pinimg.com/1200x/b8/88/8c/b8888cb22c4d5010d5edbe3fcad83ba2.jpg"
 readingTime: "4 min"
 relatedEvs:
   - "tata-motors-punch-ev"

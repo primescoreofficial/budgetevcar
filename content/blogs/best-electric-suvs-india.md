@@ -8,7 +8,7 @@ tags:
   - Buying Guide
   - Tata Motors
 author: "budgetev-team"
-image: "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&w=800&q=80"
+image: "https://i.pinimg.com/736x/2c/f5/1d/2cf51db8d5ee1bfc266c1b07db1760db.jpg"
 readingTime: "4 min"
 relatedEvs:
   - "mahindra-be-6"
