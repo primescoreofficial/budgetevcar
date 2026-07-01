@@ -117,7 +117,7 @@ export default function FooterQueryForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-2" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-2.5 md:space-y-2" noValidate>
       <div>
         <input
           id="footer-name"
@@ -129,10 +129,10 @@ export default function FooterQueryForm() {
           aria-label="Name"
           className={`w-full bg-slate-900 border border-slate-800 ${
             errors.name ? 'border-red-500 ring-1 ring-red-500/30' : 'hover:border-slate-700'
-          } text-slate-100 placeholder-slate-500 px-4 py-3 md:px-3 md:py-2.5 rounded-xl md:rounded-lg text-base md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
+          } text-slate-100 placeholder-slate-500 px-3 py-2 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
           aria-required="true"
         />
-        {errors.name && <p className="text-[11px] md:text-[10px] text-red-400 mt-1.5 font-bold tracking-wide pl-1">{errors.name}</p>}
+        {errors.name && <p className="text-[10px] text-red-400 mt-1 font-bold tracking-wide pl-1">{errors.name}</p>}
       </div>
 
       <div>
@@ -146,37 +146,37 @@ export default function FooterQueryForm() {
           aria-label="Email"
           className={`w-full bg-slate-900 border border-slate-800 ${
             errors.email ? 'border-red-500 ring-1 ring-red-500/30' : 'hover:border-slate-700'
-          } text-slate-100 placeholder-slate-500 px-4 py-3 md:px-3 md:py-2.5 rounded-xl md:rounded-lg text-base md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
+          } text-slate-100 placeholder-slate-500 px-3 py-2 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
           aria-required="true"
         />
-        {errors.email && <p className="text-[11px] md:text-[10px] text-red-400 mt-1.5 font-bold tracking-wide pl-1">{errors.email}</p>}
+        {errors.email && <p className="text-[10px] text-red-400 mt-1 font-bold tracking-wide pl-1">{errors.email}</p>}
       </div>
 
       <div>
         <textarea
           id="footer-message"
           name="message"
-          rows={3}
+          rows={2}
           value={formData.message}
           onChange={handleChange}
           placeholder="Query / Message *"
           aria-label="Query or Message"
           className={`w-full bg-slate-900 border border-slate-800 ${
             errors.message ? 'border-red-500 ring-1 ring-red-500/30' : 'hover:border-slate-700'
-          } text-slate-100 placeholder-slate-500 px-4 py-3 md:px-3 md:py-2.5 rounded-xl md:rounded-lg text-base md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200 resize-none`}
+          } text-slate-100 placeholder-slate-500 px-3 py-2 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200 resize-none`}
           aria-required="true"
         />
-        {errors.message && <p className="text-[11px] md:text-[10px] text-red-400 mt-1.5 font-bold tracking-wide pl-1">{errors.message}</p>}
+        {errors.message && <p className="text-[10px] text-red-400 mt-1 font-bold tracking-wide pl-1">{errors.message}</p>}
       </div>
 
       {errors.submit && (
-        <p className="text-[11px] md:text-[10px] text-red-400 mt-1.5 font-bold tracking-wide text-center">{errors.submit}</p>
+        <p className="text-[10px] text-red-400 mt-1 font-bold tracking-wide text-center">{errors.submit}</p>
       )}
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`w-full bg-blue-600 hover:bg-blue-500 active:scale-[0.98] text-white font-extrabold py-3.5 md:py-2.5 px-4 rounded-xl md:rounded-lg text-sm md:text-xs transition-all duration-200 shadow-md shadow-blue-900/10 ${
+        className={`w-full bg-blue-600 hover:bg-blue-500 active:scale-[0.98] text-white font-extrabold py-2 px-4 rounded-lg text-xs transition-all duration-200 shadow-md shadow-blue-900/10 ${
           isSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
         }`}
       >
