@@ -124,9 +124,16 @@ function getCarSpecs(car) {
 
 export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
   const searchParams = useSearchParams();
-  const initialBrand = searchParams.get('brand') || '';
+  const initialBrandParam = searchParams.get('brand') || '';
   const initialBodyType = searchParams.get('bodyType') || '';
   const initialBudget = searchParams.get('budget') || '';
+
+  // Find exact case brand matching the URL param
+  const initialBrand = useMemo(() => {
+    if (!initialBrandParam) return '';
+    const cleanBrandParam = initialBrandParam.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    return brands.find(b => b.toLowerCase().replace(/[^a-z0-9]+/g, '') === cleanBrandParam) || initialBrandParam;
+  }, [initialBrandParam, brands]);
 
   let initialBatteryLimit = '';
   if (initialBudget === 'under-10') initialBatteryLimit = 30;
