@@ -645,6 +645,30 @@
       ]
     }
   },
+  "tatamotors/sierraev": {
+    "exterior": {
+      "label": "Exterior",
+      "images": [
+        "/EV Cars/EV Cars/tata-motors/sierra-ev/1.webp",
+        "/EV Cars/EV Cars/tata-motors/sierra-ev/2.webp",
+        "/EV Cars/EV Cars/tata-motors/sierra-ev/3.webp",
+        "/EV Cars/EV Cars/tata-motors/sierra-ev/4.avif",
+        "/EV Cars/EV Cars/tata-motors/sierra-ev/5.avif",
+        "/EV Cars/EV Cars/tata-motors/sierra-ev/6.avif"
+      ]
+    },
+    "interior": {
+      "label": "Interior",
+      "images": [
+        "/EV Cars Interior/Tata/sierra-ev/1.avif",
+        "/EV Cars Interior/Tata/sierra-ev/2.avif",
+        "/EV Cars Interior/Tata/sierra-ev/3.avif",
+        "/EV Cars Interior/Tata/sierra-ev/4.avif",
+        "/EV Cars Interior/Tata/sierra-ev/5.avif",
+        "/EV Cars Interior/Tata/sierra-ev/6.avif"
+      ]
+    }
+  },
   "tatamotors/tiagoev": {
     "exterior": {
       "label": "Exterior",
