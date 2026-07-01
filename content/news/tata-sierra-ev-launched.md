@@ -9,7 +9,7 @@ tags:
   - New Launch
   - Electric SUV
 author: "budgetev-team"
-image: "/EV Cars/EV Cars/tata-motors/sierra-ev/4.avif"
+image: "https://stimg.cardekho.com/images/carexteriorimages/930x620/Tata/Sierra-EV/7515/1782279842570/exterior-image-166.jpg"
 readingTime: "5 min"
 relatedEvs:
   - "tata-motors-sierra-ev"
