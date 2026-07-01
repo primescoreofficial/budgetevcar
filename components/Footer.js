@@ -212,7 +212,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             {/* Contact Column */}
             <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Contact</h4>
-              
+
               {/* Desktop View Form Container */}
               <div className="hidden md:block pt-2">
                 <FooterQueryForm />
@@ -225,7 +225,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
                   onClick={openSheet}
                   className="bg-blue-600 hover:bg-blue-500 active:scale-[0.98] text-white font-extrabold py-2.5 px-4 rounded-xl text-xs tracking-wider transition-all duration-200 shadow-md shadow-blue-900/10 cursor-pointer text-center block w-full whitespace-nowrap"
                 >
-                  Submit Query Here
+                  Submit Query?
                 </button>
               </div>
             </div>
@@ -246,9 +246,16 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
       {/* ── MOBILE BOTTOM SHEET MODAL ── */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-50 md:hidden flex items-end justify-center">
+          <motion.div
+            key="sheet-wrapper"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 md:hidden flex items-end justify-center"
+          >
             {/* Backdrop Fade & Blur */}
             <motion.div
+              key="sheet-backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -258,6 +265,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
 
             {/* Bottom Sheet Slide Up */}
             <motion.div
+              key="sheet-content"
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
@@ -292,7 +300,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
               {/* Embedded Existing Form */}
               <FooterQueryForm onSuccess={handleSuccess} isMobileSheet={isOpen} />
             </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
