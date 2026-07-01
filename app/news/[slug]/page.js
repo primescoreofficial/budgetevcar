@@ -202,6 +202,40 @@ export default async function NewsDetailPage({ params }) {
                   ))}
                 </div>
               )}
+
+              {/* Related EVs Deck */}
+              {item.relatedEvs && item.relatedEvs.length > 0 && (
+                <section className="mt-12 border-t border-slate-200/60 pt-8">
+                  <h3 className="text-lg font-extrabold text-slate-900 tracking-tight mb-5">
+                    Related Electric Vehicles
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {item.relatedEvs.map(car => (
+                      <div 
+                        key={car.serial_no}
+                        className="group bg-white border border-slate-200/65 hover:border-blue-300 rounded-xl p-3.5 hover:shadow-md transition-all duration-300 flex items-center gap-3.5"
+                      >
+                        <div className="w-20 h-14 bg-slate-50 rounded-lg overflow-hidden shrink-0 flex items-center justify-center">
+                          <img 
+                            src={car.vehicle_image} 
+                            alt={car.detailed_name || car.model_name}
+                            className="w-full h-full object-cover transition duration-300 group-hover:scale-105" 
+                          />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <h4 className="text-xs font-extrabold text-slate-900 group-hover:text-[#0249ad] transition-colors line-clamp-1 leading-snug">
+                            <Link href={`/cars/${car.brand.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${(car.model_name || car.detailed_name).toLowerCase().replace(/[^a-z0-9]+/g, '-')}?v=${car.serial_no}`}>
+                              {car.model_name || car.detailed_name}
+                            </Link>
+                          </h4>
+                          <p className="text-[10px] text-slate-400 font-semibold mt-0.5">{car.brand}</p>
+                          <p className="text-[10px] font-black text-[#0249ad] mt-0.5">{car.battery_capacity || 'N/A'}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
             </div>
 
             {/* Sidebar with related news */}

@@ -163,10 +163,11 @@ function getSimilarityScore(otherCar, currentCar) {
   return score;
 }
 
-export default function CarDetailClient({ car, relatedCars, localImages = [], allCars = [], categorizedImages }) {
+export default function CarDetailClient({ car, relatedCars, localImages = [], allCars = [], categorizedImages, relatedNews = [], youtubeVideos = [] }) {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [activeVideo, setActiveVideo] = useState(null);
 
   const handleShare = async () => {
     const url = `https://www.budgetevcar.com${getCarUrl(car)}`;
@@ -611,6 +612,43 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
           )}
         </motion.div>
       </main>
+
+      {/* ── VIDEO PLAYER MODAL ── */}
+      <AnimatePresence>
+        {activeVideo && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveVideo(null)}
+              className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-4xl aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl z-10"
+            >
+              <button 
+                onClick={() => setActiveVideo(null)}
+                className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors focus:outline-none"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <iframe 
+                src={`https://www.youtube.com/embed/${activeVideo.videoId}?autoplay=1`}
+                title={activeVideo.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* ── FOOTER ── */}
       <Footer />

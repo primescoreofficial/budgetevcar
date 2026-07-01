@@ -103,6 +103,15 @@ export default async function CarDetailPage({ params, searchParams }) {
 
   const localImages = getCarLocalImages(car.brand, car.model_name || car.detailed_name);
 
+  // Official or trusted YouTube videos for Tata Sierra EV
+  let youtubeVideos = [];
+  if (car.model_name && car.model_name.toLowerCase().includes('sierra')) {
+    youtubeVideos = [
+      { id: '1', videoId: 'n_X11G0Bq7k', title: 'Tata Sierra EV Concept - First Look & Walkaround | Auto Expo', author: 'Tata Motors / Auto Expo' },
+      { id: '2', videoId: 'e2DpyJ8x_4M', title: 'Tata Sierra EV Concept SUV Unveiled - Features & Interior Walkaround', author: 'Tata Motors official' }
+    ];
+  }
+
   const carName = car.model_name || car.detailed_name;
   const carBrand = car.brand || '';
 
@@ -184,6 +193,12 @@ export default async function CarDetailPage({ params, searchParams }) {
 
   const categorizedImages = getCarImagesCategorized(car.brand, car.model_name || car.detailed_name);
 
+  // Fetch related news articles that tag this vehicle
+  const allNews = require('@/lib/content').getAllPosts('news');
+  const relatedNews = allNews.filter(post => 
+    (post.relatedEvs || []).includes(`${carBrand.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${carName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`)
+  ).slice(0, 3);
+
   return (
     <>
       <script
@@ -200,6 +215,8 @@ export default async function CarDetailPage({ params, searchParams }) {
         localImages={localImages}
         allCars={enrichedAllCars}
         categorizedImages={categorizedImages}
+        relatedNews={relatedNews}
+        youtubeVideos={youtubeVideos}
       />
     </>
   );
