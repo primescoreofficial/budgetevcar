@@ -210,7 +210,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             </div>
 
             {/* Contact Column */}
-            <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px]">
+            <div className="w-[calc(50%-1rem)] md:w-auto md:flex-1 space-y-4 min-w-[140px] text-left">
               <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest">Contact</h4>
 
               {/* Desktop View Form Container */}
@@ -220,13 +220,13 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
 
               {/* Mobile View Contact support placeholder CTA */}
               <div className="md:hidden pt-1">
-                <button
+                <p
                   ref={triggerRef}
                   onClick={openSheet}
-                  className="bg-blue-600 hover:bg-blue-500 active:scale-[0.98] text-white font-extrabold py-2.5 px-4 rounded-xl text-xs tracking-wider transition-all duration-200 shadow-md shadow-blue-900/10 cursor-pointer text-center block w-full whitespace-nowrap"
+                  className="text-slate-400 hover:text-blue-400 transition-colors duration-200 block py-0.5 space-y-2.5 text-xs font-semibold "
                 >
-                  Submit Query?
-                </button>
+                  Submit a Query?
+                </p>
               </div>
             </div>
           </div>
