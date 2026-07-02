@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Zap } from 'lucide-react';
+import { MapPin, Zap, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FooterQueryForm from './FooterQueryForm';
 
@@ -70,6 +70,16 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
       setShowToast(false);
       closeSheet();
     }, 2000);
+  };
+
+  const handleScrollToTop = () => {
+    if (typeof window !== 'undefined') {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth'
+      });
+    }
   };
 
   return (
@@ -236,6 +246,15 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-500">
           <p>© {new Date().getFullYear()} BudgetEV. All rights reserved.</p>
+
+          <button
+            onClick={handleScrollToTop}
+            aria-label="Back to Top"
+            className="w-10 h-10 rounded-full bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white active:bg-blue-700 active:text-white flex items-center justify-center shadow-md cursor-pointer transition-all duration-200 ease-in-out hover:scale-105 hover:-translate-y-0.5 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-950 motion-reduce:transition-none motion-reduce:hover:transform-none"
+          >
+            <ChevronUp className="w-5 h-5" />
+          </button>
+
           <div className="flex items-center gap-1.5">
             <span>Made for {"India's"} EV revolution</span>
             <Zap className="w-3.5 h-3.5 text-blue-500" />
