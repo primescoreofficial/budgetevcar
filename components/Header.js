@@ -230,17 +230,6 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
                   </div>
                 )}
               </div>
-
-              {/* Get Started CTA in mobile menu */}
-              <div className="pt-2 mt-1 border-t border-slate-100">
-                <Link
-                  href="/find-ev"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-center w-full bg-[#1e40af] hover:bg-[#1d4ed8] text-white px-5 py-3 rounded-xl text-sm font-bold transition"
-                >
-                  Get Started
-                </Link>
-              </div>
             </nav>
           </motion.div>
         )}
