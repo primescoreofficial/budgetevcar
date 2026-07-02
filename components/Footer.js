@@ -250,7 +250,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
           <button
             onClick={handleScrollToTop}
             aria-label="Back to Top"
-            className="w-10 h-10 rounded-full bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white active:bg-blue-700 active:text-white flex items-center justify-center shadow-md cursor-pointer transition-all duration-200 ease-in-out hover:scale-105 hover:-translate-y-0.5 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-950 motion-reduce:transition-none motion-reduce:hover:transform-none"
+            className="w-10 h-10 rounded-full text-blue-600 hover:bg-blue-600 hover:text-white active:bg-blue-700 active:text-white flex items-center justify-center shadow-md cursor-pointer transition-all duration-200 ease-in-out hover:scale-105 hover:-translate-y-0.5 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-950 motion-reduce:transition-none motion-reduce:hover:transform-none"
           >
             <ChevronUp className="w-5 h-5" />
           </button>
