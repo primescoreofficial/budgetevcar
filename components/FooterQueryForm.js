@@ -141,9 +141,7 @@ export default function FooterQueryForm({ onSuccess, isMobileSheet = false }) {
           onChange={handleChange}
           placeholder="Name *"
           aria-label="Name"
-          className={`w-full bg-slate-900 border border-slate-800 ${
-            errors.name ? 'border-red-500 ring-1 ring-red-500/30' : 'hover:border-slate-700'
-          } text-slate-100 placeholder-slate-500 px-3 py-2.5 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
+          className={`w-full bg-slate-900 text-slate-100 placeholder-slate-500 px-3 py-2.5 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
           aria-required="true"
         />
         {errors.name && <p className="text-[10px] text-red-400 mt-1 font-bold tracking-wide pl-1">{errors.name}</p>}
@@ -158,9 +156,7 @@ export default function FooterQueryForm({ onSuccess, isMobileSheet = false }) {
           onChange={handleChange}
           placeholder="Email *"
           aria-label="Email"
-          className={`w-full bg-slate-900 border border-slate-800 ${
-            errors.email ? 'border-red-500 ring-1 ring-red-500/30' : 'hover:border-slate-700'
-          } text-slate-100 placeholder-slate-500 px-3 py-2.5 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
+          className={`w-full bg-slate-900  text-slate-100 placeholder-slate-500 px-3 py-2.5 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200`}
           aria-required="true"
         />
         {errors.email && <p className="text-[10px] text-red-400 mt-1 font-bold tracking-wide pl-1">{errors.email}</p>}
@@ -175,9 +171,7 @@ export default function FooterQueryForm({ onSuccess, isMobileSheet = false }) {
           onChange={handleChange}
           placeholder="Query / Message *"
           aria-label="Query or Message"
-          className={`w-full bg-slate-900 border border-slate-800 ${
-            errors.message ? 'border-red-500 ring-1 ring-red-500/30' : 'hover:border-slate-700'
-          } text-slate-100 placeholder-slate-500 px-3 py-2.5 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200 resize-none`}
+          className={`w-full bg-slate-900 text-slate-100 placeholder-slate-500 px-3 py-2.5 rounded-lg text-sm md:text-xs font-semibold focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all duration-200 resize-none`}
           aria-required="true"
         />
         {errors.message && <p className="text-[10px] text-red-400 mt-1 font-bold tracking-wide pl-1">{errors.message}</p>}

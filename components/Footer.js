@@ -85,7 +85,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
   return (
     <footer className="bg-slate-950 text-slate-100 pt-16 pb-12 border-t border-slate-900 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex flex-col flex-wrap gap-8 md:gap-12 pb-12 border-b border-slate-900">
+        <div className="flex flex-col flex-wrap gap-8 md:gap-12  border-b border-slate-900">
 
           {/* Brand Column */}
           <div className="w-full space-y-4 shrink-0">
