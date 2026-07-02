@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -11,6 +11,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
   const [localMenuOpen, setLocalMenuOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [newsBlogsOpen, setNewsBlogsOpen] = useState(false);
+  const headerRef = useRef(null);
 
   const menuOpen = customMenuOpen !== undefined ? customMenuOpen : localMenuOpen;
   const setMenuOpen = customSetMenuOpen !== undefined ? customSetMenuOpen : setLocalMenuOpen;
@@ -41,6 +42,23 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
     };
   }, [menuOpen, setMenuOpen]);
 
+  // Close menu when clicking/tapping outside the header (robust — works
+  // regardless of z-index/stacking issues elsewhere on the page)
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleClickOutside = (e) => {
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [menuOpen, setMenuOpen]);
+
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/find-ev', label: 'Find EV' },
@@ -49,8 +67,9 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
   ];
 
   return (
-    <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm shadow-slate-100/40">
-      <style dangerouslySetInnerHTML={{__html: `
+    <header ref={headerRef} className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm shadow-slate-100/40">
+      <style dangerouslySetInnerHTML={{
+        __html: `
         :root {
           --desktop-display: none !important;
           --desktop-inline-display: none !important;
@@ -200,77 +219,77 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
               style={{ display: 'var(--mobile-block-display)' }}
             >
               <nav className="flex flex-col gap-1" onClick={(e) => e.stopPropagation()}>
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${isActive
-                      ? "bg-blue-50 text-[#1e3a8a]"
-                      : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"
-                      }`}
+                {navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition ${isActive
+                        ? "bg-blue-50 text-[#1e3a8a]"
+                        : "text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a]"
+                        }`}
+                    >
+                      <span>{link.label}</span>
+                      <svg className="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  );
+                })}
+
+                {/* Tools accordion */}
+                <div>
+                  <button
+                    onClick={() => setToolsOpen(!toolsOpen)}
+                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a] transition"
                   >
-                    <span>{link.label}</span>
-                    <svg className="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    <span>Tools</span>
+                    <svg className={`w-4 h-4 text-slate-400 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                     </svg>
-                  </Link>
-                );
-              })}
+                  </button>
+                  {toolsOpen && (
+                    <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
+                      <Link href="/tools/ev-emi-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
+                        EV EMI Calculator
+                      </Link>
+                      <Link href="/tools/ev-running-cost-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
+                        EV Trip Cost Calculator
+                      </Link>
+                      <Link href="/tools/ev-savings-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
+                        EV Savings Calculator
+                      </Link>
+                      <Link href="/tools/ev-charging-time-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
+                        EV Charging Time Calculator
+                      </Link>
+                    </div>
+                  )}
+                </div>
 
-              {/* Tools accordion */}
-              <div>
-                <button
-                  onClick={() => setToolsOpen(!toolsOpen)}
-                  className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a] transition"
-                >
-                  <span>Tools</span>
-                  <svg className={`w-4 h-4 text-slate-400 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {toolsOpen && (
-                  <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
-                    <Link href="/tools/ev-emi-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
-                      EV EMI Calculator
-                    </Link>
-                    <Link href="/tools/ev-running-cost-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
-                      EV Trip Cost Calculator
-                    </Link>
-                    <Link href="/tools/ev-savings-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
-                      EV Savings Calculator
-                    </Link>
-                    <Link href="/tools/ev-charging-time-calculator" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
-                      EV Charging Time Calculator
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              {/* News/Blogs accordion */}
-              <div>
-                <button
-                  onClick={() => setNewsBlogsOpen(!newsBlogsOpen)}
-                  className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a] transition"
-                >
-                  <span>News/Blogs</span>
-                  <svg className={`w-4 h-4 text-slate-400 transition-transform ${newsBlogsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {newsBlogsOpen && (
-                  <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
-                    <Link href="/news" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
-                      News
-                    </Link>
-                    <Link href="/blog" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
-                      Blogs
-                    </Link>
-                  </div>
-                )}
-              </div>
+                {/* News/Blogs accordion */}
+                <div>
+                  <button
+                    onClick={() => setNewsBlogsOpen(!newsBlogsOpen)}
+                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[#1e3a8a] transition"
+                  >
+                    <span>News/Blogs</span>
+                    <svg className={`w-4 h-4 text-slate-400 transition-transform ${newsBlogsOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {newsBlogsOpen && (
+                    <div className="pl-4 pr-2 flex flex-col gap-1 mt-1 border-l-2 border-slate-100">
+                      <Link href="/news" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
+                        News
+                      </Link>
+                      <Link href="/blog" onClick={() => setMenuOpen(false)} className="flex items-center justify-between px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50">
+                        Blogs
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </nav>
             </motion.div>
           </>
