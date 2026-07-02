@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -14,6 +14,32 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
 
   const menuOpen = customMenuOpen !== undefined ? customMenuOpen : localMenuOpen;
   const setMenuOpen = customSetMenuOpen !== undefined ? customSetMenuOpen : setLocalMenuOpen;
+
+  // Prevent body scrolling when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
+  // Handle ESC key to close mobile menu
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [menuOpen, setMenuOpen]);
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -136,6 +162,8 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
             className="p-2.5 rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition focus:outline-none"
             style={{ display: 'var(--mobile-display)' }}
             aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {menuOpen
@@ -150,15 +178,28 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
       {/* Mobile/Tablet Dropdown Menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
-            style={{ display: 'var(--mobile-block-display)' }}
-          >
-            <nav className="flex flex-col gap-1">
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMenuOpen(false)}
+              className="fixed inset-x-0 bottom-0 top-20 bg-slate-950/20 backdrop-blur-[2px] z-30"
+              style={{ display: 'var(--mobile-block-display)' }}
+            />
+            {/* Menu Dropdown */}
+            <motion.div
+              id="mobile-menu"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white border-t border-slate-100 shadow-xl px-4 pb-6 pt-3 absolute left-0 right-0 z-40"
+              style={{ display: 'var(--mobile-block-display)' }}
+            >
+              <nav className="flex flex-col gap-1" onClick={(e) => e.stopPropagation()}>
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -230,8 +271,9 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
                   </div>
                 )}
               </div>
-            </nav>
-          </motion.div>
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>
