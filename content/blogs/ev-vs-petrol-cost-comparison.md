@@ -8,7 +8,7 @@ tags:
   - EV Savings
   - Analysis
 author: "budgetev-team"
-image: "https://i.pinimg.com/736x/8c/85/26/8c8526e325efcf38426465d5d9f57b10.jpg"
+image: "/ad/evvspetrol.png"
 readingTime: "5 min"
 relatedEvs:
   - "tata-motors-nexon-ev"
