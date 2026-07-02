@@ -529,7 +529,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                 </motion.span>
               </div>
 
-              <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-y overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-0 sm:mx-0 sm:pb-0">
+              <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-auto overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-0 sm:mx-0 sm:pb-0">
                 {similarEVs.map((simCar, index) => (
                   <motion.div
                     key={simCar.serial_no}
@@ -583,7 +583,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                 </motion.span>
               </div>
 
-              <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-y overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-0 sm:mx-0 sm:pb-0">
+              <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth touch-auto overscroll-x-contain scroll-pl-4 px-4 -mx-4 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:px-0 sm:mx-0 sm:pb-0">
                 {relatedCars.map((relCar, index) => (
                   <motion.div
                     key={relCar.serial_no}
