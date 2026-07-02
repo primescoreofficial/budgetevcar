@@ -247,13 +247,23 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-500">
           <p>© {new Date().getFullYear()} BudgetEV. All rights reserved.</p>
 
-          <button
-            onClick={handleScrollToTop}
-            aria-label="Back to Top"
-            className="w-10 h-10 rounded-full text-blue-600 hover:bg-blue-600 hover:text-white active:bg-blue-700 active:text-white flex items-center justify-center shadow-md cursor-pointer transition-all duration-200 ease-in-out hover:scale-105 hover:-translate-y-0.5 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-950 motion-reduce:transition-none motion-reduce:hover:transform-none"
-          >
-            <ChevronUp className="w-5 h-5" />
-          </button>
+          <div className="relative group">
+            <button
+              onClick={handleScrollToTop}
+              aria-label="Back to Top"
+              className="w-10 h-10 rounded-full text-blue-600 hover:bg-blue-600 hover:text-white active:bg-blue-700 active:text-white flex items-center justify-center shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-950 motion-reduce:transition-none motion-reduce:hover:transform-none"
+            >
+              <ChevronUp className="w-5 h-5" />
+            </button>
+            
+            {/* Premium Tooltip */}
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 pointer-events-none opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 ease-out origin-bottom flex flex-col items-center z-30">
+              <div className="bg-slate-900 border border-slate-800 text-slate-200 text-[10px] font-semibold py-1 px-2.5 rounded-lg shadow-xl whitespace-nowrap">
+                Want To Go To Top?
+              </div>
+              <div className="w-1.5 h-1.5 bg-slate-900 border-r border-b border-slate-800 rotate-45 -mt-1" />
+            </div>
+          </div>
 
           <div className="flex items-center gap-1.5">
             <span>Made for {"India's"} EV revolution</span>
