@@ -1,5 +1,7 @@
 import "./globals.css";
 import SplashScreen from "@/components/SplashScreen";
+import ClientChatWrapper from "@/components/ClientChatWrapper";
+
 
 export const metadata = {
   title: "Budget EV Car — Best Affordable Electric Cars Under ₹15 Lakh in India (2026)",
@@ -183,6 +185,7 @@ export default function RootLayout({ children }) {
       <body className="text-slate-900 antialiased">
         <SplashScreen />
         {children}
+        <ClientChatWrapper />
       </body>
     </html>
   );
