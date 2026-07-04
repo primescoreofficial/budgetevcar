@@ -284,6 +284,7 @@ export default function BudgetEvChat() {
             var(--_g) 100% 100%;
           background-size: 35% calc(35% * 1.154);
           animation: l16 1s infinite;
+          
         }
 
         @keyframes l16 {

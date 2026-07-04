@@ -36,7 +36,7 @@ function LazySection({ children, className = '' }) {
 // ─── Car Card ───────────────────────────────────────────────────────────────
 function CarCard({ car, index, variant = 'grid' }) {
   if (variant === 'category') {
-    const isTrending = index % 3 === 0; // Show trending badge on some cards
+    const isTrending = index === 0; // Show trending badge on some cards
     return (
       <motion.div
         key={car.serial_no}
