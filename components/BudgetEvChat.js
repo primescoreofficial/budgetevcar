@@ -274,32 +274,23 @@ export default function BudgetEvChat() {
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes chatBounce {
-          0%, 100% {
-            transform: translateY(0);
+        .loader {
+          width: 12px;
+          aspect-ratio: 1.154;
+          --_g: no-repeat radial-gradient(farthest-side, #000 90%, #0000);
+          background:
+            var(--_g) 50% 0,
+            var(--_g) 0 100%,
+            var(--_g) 100% 100%;
+          background-size: 35% calc(35% * 1.154);
+          animation: l16 1s infinite;
+        }
+
+        @keyframes l16 {
+          50%,
+          100% {
+            background-position: 100% 100%, 50% 0, 0 100%;
           }
-          50% {
-            transform: translateY(-5px);
-          }
-        }
-        .chat-bounce-dot {
-          display: inline-block;
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          animation: chatBounce 1.2s infinite ease-in-out;
-        }
-        .chat-bounce-dot:nth-child(1) {
-          background-color: #0f172a;
-          animation-delay: 0s;
-        }
-        .chat-bounce-dot:nth-child(2) {
-          background-color: #facc15;
-          animation-delay: 0.2s;
-        }
-        .chat-bounce-dot:nth-child(3) {
-          background-color: #0f172a;
-          animation-delay: 0.4s;
         }
         /* Specific override to show scrollbars inside the chat window */
         div.custom-scrollbar::-webkit-scrollbar {
@@ -484,12 +475,13 @@ export default function BudgetEvChat() {
                 })}
 
                 {isLoading && (
-                  <div className="flex justify-start items-start gap-2.5">
-                      <img src="/logo/budgetev-ai-assistant.jpg" alt="AI" className="w-7 h-7 rounded-full object-cover shadow-sm flex-shrink-0 mt-0.5" />
-                    <div className="bg-slate-50 border border-slate-100 rounded-2xl rounded-tl-sm px-4 py-3 shadow-inner flex items-center gap-1.5 h-8">
-                      <span className="chat-bounce-dot" />
-                      <span className="chat-bounce-dot" />
-                      <span className="chat-bounce-dot" />
+                  <div className="flex justify-start items-start gap-2.5 animate-fadeIn">
+                    <img src="/logo/budgetev-ai-assistant.jpg" alt="AI" className="w-7 h-7 rounded-full object-cover shadow-sm flex-shrink-0 mt-0.5" />
+                    <div 
+                      className="bg-slate-50 border border-slate-100 rounded-2xl rounded-tl-sm shadow-inner flex items-center justify-center"
+                      style={{ padding: '14px' }}
+                    >
+                      <div className="loader" />
                     </div>
                   </div>
                 )}
