@@ -63,7 +63,8 @@ export default async function BlogDetailPage({ params }) {
   const bodyTypes = await getUniqueBodyTypes();
 
   // Find related articles (same category or sharing tags, excluding current)
-  const allPosts = getAllPosts('blogs');
+  const allPosts = await getAllPosts('blogs');
+
   const relatedArticles = allPosts
     .filter(p => p.slug !== slug && (p.category === post.frontmatter.category || (p.tags || []).some(t => (post.frontmatter.tags || []).includes(t))))
     .slice(0, 3);

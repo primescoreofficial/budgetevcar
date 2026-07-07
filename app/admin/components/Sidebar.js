@@ -12,11 +12,9 @@ import {
   FolderHeart, 
   Bot, 
   Settings, 
-  User, 
   LogOut, 
   Menu, 
-  X,
-  Sparkles
+  X
 } from 'lucide-react';
 
 const menuItems = [
@@ -53,14 +51,14 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile Top Header Bar */}
-      <div className="lg:hidden h-16 bg-slate-950/90 backdrop-blur-md border-b border-slate-900/60 px-4 flex items-center justify-between fixed top-0 left-0 right-0 z-40">
+      <div className="lg:hidden h-16 bg-white border-b border-slate-200 px-4 flex items-center justify-between fixed top-0 left-0 right-0 z-40">
         <Link href="/admin/dashboard" className="flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-blue-500" />
-          <span className="text-white font-extrabold text-sm tracking-tight">BudgetEV Admin</span>
+          <img src="/logo/2.png" alt="BudgetEV Logo" className="h-8 object-contain" />
+          <span className="text-slate-900 font-extrabold text-xs tracking-tight uppercase">Admin Panel</span>
         </Link>
         <button 
           onClick={() => setIsOpen(!isOpen)} 
-          className="p-2 text-slate-400 hover:text-white transition-all cursor-pointer"
+          className="p-2 text-slate-500 hover:text-slate-800 transition-all cursor-pointer"
           aria-label="Toggle menu"
         >
           {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -71,22 +69,23 @@ export default function Sidebar() {
       {isOpen && (
         <div 
           onClick={() => setIsOpen(false)}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden"
         />
       )}
 
       {/* Sidebar Container */}
       <aside className={`
-        fixed lg:sticky top-0 bottom-0 left-0 h-screen w-64 bg-slate-950 border-r border-slate-900/80 p-5 flex flex-col z-50 shrink-0 transition-transform duration-300 lg:translate-x-0
+        fixed lg:sticky top-0 bottom-0 left-0 h-screen w-64 bg-white border-r border-slate-200 p-5 flex flex-col z-50 shrink-0 transition-transform duration-300 lg:translate-x-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         pt-20 lg:pt-6
       `}>
         {/* Logo Section */}
-        <div className="hidden lg:flex items-center gap-3 px-3 mb-8">
-          <div className="w-8 h-8 rounded-xl bg-blue-650/10 border border-blue-500/20 flex items-center justify-center">
-            <Sparkles className="w-4.5 h-4.5 text-blue-500" />
+        <div className="hidden lg:flex items-center gap-2.5 px-1 mb-8">
+          <img src="/logo/2.png" alt="BudgetEV Logo" className="h-10 object-contain shrink-0" />
+          <div className="flex flex-col min-w-0">
+            <span className="text-slate-950 font-black text-sm tracking-tight font-sans leading-tight">BudgetEV</span>
+            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none">Admin Panel</span>
           </div>
-          <span className="text-white font-extrabold text-base tracking-tight font-sans">BudgetEV Admin</span>
         </div>
 
         {/* Navigation Menu Links */}
@@ -100,13 +99,13 @@ export default function Sidebar() {
                 href={item.path}
                 onClick={() => setIsOpen(false)}
                 className={`
-                  flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 group border
+                  flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-205 group border
                   ${isActive 
-                    ? 'bg-blue-650/10 text-white border-blue-500/20 shadow-md shadow-blue-500/5' 
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 border-transparent'}
+                    ? 'bg-blue-50 text-[#1e40af] border-blue-100 shadow-sm shadow-blue-500/5' 
+                    : 'text-slate-600 hover:text-[#1e40af] hover:bg-slate-50 border-transparent'}
                 `}
               >
-                <Icon className={`w-4 h-4 transition-colors ${isActive ? 'text-blue-500' : 'text-slate-500 group-hover:text-slate-350'}`} />
+                <Icon className={`w-4 h-4 transition-colors ${isActive ? 'text-[#1e40af]' : 'text-slate-400 group-hover:text-[#1e40af]'}`} />
                 <span>{item.name}</span>
               </Link>
             );
@@ -114,17 +113,17 @@ export default function Sidebar() {
         </nav>
 
         {/* Divider */}
-        <div className="h-px bg-slate-900/80 my-4" />
+        <div className="h-px bg-slate-100 my-4" />
 
         {/* Footer Area */}
         <div className="space-y-2">
           {/* User Profile display card */}
-          <div className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-slate-900/20 border border-slate-900/60">
-            <div className="w-7 h-7 rounded-lg bg-blue-650/10 border border-blue-500/20 flex items-center justify-center text-xs font-bold text-blue-400 uppercase shrink-0">
+          <div className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <div className="w-7 h-7 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-xs font-bold text-[#1e40af] uppercase shrink-0">
               {userEmail ? userEmail.slice(0, 2) : 'AD'}
             </div>
             <div className="overflow-hidden flex-1 min-w-0">
-              <p className="text-[11px] font-bold text-slate-200 truncate leading-none">{userEmail || 'Administrator'}</p>
+              <p className="text-[11px] font-bold text-slate-800 truncate leading-none">{userEmail || 'Administrator'}</p>
               <p className="text-[9px] text-slate-500 font-semibold tracking-wider uppercase mt-1">Superuser</p>
             </div>
           </div>
@@ -132,7 +131,8 @@ export default function Sidebar() {
           {/* Logout Trigger button */}
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-red-400 hover:bg-red-500/5 hover:text-red-300 border border-transparent hover:border-red-500/10 transition-all cursor-pointer"
+            style={{ backgroundColor: '#dc2626', color: '#ffffff' }}
+            className="w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer hover:opacity-90"
           >
             <LogOut className="w-4 h-4" />
             <span>Logout</span>

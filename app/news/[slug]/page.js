@@ -62,7 +62,8 @@ export default async function NewsDetailPage({ params }) {
   const bodyTypes = await getUniqueBodyTypes();
 
   // Find related news (excluding current)
-  const allNews = getAllPosts('news');
+  const allNews = await getAllPosts('news');
+
   const relatedNews = allNews
     .filter(n => n.slug !== slug)
     .slice(0, 3);

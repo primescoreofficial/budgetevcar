@@ -60,17 +60,17 @@ export default function AdminLogin() {
 
   if (checkingSession) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-[#1e40af] animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 relative overflow-hidden font-sans">
       {/* Decorative radial glows */}
-      <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] rounded-full bg-blue-900/10 blur-[120px]" />
-      <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] rounded-full bg-indigo-900/10 blur-[120px]" />
+      <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] rounded-full bg-blue-100/50 blur-[120px]" />
+      <div className="absolute bottom-[-20%] right-[-20%] w-[60%] h-[60%] rounded-full bg-blue-50 blur-[120px]" />
 
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -78,18 +78,16 @@ export default function AdminLogin() {
         transition={{ duration: 0.4 }}
         className="w-full max-w-md relative z-10"
       >
-        <Card className="p-8 space-y-6">
+        <Card className="p-8 space-y-6 border border-slate-200 bg-white shadow-xl">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-650/10 border border-blue-500/20 mb-4">
-              <Lock className="w-6 h-6 text-blue-500" />
-            </div>
-            <h1 className="text-2xl font-extrabold text-white tracking-tight">BudgetEV Admin</h1>
-            <p className="text-slate-400 text-xs mt-1.5 uppercase font-bold tracking-widest">Sign in to platform</p>
+            <img src="/logo/2.png" alt="BudgetEV Logo" className="h-12 mx-auto mb-4 object-contain" />
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight">BudgetEV Admin</h1>
+            <p className="text-slate-500 text-xs mt-1 uppercase font-bold tracking-widest">Sign in to control center</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-4">
             {error && (
-              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold p-3.5 rounded-xl flex items-center gap-2">
+              <div className="bg-red-55/60 border border-red-200 text-red-700 text-xs font-semibold p-3.5 rounded-xl flex items-center gap-2">
                 <AlertCircle className="w-4.5 h-4.5 shrink-0" />
                 <span>{error}</span>
               </div>

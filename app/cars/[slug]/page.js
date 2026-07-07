@@ -194,7 +194,8 @@ export default async function CarDetailPage({ params, searchParams }) {
   const categorizedImages = getCarImagesCategorized(car.brand, car.model_name || car.detailed_name);
 
   // Fetch related news articles that tag this vehicle
-  const allNews = require('@/lib/content').getAllPosts('news');
+  const allNews = await require('@/lib/content').getAllPosts('news');
+
   const relatedNews = allNews.filter(post => 
     (post.relatedEvs || []).includes(`${carBrand.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${carName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`)
   ).slice(0, 3);

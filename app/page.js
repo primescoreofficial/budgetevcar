@@ -37,8 +37,9 @@ export default async function HomePage() {
   const bodyTypes = await getUniqueBodyTypes();
 
   // Fetch latest blogs and news (limit to 4)
-  const latestBlogs = getAllPosts('blogs').slice(0, 4);
-  const latestNews = getAllPosts('news').slice(0, 4);
+  const latestBlogs = (await getAllPosts('blogs')).slice(0, 4);
+  const latestNews = (await getAllPosts('news')).slice(0, 4);
+
 
   const jsonLd = {
     '@context': 'https://schema.org',

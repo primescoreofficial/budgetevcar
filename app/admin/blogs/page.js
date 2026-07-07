@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { getVehicleThumbnail } from '@/lib/imageHelpers';
-
 import { 
   Plus, 
   Edit, 
@@ -19,128 +17,124 @@ import {
   AlertCircle,
   CheckCircle2,
   XCircle,
-  Search
+  Search,
+  BookOpen
 } from 'lucide-react';
-import { PageHeader, Button, Input, Select, Badge, Table } from '@/app/admin/components/DesignSystem';
+import { PageHeader, Button, Input, Select, Table } from '@/app/admin/components/DesignSystem';
 
-export default function CarsManagement() {
+export default function BlogsManagement() {
   const router = useRouter();
-  const [cars, setCars] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
   // Search, filter, sorting, pagination states
   const [search, setSearch] = useState('');
-  const [filterBrand, setFilterBrand] = useState('');
-  const [filterBodyType, setFilterBodyType] = useState('');
+  const [filterCategory, setFilterCategory] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
-  const [sortField, setSortField] = useState('detailed_name');
+  const [sortField, setSortField] = useState('title');
   const [sortOrder, setSortOrder] = useState('asc'); // 'asc' | 'desc'
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Fetch all cars
-  const fetchCars = async () => {
+  // Fetch all blogs from Supabase
+  const fetchBlogs = async () => {
     setLoading(true);
     try {
       const { data, error: dbError } = await supabase
-        .from('cars')
+        .from('blogs')
         .select('*')
-        .order('id', { ascending: false });
+        .order('created_at', { ascending: false });
 
       if (dbError) throw dbError;
-      setCars(data || []);
+      setBlogs(data || []);
     } catch (err) {
-      setError(err.message || 'Failed to fetch cars');
+      setError(err.message || 'Failed to fetch blogs from database');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCars();
+    fetchBlogs();
   }, []);
 
   // Actions
-  const handleTogglePublish = async (car) => {
-    const nextStatus = car.status === 'published' ? 'draft' : 'published';
+  const handleTogglePublish = async (blog) => {
+    const nextStatus = blog.status === 'published' ? 'draft' : 'published';
     try {
       const { error: updateError } = await supabase
-        .from('cars')
+        .from('blogs')
         .update({ status: nextStatus })
-        .eq('id', car.id);
+        .eq('id', blog.id);
 
       if (updateError) throw updateError;
       
-      setCars(cars.map(c => c.id === car.id ? { ...c, status: nextStatus } : c));
+      setBlogs(blogs.map(b => b.id === blog.id ? { ...b, status: nextStatus } : b));
       
       // Activity Log
       await supabase.from('activity_logs').insert({
         admin_name: (await supabase.auth.getUser()).data.user?.email || 'admin',
-        action: `Car Status Changed`,
-        details: `${car.brand} ${car.model_name} set to ${nextStatus}`
+        action: `Blog Status Changed`,
+        details: `Blog "${blog.title}" set to ${nextStatus}`
       });
     } catch (err) {
       alert(err.message || 'Failed to toggle status');
     }
   };
 
-  const handleDelete = async (carId, carName) => {
-    if (!confirm(`Are you sure you want to delete ${carName}?`)) return;
+  const handleDelete = async (blogId, blogTitle) => {
+    if (!confirm(`Are you sure you want to delete "${blogTitle}"?`)) return;
 
     try {
       const { error: deleteError } = await supabase
-        .from('cars')
+        .from('blogs')
         .delete()
-        .eq('id', carId);
+        .eq('id', blogId);
 
       if (deleteError) throw deleteError;
 
-      setCars(cars.filter(c => c.id !== carId));
+      setBlogs(blogs.filter(b => b.id !== blogId));
       
       // Activity Log
       await supabase.from('activity_logs').insert({
         admin_name: (await supabase.auth.getUser()).data.user?.email || 'admin',
-        action: `Car Deleted`,
-        details: `${carName} was deleted`
+        action: `Blog Deleted`,
+        details: `Blog "${blogTitle}" was deleted`
       });
     } catch (err) {
-      alert(err.message || 'Failed to delete car');
+      alert(err.message || 'Failed to delete blog');
     }
   };
 
-  const handleDuplicate = async (car) => {
+  const handleDuplicate = async (blog) => {
     try {
-      const maxSerial = Math.max(...cars.map(c => c.serial_no || 0), 0) + 1;
-      
-      const { id, created_at, ...duplicateData } = car;
-      const newCar = {
+      const { id, created_at, ...duplicateData } = blog;
+      const newBlog = {
         ...duplicateData,
-        serial_no: maxSerial,
-        detailed_name: `${car.detailed_name} (Copy)`,
-        model_name: `${car.model_name} (Copy)`,
-        slug: car.slug ? `${car.slug}-copy` : undefined,
+        title: `${blog.title} (Copy)`,
+        slug: `${blog.slug}-copy-${Date.now().toString().slice(-4)}`,
         status: 'draft'
       };
 
       const { data, error: insertError } = await supabase
-        .from('cars')
-        .insert(newCar)
+        .from('blogs')
+        .insert(newBlog)
         .select()
         .single();
 
       if (insertError) throw insertError;
 
-      setCars([data, ...cars]);
+      setBlogs([data, ...blogs]);
       
       // Activity Log
       await supabase.from('activity_logs').insert({
         admin_name: (await supabase.auth.getUser()).data.user?.email || 'admin',
-        action: `Car Added`,
-        details: `Duplicated ${car.brand} ${car.model_name} as ${data.model_name}`
+        action: `Blog Added`,
+        details: `Duplicated blog "${blog.title}" as "${data.title}"`
       });
     } catch (err) {
-      alert(err.message || 'Failed to duplicate car');
+      alert(err.message || 'Failed to duplicate blog');
     }
   };
 
@@ -154,21 +148,19 @@ export default function CarsManagement() {
     }
   };
 
-  // Unique list of brands/bodyTypes
-  const brands = [...new Set(cars.map(c => c.brand).filter(Boolean))].sort();
-  const bodyTypes = [...new Set(cars.map(c => c.body_type).filter(Boolean))].sort();
+  // Unique list of categories
+  const categories = [...new Set(blogs.map(b => b.category).filter(Boolean))].sort();
 
-  // Filtered & Sorted cars
-  const filteredCars = cars
-    .filter(car => {
+  // Filtered & Sorted blogs
+  const filteredBlogs = blogs
+    .filter(blog => {
       const matchSearch = 
-        (car.brand || '').toLowerCase().includes(search.toLowerCase()) ||
-        (car.model_name || '').toLowerCase().includes(search.toLowerCase()) ||
-        (car.detailed_name || '').toLowerCase().includes(search.toLowerCase());
-      const matchBrand = !filterBrand || car.brand === filterBrand;
-      const matchBodyType = !filterBodyType || car.body_type === filterBodyType;
-      const matchStatus = !filterStatus || car.status === filterStatus;
-      return matchSearch && matchBrand && matchBodyType && matchStatus;
+        (blog.title || '').toLowerCase().includes(search.toLowerCase()) ||
+        (blog.slug || '').toLowerCase().includes(search.toLowerCase()) ||
+        (blog.description || '').toLowerCase().includes(search.toLowerCase());
+      const matchCategory = !filterCategory || blog.category === filterCategory;
+      const matchStatus = !filterStatus || blog.status === filterStatus;
+      return matchSearch && matchCategory && matchStatus;
     })
     .sort((a, b) => {
       let aVal = a[sortField] || '';
@@ -183,16 +175,16 @@ export default function CarsManagement() {
     });
 
   // Pagination helper
-  const totalPages = Math.ceil(filteredCars.length / itemsPerPage);
-  const paginatedCars = filteredCars.slice(
+  const totalPages = Math.ceil(filteredBlogs.length / itemsPerPage);
+  const paginatedBlogs = filteredBlogs.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
   const headerAction = (
-    <Link href="/admin/cars/new">
+    <Link href="/admin/blogs/new">
       <Button variant="primary" size="medium" icon={Plus}>
-        Add Car
+        Create Blog
       </Button>
     </Link>
   );
@@ -201,41 +193,30 @@ export default function CarsManagement() {
     <div className="space-y-6">
       {/* Page Header */}
       <PageHeader 
-        title="EV Cars" 
-        description="Manage specifications, details, and status of electric vehicles."
+        title="EV Blogs & Guides" 
+        description="Write and manage articles, purchase advice, and tutorials."
         action={headerAction}
       />
 
       {/* Filter Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
         {/* Search */}
         <Input
           type="text"
-          placeholder="Search brand, model..."
+          placeholder="Search title, description..."
           value={search}
           onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
           icon={Search}
         />
 
-        {/* Brand Filter */}
+        {/* Category Filter */}
         <Select
-          value={filterBrand}
-          onChange={(e) => { setFilterBrand(e.target.value); setCurrentPage(1); }}
+          value={filterCategory}
+          onChange={(e) => { setFilterCategory(e.target.value); setCurrentPage(1); }}
         >
-          <option value="">All Brands</option>
-          {brands.map(b => (
-            <option key={b} value={b}>{b}</option>
-          ))}
-        </Select>
-
-        {/* Body Type Filter */}
-        <Select
-          value={filterBodyType}
-          onChange={(e) => { setFilterBodyType(e.target.value); setCurrentPage(1); }}
-        >
-          <option value="">All Body Types</option>
-          {bodyTypes.map(bt => (
-            <option key={bt} value={bt}>{bt}</option>
+          <option value="">All Categories</option>
+          {categories.map(c => (
+            <option key={c} value={c}>{c}</option>
           ))}
         </Select>
 
@@ -262,29 +243,26 @@ export default function CarsManagement() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-24 gap-3 bg-white border border-slate-200 rounded-2xl shadow-sm">
             <Loader2 className="w-6 h-6 text-[#1e40af] animate-spin" />
-            <p className="text-xs text-slate-500 font-semibold tracking-wide">Fetching cars database...</p>
+            <p className="text-xs text-slate-500 font-semibold tracking-wide">Fetching blogs database...</p>
           </div>
-        ) : paginatedCars.length === 0 ? (
+        ) : paginatedBlogs.length === 0 ? (
           <div className="text-center py-24 text-slate-500 text-sm bg-white border border-slate-200 rounded-2xl shadow-sm font-medium">
-            No vehicles matched your search filter.
+            No articles matched your filters.
           </div>
         ) : (
           <>
             <Table>
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50 text-xs font-bold text-slate-500 uppercase tracking-wider sticky top-0 z-10">
-                  <th className="p-4 pl-6 w-16">Image</th>
-                  <th className="p-4 cursor-pointer hover:text-slate-800 select-none min-w-[200px]" onClick={() => handleSort('detailed_name')}>
-                    <span className="flex items-center gap-1.5">Vehicle <ArrowUpDown className="w-3.5 h-3.5" /></span>
+                  <th className="p-4 pl-6 w-16">Cover</th>
+                  <th className="p-4 cursor-pointer hover:text-slate-800 select-none min-w-[250px]" onClick={() => handleSort('title')}>
+                    <span className="flex items-center gap-1.5">Title <ArrowUpDown className="w-3.5 h-3.5" /></span>
                   </th>
-                  <th className="p-4 cursor-pointer hover:text-slate-800 select-none" onClick={() => handleSort('brand')}>
-                    <span className="flex items-center gap-1.5">Brand <ArrowUpDown className="w-3.5 h-3.5" /></span>
+                  <th className="p-4 cursor-pointer hover:text-slate-800 select-none" onClick={() => handleSort('category')}>
+                    <span className="flex items-center gap-1.5">Category <ArrowUpDown className="w-3.5 h-3.5" /></span>
                   </th>
-                  <th className="p-4 cursor-pointer hover:text-slate-800 select-none" onClick={() => handleSort('body_type')}>
-                    <span className="flex items-center gap-1.5">Body Type <ArrowUpDown className="w-3.5 h-3.5" /></span>
-                  </th>
-                  <th className="p-4 cursor-pointer hover:text-slate-800 select-none" onClick={() => handleSort('battery_capacity')}>
-                    <span className="flex items-center gap-1.5">Battery <ArrowUpDown className="w-3.5 h-3.5" /></span>
+                  <th className="p-4 cursor-pointer hover:text-slate-800 select-none" onClick={() => handleSort('date')}>
+                    <span className="flex items-center gap-1.5">Published Date <ArrowUpDown className="w-3.5 h-3.5" /></span>
                   </th>
                   <th className="p-4 cursor-pointer hover:text-slate-800 text-center select-none" onClick={() => handleSort('status')}>
                     <span className="flex items-center justify-center gap-1.5">Status <ArrowUpDown className="w-3.5 h-3.5" /></span>
@@ -293,38 +271,37 @@ export default function CarsManagement() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 bg-white">
-                {paginatedCars.map((car, index) => (
-                  <tr key={car.id} className="hover:bg-slate-50/50 transition duration-150 group">
+                {paginatedBlogs.map((blog) => (
+                  <tr key={blog.id} className="hover:bg-slate-50/50 transition duration-150 group">
                     <td className="p-4 pl-6">
-                      {getVehicleThumbnail(car) ? (
+                      {blog.image ? (
                         <img 
-                          src={getVehicleThumbnail(car)} 
-                          alt={car.detailed_name} 
-                          className="w-12 h-10 object-contain rounded-lg border border-slate-200 bg-white"
+                          src={blog.image} 
+                          alt={blog.title} 
+                          className="w-12 h-10 object-cover rounded-lg border border-slate-200 bg-slate-50"
                         />
                       ) : (
-                        <div className="w-12 h-10 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-center text-[9px] font-extrabold text-slate-400 uppercase">EV</div>
+                        <div className="w-12 h-10 rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-center text-[9px] font-extrabold text-slate-400 uppercase"><BookOpen className="w-4 h-4 text-slate-400" /></div>
                       )}
                     </td>
                     <td className="p-4 font-bold text-slate-800">
                       <div>
-                        {car.detailed_name}
-                        {car.variant_name && <p className="text-[10px] text-slate-500 font-normal mt-0.5">{car.variant_name}</p>}
+                        {blog.title}
+                        <p className="text-[10px] text-slate-500 font-normal mt-0.5">/{blog.slug}</p>
                       </div>
                     </td>
-                    <td className="p-4 font-semibold text-slate-650">{car.brand}</td>
-                    <td className="p-4 font-medium text-slate-500">{car.body_type || 'N/A'}</td>
-                    <td className="p-4 font-medium text-slate-500">{car.battery_capacity ? `${car.battery_capacity} kWh` : 'N/A'}</td>
+                    <td className="p-4 font-semibold text-slate-600">{blog.category || 'Uncategorized'}</td>
+                    <td className="p-4 font-medium text-slate-500">{new Date(blog.date || blog.created_at).toLocaleDateString()}</td>
                     <td className="p-4 text-center">
                       <button 
-                        onClick={() => handleTogglePublish(car)}
+                        onClick={() => handleTogglePublish(blog)}
                         className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider select-none cursor-pointer border transition-all ${
-                          car.status === 'published' 
+                          blog.status === 'published' 
                             ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100' 
                             : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200 hover:text-slate-800'
                         }`}
                       >
-                        {car.status === 'published' ? (
+                        {blog.status === 'published' ? (
                           <>
                             <CheckCircle2 className="w-3 h-3" /> Published
                           </>
@@ -338,10 +315,10 @@ export default function CarsManagement() {
                     <td className="p-4 pr-6 text-right">
                       <div className="flex items-center justify-end gap-1">
                         <Link 
-                          href={`/cars/${car.brand?.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${(car.model_name || car.detailed_name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                          href={`/blog/${blog.slug}`}
                           target="_blank"
                         >
-                          <Button variant="ghost" size="small" className="p-1.5 text-slate-400 hover:text-slate-700" title="Preview vehicle">
+                          <Button variant="ghost" size="small" className="p-1.5 text-slate-400 hover:text-slate-700" title="Preview article">
                             <Eye className="w-4.5 h-4.5" />
                           </Button>
                         </Link>
@@ -349,13 +326,13 @@ export default function CarsManagement() {
                           variant="ghost" 
                           size="small" 
                           className="p-1.5 text-slate-400 hover:text-slate-700" 
-                          title="Duplicate specification"
-                          onClick={() => handleDuplicate(car)}
+                          title="Duplicate article"
+                          onClick={() => handleDuplicate(blog)}
                         >
                           <Copy className="w-4.5 h-4.5" />
                         </Button>
-                        <Link href={`/admin/cars/${car.id}`}>
-                          <Button variant="ghost" size="small" className="p-1.5 text-slate-400 hover:text-[#1e40af]" title="Edit specifications">
+                        <Link href={`/admin/blogs/${blog.id}`}>
+                          <Button variant="ghost" size="small" className="p-1.5 text-slate-400 hover:text-[#1e40af]" title="Edit article">
                             <Edit className="w-4.5 h-4.5" />
                           </Button>
                         </Link>
@@ -363,8 +340,8 @@ export default function CarsManagement() {
                           variant="ghost" 
                           size="small" 
                           className="p-1.5 text-slate-400 hover:text-red-650" 
-                          title="Delete record"
-                          onClick={() => handleDelete(car.id, car.detailed_name)}
+                          title="Delete article"
+                          onClick={() => handleDelete(blog.id, blog.title)}
                         >
                           <Trash2 className="w-4.5 h-4.5" />
                         </Button>
@@ -380,7 +357,7 @@ export default function CarsManagement() {
             {totalPages > 1 && (
               <div className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-2xl shadow-sm">
                 <span className="text-xs text-slate-500 font-semibold">
-                  Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredCars.length)} of {filteredCars.length} vehicles
+                  Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredBlogs.length)} of {filteredBlogs.length} articles
                 </span>
                 <div className="flex items-center gap-2">
                   <Button

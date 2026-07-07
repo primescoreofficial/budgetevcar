@@ -11,20 +11,56 @@ export async function GET() {
     const cars = await getAllCars();
     const totalCars = cars.length;
     const recentCars = [...cars]
-      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
       .slice(0, 5);
 
-    // 2. Blogs stats
-    const blogs = getAllPosts('blogs');
-    const totalBlogs = blogs.length;
-    const recentBlogs = [...blogs].slice(0, 5);
+    // 2. Blogs stats (Try Supabase, fallback to markdown)
+    let totalBlogs = 0;
+    let recentBlogs = [];
+    try {
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (!error && data) {
+        totalBlogs = data.length;
+        recentBlogs = data.slice(0, 5);
+      } else {
+        const localBlogs = getAllPosts('blogs');
+        totalBlogs = localBlogs.length;
+        recentBlogs = localBlogs.slice(0, 5);
+      }
+    } catch (e) {
+      const localBlogs = getAllPosts('blogs');
+      totalBlogs = localBlogs.length;
+      recentBlogs = localBlogs.slice(0, 5);
+    }
 
-    // 3. News stats
-    const news = getAllPosts('news');
-    const totalNews = news.length;
-    const recentNews = [...news].slice(0, 5);
+    // 3. News stats (Try Supabase, fallback to markdown)
+    let totalNews = 0;
+    let recentNews = [];
+    try {
+      const { data, error } = await supabase
+        .from('news')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (!error && data) {
+        totalNews = data.length;
+        recentNews = data.slice(0, 5);
+      } else {
+        const localNews = getAllPosts('news');
+        totalNews = localNews.length;
+        recentNews = localNews.slice(0, 5);
+      }
+    } catch (e) {
+      const localNews = getAllPosts('news');
+      totalNews = localNews.length;
+      recentNews = localNews.slice(0, 5);
+    }
 
-    // 4. Activity Logs (fetch from Supabase if table exists, fallback to empty array or mock)
+    // 4. Activity Logs (fetch from Supabase if table exists, fallback to empty array)
     let activityLogs = [];
     try {
       const { data, error } = await supabase
@@ -37,7 +73,7 @@ export async function GET() {
         activityLogs = data;
       }
     } catch (e) {
-      console.warn('Could not fetch activity logs, database table may not exist yet:', e);
+      console.warn('Could not fetch activity logs:', e);
     }
 
     return NextResponse.json({

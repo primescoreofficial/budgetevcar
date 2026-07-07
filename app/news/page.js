@@ -53,12 +53,13 @@ export const metadata = {
 
 export default async function NewsPage({ searchParams }) {
   const { search = '' } = await searchParams;
-  const news = getAllPosts('news', { search });
+  const news = await getAllPosts('news', { search });
   
   const brands = await getUniqueBrands();
   const bodyTypes = await getUniqueBodyTypes();
 
-  const allNews = getAllPosts('news');
+  const allNews = await getAllPosts('news');
+
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

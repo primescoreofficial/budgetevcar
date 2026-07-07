@@ -52,8 +52,9 @@ export const metadata = {
 
 export default async function BlogPage({ searchParams }) {
   const { search = '' } = await searchParams;
-  const posts = getAllPosts('blogs', { search });
-  const allPosts = getAllPosts('blogs'); // For category/tag listing calculations
+  const posts = await getAllPosts('blogs', { search });
+  const allPosts = await getAllPosts('blogs'); // For category/tag listing calculations
+
 
   // Extract unique categories and tags
   const categories = [...new Set(allPosts.map(p => p.category).filter(Boolean))];

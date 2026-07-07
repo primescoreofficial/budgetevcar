@@ -30,8 +30,9 @@ export default async function sitemap() {
   // ── DYNAMIC BLOG & NEWS URLS ──
   let contentUrls = [];
   try {
-    const blogs = getAllPosts('blogs');
-    const news = getAllPosts('news');
+    const blogs = await getAllPosts('blogs');
+    const news = await getAllPosts('news');
+
 
     // Add blogs
     blogs.forEach(post => {

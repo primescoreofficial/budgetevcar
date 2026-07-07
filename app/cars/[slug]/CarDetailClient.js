@@ -8,6 +8,8 @@ import { Share2 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { getCarUrl } from '@/lib/queries';
+import { getVehicleImage, getExteriorImages, getInteriorImages } from '@/lib/imageHelpers';
+
 
 const MotionImage = motion(Image);
 
@@ -220,24 +222,25 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
     }, [])
     .slice(0, 4); // Keep exactly 4 recommended EVs
 
-  const categories = categorizedImages || {
+  const dbExterior = getExteriorImages(car).map(img => img.url);
+  const dbInterior = getInteriorImages(car).map(img => img.url);
+
+  const categories = {
     exterior: {
       label: 'Exterior',
-      images: localImages && localImages.length > 0
-        ? localImages
-        : [car.vehicle_image || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=400&q=80']
+      images: dbExterior.length > 0 ? dbExterior : [getVehicleImage(car)]
     },
     interior: {
       label: 'Interior',
-      images: []
+      images: dbInterior
     }
   };
 
   const [activeTab, setActiveTab] = useState('exterior');
   const activeImages = categories[activeTab]?.images || [];
-  const images = activeImages.length > 0
-    ? activeImages
-    : (categories.exterior?.images || [car.vehicle_image || 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=400&q=80']);
+  const images = activeImages.length > 0 ? activeImages : [getVehicleImage(car)];
+
+
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);

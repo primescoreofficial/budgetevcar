@@ -19,7 +19,8 @@ export async function generateMetadata({ params }) {
 export default async function BlogCategoryPage({ params }) {
   const { slug } = await params;
   const categoryName = slug.replace(/-/g, ' ');
-  const posts = getAllPosts('blogs', { category: slug });
+  const posts = await getAllPosts('blogs', { category: slug });
+
   
   const brands = await getUniqueBrands();
   const bodyTypes = await getUniqueBodyTypes();

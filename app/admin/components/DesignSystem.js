@@ -15,11 +15,11 @@ export function PageHeader({ title, description, action }) {
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
       <div className="space-y-1">
-        <h1 className="text-3xl font-extrabold text-white tracking-tight font-sans">
+        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight font-sans">
           {title}
         </h1>
         {description && (
-          <p className="text-slate-400 text-sm font-normal">
+          <p className="text-slate-500 text-sm font-normal">
             {description}
           </p>
         )}
@@ -30,8 +30,8 @@ export function PageHeader({ title, description, action }) {
 }
 
 export function Card({ children, className = '', hover = false, onClick }) {
-  const baseClasses = "bg-slate-900/40 backdrop-blur-md border border-slate-800/80 rounded-2xl p-6 shadow-sm overflow-hidden";
-  const hoverClasses = hover ? "hover:border-slate-700/80 hover:bg-slate-900/60 transition-all duration-300" : "";
+  const baseClasses = "bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden";
+  const hoverClasses = hover ? "hover:border-slate-300 hover:bg-slate-50/50 transition-all duration-300" : "";
   
   if (onClick) {
     return (
@@ -61,18 +61,18 @@ export function Button({
   type = 'button',
   icon: Icon
 }) {
-  const baseClasses = "inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 select-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseClasses = "inline-flex items-center justify-center font-semibold rounded-full transition-all duration-200 select-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white disabled:opacity-50 disabled:cursor-not-allowed";
   
   const variantClasses = {
-    primary: "bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/10 focus:ring-blue-500",
-    secondary: "bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 focus:ring-slate-700",
-    danger: "bg-red-600 hover:bg-red-500 text-white shadow-lg shadow-red-650/10 focus:ring-red-500",
-    ghost: "bg-transparent hover:bg-slate-900/60 text-slate-400 hover:text-white focus:ring-slate-700",
+    primary: "bg-[#1e40af] hover:bg-[#1d4ed8] text-white shadow-sm focus:ring-[#1e40af]",
+    secondary: "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 focus:ring-slate-350",
+    danger: "bg-red-650 hover:bg-red-750 text-white shadow-sm focus:ring-red-500",
+    ghost: "bg-transparent hover:bg-slate-100 text-slate-500 hover:text-slate-800 focus:ring-slate-200",
   };
 
   const sizeClasses = {
-    small: "text-xs px-3 py-1.5 gap-1.5 h-8",
-    medium: "text-xs px-4 py-2.5 gap-2 h-10",
+    small: "text-xs px-3.5 py-1.5 gap-1.5 h-8",
+    medium: "text-xs px-4.5 py-2.5 gap-2 h-10",
     large: "text-sm px-6 py-3.5 gap-2.5 h-12",
   };
 
@@ -98,21 +98,21 @@ export function Input({
 }) {
   return (
     <div className="space-y-2 w-full">
-      {label && <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">{label}</label>}
+      {label && <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">{label}</label>}
       <div className="relative">
         {Icon && (
-          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500">
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
             <Icon className="w-4.5 h-4.5" />
           </div>
         )}
         <input
-          className={`w-full bg-slate-950/50 border border-slate-800/80 rounded-xl text-sm text-white placeholder-slate-600 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all ${
+          className={`w-full bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] transition-all ${
             Icon ? 'pl-11' : 'px-4'
           } py-2.5 h-10 ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''} ${className}`}
           {...props}
         />
       </div>
-      {error && <p className="text-xs text-red-400 font-semibold mt-1 flex items-center gap-1">⚠ {error}</p>}
+      {error && <p className="text-xs text-red-500 font-semibold mt-1 flex items-center gap-1">⚠ {error}</p>}
     </div>
   );
 }
@@ -124,15 +124,15 @@ export function TextArea({
   ...props 
 }) {
   return (
-    <div className="space-y-2 w-full">
-      {label && <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">{label}</label>}
+    <div className="space-y-2 w-full font-sans">
+      {label && <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">{label}</label>}
       <textarea
-        className={`w-full bg-slate-950/50 border border-slate-800/80 rounded-xl text-sm text-white placeholder-slate-600 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all px-4 py-2.5 min-h-[100px] ${
+        className={`w-full bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] transition-all px-4 py-2.5 min-h-[100px] ${
           error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
         } ${className}`}
         {...props}
       />
-      {error && <p className="text-xs text-red-400 font-semibold mt-1">⚠ {error}</p>}
+      {error && <p className="text-xs text-red-500 font-semibold mt-1">⚠ {error}</p>}
     </div>
   );
 }
@@ -146,16 +146,16 @@ export function Select({
 }) {
   return (
     <div className="space-y-2 w-full font-sans">
-      {label && <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">{label}</label>}
+      {label && <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">{label}</label>}
       <select
-        className={`w-full bg-slate-950/50 border border-slate-800/80 rounded-xl text-sm text-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all px-4 py-2.5 h-10 cursor-pointer ${
+        className={`w-full bg-white border border-slate-200 rounded-xl text-sm text-slate-900 outline-none focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] transition-all px-4 py-2.5 h-10 cursor-pointer ${
           error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
         } ${className}`}
         {...props}
       >
         {children}
       </select>
-      {error && <p className="text-xs text-red-400 font-semibold mt-1">⚠ {error}</p>}
+      {error && <p className="text-xs text-red-500 font-semibold mt-1">⚠ {error}</p>}
     </div>
   );
 }
@@ -166,11 +166,11 @@ export function Badge({
   className = ''
 }) {
   const styles = {
-    default: 'bg-slate-850 text-slate-300 border border-slate-800',
-    success: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
-    warning: 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
-    danger: 'bg-red-500/10 text-red-400 border border-red-500/20',
-    info: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
+    default: 'bg-slate-100 text-slate-650 border border-slate-200',
+    success: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+    warning: 'bg-amber-50 text-amber-700 border border-amber-200',
+    danger: 'bg-red-50 text-red-700 border border-red-200',
+    info: 'bg-blue-50 text-blue-700 border border-blue-200',
   };
 
   return (
@@ -182,9 +182,9 @@ export function Badge({
 
 export function Table({ children, className = '' }) {
   return (
-    <div className={`w-full overflow-hidden border border-slate-900 bg-slate-950/20 rounded-2xl ${className}`}>
+    <div className={`w-full overflow-hidden border border-slate-200 bg-white rounded-2xl ${className}`}>
       <div className="overflow-x-auto custom-scrollbar">
-        <table className="w-full text-left text-sm text-slate-300 border-collapse table-auto">
+        <table className="w-full text-left text-sm text-slate-700 border-collapse table-auto">
           {children}
         </table>
       </div>

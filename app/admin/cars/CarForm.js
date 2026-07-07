@@ -1,27 +1,44 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { 
   ArrowLeft, 
+  ArrowRight,
   Save, 
   Loader2, 
-  Upload, 
-  Plus, 
   X, 
   AlertCircle,
-  FileText,
-  Trash2
+  CheckCircle2,
+  Crop,
+  Star,
+  Sparkles,
+  Search,
+  Eye,
+  Image as ImageIcon
 } from 'lucide-react';
-import { PageHeader, Card, Button, Input, Select, TextArea, Badge } from '@/app/admin/components/DesignSystem';
+import { PageHeader, Card, Button, Input, Select, TextArea } from '@/app/admin/components/DesignSystem';
+import CustomCropper from '../components/CustomCropper';
+import ModularImageManager from '../components/ModularImageManager';
+import { getImageUrl } from '@/lib/imageHelpers';
+
+const FORM_STEPS = [
+  { step: 1, label: 'Basic Information' },
+  { step: 2, label: 'Images' },
+  { step: 3, label: 'Specifications' },
+  { step: 4, label: 'SEO Config' },
+  { step: 5, label: 'Publish & Preview' }
+];
 
 export default function CarForm({ carId = null }) {
   const router = useRouter();
+  const [activeStep, setActiveStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(!!carId);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isDirty, setIsDirty] = useState(false);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -32,50 +49,44 @@ export default function CarForm({ carId = null }) {
     slug: '',
     body_type: '',
     battery_capacity: '',
-    claimed_range: '',
-    real_range: '',
-    motor: '',
-    torque: '',
-    power: '',
-    drive_type: '',
-    charging: '',
-    ac_charging: '',
-    dc_charging: '',
-    charging_time: '',
-    top_speed: '',
-    acceleration: '',
-    ground_clearance: '',
-    wheelbase: '',
-    boot_space: '',
-    tyres: '',
-    safety: '',
-    warranty: '',
-    brochure: '',
+    segment: '',
+    web_search_summary: '',
+    vehicle_image: '',
+    vehicle_thumbnail: '',
     seo_title: '',
     seo_description: '',
-    status: 'draft',
-    segment: '',
-    features: [],
-    pros: [],
-    cons: [],
-    colors: [],
-    meta_keywords: [],
-    interior_images: [],
-    exterior_images: [],
-    gallery_images: [],
-    vehicle_image: '',
+    status: 'draft'
   });
 
-  // Array input states
-  const [newFeature, setNewFeature] = useState('');
-  const [newPro, setNewPro] = useState('');
-  const [newCon, setNewCon] = useState('');
-  const [newColor, setNewColor] = useState('');
-  const [newKeyword, setNewKeyword] = useState('');
+  const [exteriorImages, setExteriorImages] = useState([]);
+  const [interiorImages, setInteriorImages] = useState([]);
 
-  // Fetch existing car details
+  // Cropper state
+  const [cropperSrc, setCropperSrc] = useState(null);
+
+  // Autosave status
+  const [autosaveMsg, setAutosaveMsg] = useState('');
+
+  // 1. Fetch vehicle details
   useEffect(() => {
-    if (!carId) return;
+    if (!carId) {
+      // Check if there is an autosaved draft to restore
+      const saved = localStorage.getItem('budgetev-draft-car-new');
+      if (saved) {
+        try {
+          const { data, ext, int } = JSON.parse(saved);
+          setFormData(data);
+          setExteriorImages(ext || []);
+          setInteriorImages(int || []);
+          setAutosaveMsg('Draft restored from local backup.');
+          setTimeout(() => setAutosaveMsg(''), 4000);
+        } catch (e) {
+          console.warn('Failed to load backup:', e);
+        }
+      }
+      return;
+    }
+
     const fetchCarDetails = async () => {
       try {
         const { data, error: fetchError } = await supabase
@@ -89,14 +100,35 @@ export default function CarForm({ carId = null }) {
           const normalized = { ...data };
           Object.keys(normalized).forEach(key => {
             if (normalized[key] === null) {
-              if (['features', 'pros', 'cons', 'colors', 'meta_keywords', 'interior_images', 'exterior_images', 'gallery_images'].includes(key)) {
-                normalized[key] = [];
-              } else {
-                normalized[key] = '';
-              }
+              normalized[key] = '';
             }
           });
-          setFormData(normalized);
+          
+          setFormData({
+            brand: normalized.brand || '',
+            model_name: normalized.model_name || '',
+            variant_name: normalized.variant_name || '',
+            detailed_name: normalized.detailed_name || '',
+            slug: normalized.slug || '',
+            body_type: normalized.body_type || '',
+            battery_capacity: normalized.battery_capacity || '',
+            segment: normalized.segment || '',
+            web_search_summary: normalized.web_search_summary || '',
+            vehicle_image: normalized.vehicle_image || '',
+            vehicle_thumbnail: normalized.vehicle_thumbnail || '',
+            seo_title: normalized.seo_title || '',
+            seo_description: normalized.seo_description || '',
+            status: normalized.status || 'draft'
+          });
+
+          setExteriorImages(normalized.exterior_images || []);
+          setInteriorImages(normalized.interior_images || []);
+
+          // Check if local backup is newer
+          const backup = localStorage.getItem(`budgetev-draft-car-${carId}`);
+          if (backup) {
+            setAutosaveMsg('A newer unsaved local backup is available.');
+          }
         }
       } catch (err) {
         setError(err.message || 'Failed to fetch vehicle specifications');
@@ -107,156 +139,252 @@ export default function CarForm({ carId = null }) {
     fetchCarDetails();
   }, [carId]);
 
-  // Handle standard field changes
+  // 2. Autosave Hook (runs every 30 seconds if form is dirty)
+  useEffect(() => {
+    if (!isDirty) return;
+    const interval = setInterval(() => {
+      const key = carId ? `budgetev-draft-car-${carId}` : 'budgetev-draft-car-new';
+      localStorage.setItem(key, JSON.stringify({
+        data: formData,
+        ext: exteriorImages,
+        int: interiorImages,
+        timestamp: Date.now()
+      }));
+      setAutosaveMsg('Draft saved locally...');
+      setTimeout(() => setAutosaveMsg(''), 2000);
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [formData, exteriorImages, interiorImages, isDirty, carId]);
+
+  // 3. Unsaved changes warning
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
+
+  // Restore local draft trigger
+  const restoreBackup = () => {
+    const key = carId ? `budgetev-draft-car-${carId}` : 'budgetev-draft-car-new';
+    const backup = localStorage.getItem(key);
+    if (backup) {
+      try {
+        const { data, ext, int } = JSON.parse(backup);
+        setFormData(data);
+        setExteriorImages(ext || []);
+        setInteriorImages(int || []);
+        setAutosaveMsg('Backup successfully restored.');
+        setIsDirty(true);
+        setTimeout(() => setAutosaveMsg(''), 3000);
+      } catch (e) {
+        setError('Failed to restore backup');
+      }
+    }
+  };
+
+  const discardBackup = () => {
+    const key = carId ? `budgetev-draft-car-${carId}` : 'budgetev-draft-car-new';
+    localStorage.removeItem(key);
+    setAutosaveMsg('');
+  };
+
+  // Field change handler
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setIsDirty(true);
     setFormData(prev => {
       const next = { ...prev, [name]: value };
+      
+      // Auto-generate detailed name and slug
       if (name === 'brand' || name === 'model_name' || name === 'variant_name') {
         const brand = name === 'brand' ? value : prev.brand;
         const model = name === 'model_name' ? value : prev.model_name;
         const variant = name === 'variant_name' ? value : prev.variant_name;
+        
         next.detailed_name = `${brand} ${model} ${variant}`.trim().replace(/\s+/g, ' ');
         next.slug = `${brand}-${model}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+        
+        // Auto SEO tag generation
+        next.seo_title = `All New ${next.detailed_name} Range, Price, Specs & Reviews`;
+        next.seo_description = `Read expert reviews, real-world battery mileage, cost savings, charging speed, and detailed variant specifications for the new ${next.detailed_name} in India.`;
       }
       return next;
     });
   };
 
-  // Add item helper
-  const handleAddListItem = (field, value, setValue) => {
-    if (!value.trim()) return;
-    if (formData[field].includes(value.trim())) return;
+  // Main Image Set Handler (from uploaded list)
+  const handleSetMainImage = (imagePath) => {
+    setIsDirty(true);
+    // Open cropper to generate thumbnail.webp at 600x400
+    setCropperSrc(getImageUrl(imagePath));
     setFormData(prev => ({
       ...prev,
-      [field]: [...prev[field], value.trim()]
-    }));
-    setValue('');
-  };
-
-  // Remove item helper
-  const handleRemoveListItem = (field, index) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: prev[field].filter((_, idx) => idx !== index)
+      vehicle_image: imagePath
     }));
   };
 
-  // Upload handler
-  const handleImageUpload = async (e, field) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const compressedFile = await compressImage(file);
+  // Apply Crop handler
+  const handleCropComplete = async (croppedBlob) => {
+    setCropperSrc(null);
     setLoading(true);
     setError('');
+
     try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
-      const filePath = `cars/${fileName}`;
+      const slug = formData.slug || 'car';
+      const storagePath = `${slug}/thumbnail.webp`;
 
-      const { data, error: uploadError } = await supabase.storage
-        .from('media')
-        .upload(filePath, compressedFile);
+      // Upload cropped thumbnail
+      const { data, error: uploadErr } = await supabase.storage
+        .from('cars')
+        .upload(storagePath, croppedBlob, {
+          contentType: 'image/webp',
+          upsert: true
+        });
 
-      if (uploadError) {
-        throw new Error(uploadError.message + '. Please ensure a public "media" bucket exists in Supabase Storage.');
-      }
+      if (uploadErr) throw uploadErr;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('media')
-        .getPublicUrl(filePath);
-
-      if (['interior_images', 'exterior_images', 'gallery_images'].includes(field)) {
-        setFormData(prev => ({
-          ...prev,
-          [field]: [...prev[field], publicUrl]
-        }));
-      } else {
-        setFormData(prev => ({
-          ...prev,
-          [field]: publicUrl
-        }));
-      }
-      setSuccess('Image uploaded successfully!');
+      setFormData(prev => ({
+        ...prev,
+        vehicle_thumbnail: `cars/${storagePath}`
+      }));
+      setSuccess('Main vehicle thumbnail cropped successfully!');
       setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError(err.message || 'Image upload failed');
+      setError(`Failed to save cropped thumbnail: ${err.message}`);
     } finally {
       setLoading(false);
     }
   };
 
-  const compressImage = (file) => {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (event) => {
-        const img = new Image();
-        img.src = event.target.result;
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const MAX_WIDTH = 1200;
-          const MAX_HEIGHT = 900;
-          let width = img.width;
-          let height = img.height;
-
-          if (width > height) {
-            if (width > MAX_WIDTH) {
-              height *= MAX_WIDTH / width;
-              width = MAX_WIDTH;
-            }
-          } else {
-            if (height > MAX_HEIGHT) {
-              width *= MAX_HEIGHT / height;
-              height = MAX_HEIGHT;
-            }
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-          canvas.toBlob((blob) => {
-            resolve(new File([blob], file.name, {
-              type: 'image/jpeg',
-              lastModified: Date.now(),
-            }));
-          }, 'image/jpeg', 0.85);
-        };
-      };
-    });
-  };
-
-  // Submit Specifications
+  // Main Submit (includes Sequential Object Renaming)
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setLoading(true);
     setError('');
     setSuccess('');
 
     try {
       if (!formData.brand.trim() || !formData.model_name.trim()) {
-        throw new Error('Brand and Model Name are required.');
+        throw new Error('Brand and Model Name are required in Step 1.');
       }
 
-      let serialNo = formData.serial_no;
+      const slug = formData.slug;
+
+      // Sequential renaming of files in storage based on sorting order
+      // 1. Exterior
+      setAutosaveMsg('Renaming exterior images...');
+      const finalExterior = [];
+      for (let i = 0; i < exteriorImages.length; i++) {
+        const img = exteriorImages[i];
+        const expectedPath = `cars/${slug}/${i + 1}.webp`;
+        if (img.path !== expectedPath) {
+          try {
+            const tempPath = `cars/${slug}/temp_${i + 1}.webp`;
+            const oldKey = img.path.replace(/^cars\//, '');
+            const tempKey = tempPath.replace(/^cars\//, '');
+            await supabase.storage.from('cars').move(oldKey, tempKey);
+            img.path = tempPath;
+          } catch (moveErr) {
+            console.warn('Exterior temporary move failed or skipped:', moveErr.message);
+          }
+        }
+      }
+      for (let i = 0; i < exteriorImages.length; i++) {
+        const img = exteriorImages[i];
+        const finalPath = `cars/${slug}/${i + 1}.webp`;
+        if (img.path !== finalPath) {
+          try {
+            const oldKey = img.path.replace(/^cars\//, '');
+            const finalKey = finalPath.replace(/^cars\//, '');
+            await supabase.storage.from('cars').move(oldKey, finalKey);
+          } catch (moveErr) {
+            console.warn('Exterior final move failed:', moveErr.message);
+          }
+        }
+        finalExterior.push({
+          path: finalPath,
+          order: i + 1,
+          alt: `${formData.brand} ${formData.model_name} View ${i + 1}`
+        });
+      }
+
+      // 2. Interior
+      setAutosaveMsg('Renaming interior images...');
+      const finalInterior = [];
+      for (let i = 0; i < interiorImages.length; i++) {
+        const img = interiorImages[i];
+        const expectedPath = `car-interior/${slug}/${i + 1}.webp`;
+        if (img.path !== expectedPath) {
+          try {
+            const tempPath = `car-interior/${slug}/temp_${i + 1}.webp`;
+            const oldKey = img.path.replace(/^car-interior\//, '');
+            const tempKey = tempPath.replace(/^car-interior\//, '');
+            await supabase.storage.from('car-interior').move(oldKey, tempKey);
+            img.path = tempPath;
+          } catch (moveErr) {
+            console.warn('Interior temporary move failed or skipped:', moveErr.message);
+          }
+        }
+      }
+      for (let i = 0; i < interiorImages.length; i++) {
+        const img = interiorImages[i];
+        const finalPath = `car-interior/${slug}/${i + 1}.webp`;
+        if (img.path !== finalPath) {
+          try {
+            const oldKey = img.path.replace(/^car-interior\//, '');
+            const finalKey = finalPath.replace(/^car-interior\//, '');
+            await supabase.storage.from('car-interior').move(oldKey, finalKey);
+          } catch (moveErr) {
+            console.warn('Interior final move failed:', moveErr.message);
+          }
+        }
+        finalInterior.push({
+          path: finalPath,
+          order: i + 1,
+          alt: `${formData.brand} ${formData.model_name} Interior ${i + 1}`
+        });
+      }
+
+      // Generate next serial number if new car
+      let serialNo = undefined;
       if (!carId) {
-        const { data: maxCar, error: maxError } = await supabase
+        const { data: maxCar } = await supabase
           .from('cars')
           .select('serial_no')
           .order('serial_no', { ascending: false })
           .limit(1);
-        
         serialNo = maxCar && maxCar[0] ? (maxCar[0].serial_no || 0) + 1 : 1;
       }
 
+      setAutosaveMsg('Saving database record...');
       const submissionPayload = {
-        ...formData,
-        serial_no: serialNo,
+        brand: formData.brand.trim(),
+        model_name: formData.model_name.trim(),
+        variant_name: formData.variant_name.trim() || null,
+        detailed_name: formData.detailed_name.trim(),
+        slug: formData.slug.trim(),
+        body_type: formData.body_type.trim() || null,
+        battery_capacity: formData.battery_capacity ? parseFloat(formData.battery_capacity) : null,
+        segment: formData.segment.trim() || null,
+        web_search_summary: formData.web_search_summary.trim() || null,
         vehicle_image: formData.vehicle_image || null,
-        brochure: formData.brochure || null,
+        vehicle_thumbnail: formData.vehicle_thumbnail || null,
+        exterior_images: finalExterior,
+        interior_images: finalInterior,
+        seo_title: formData.seo_title.trim() || null,
+        seo_description: formData.seo_description.trim() || null,
+        status: formData.status
       };
+
+      if (!carId) {
+        submissionPayload.serial_no = serialNo;
+      }
 
       if (carId) {
         const { error: updateError } = await supabase
@@ -273,332 +401,395 @@ export default function CarForm({ carId = null }) {
         if (insertError) throw insertError;
       }
 
-      setSuccess('Vehicle specs saved successfully!');
+      // Log activity
+      try {
+        await supabase.from('activity_logs').insert({
+          admin_name: (await supabase.auth.getUser()).data.user?.email || 'admin',
+          action: carId ? 'Car Edited' : 'Car Added',
+          details: `Saved ${formData.detailed_name} with status ${formData.status}`
+        });
+      } catch (logErr) {
+        console.warn('Logging failed:', logErr);
+      }
+
+      // Remove local backups
+      const key = carId ? `budgetev-draft-car-${carId}` : 'budgetev-draft-car-new';
+      localStorage.removeItem(key);
+
+      setIsDirty(false);
+      setSuccess(`✅ Car saved successfully! Exterior: ${finalExterior.length}, Interior: ${finalInterior.length}`);
+      
       setTimeout(() => {
         router.push('/admin/cars');
-      }, 1000);
+      }, 1500);
     } catch (err) {
-      setError(err.message || 'Failed to save specifications');
+      setError(err.message || 'Failed to save vehicle details');
+    } finally {
       setLoading(false);
+      setAutosaveMsg('');
     }
+  };
+
+  const handleNext = () => {
+    setActiveStep(prev => Math.min(prev + 1, 5));
+  };
+
+  const handlePrev = () => {
+    setActiveStep(prev => Math.max(prev - 1, 1));
   };
 
   if (fetching) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+        <Loader2 className="w-6 h-6 text-[#1e40af] animate-spin" />
       </div>
     );
   }
 
-  const backAction = (
-    <Button 
-      variant="secondary" 
-      size="medium" 
-      icon={ArrowLeft}
-      onClick={() => router.push('/admin/cars')}
-    >
-      Back
-    </Button>
-  );
-
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-5xl mx-auto pb-12">
       {/* Page Header */}
       <PageHeader 
-        title={carId ? 'Edit Vehicle Specifications' : 'Add New EV'} 
-        description="Fill out specifications, technical metrics, media files, and SEO configs."
-        action={backAction}
+        title={carId ? 'Edit EV Specification' : 'Add New EV Specification'} 
+        description="Configure specifications, upload, drag-reorder images, crop thumbnails, and adjust SEO tags."
+        action={
+          <Button 
+            variant="secondary" 
+            size="medium" 
+            icon={ArrowLeft}
+            onClick={() => {
+              if (isDirty && !confirm('Discard unsaved changes?')) return;
+              router.push('/admin/cars');
+            }}
+          >
+            Back
+          </Button>
+        }
       />
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* Backup recovery banner */}
+      {autosaveMsg && (
+        <div className="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-amber-600 shrink-0" />
+            <span className="text-xs font-bold">{autosaveMsg}</span>
+          </div>
+          {autosaveMsg.includes('backup') && (
+            <div className="flex gap-2">
+              <Button type="button" variant="secondary" size="small" onClick={restoreBackup}>Restore</Button>
+              <Button type="button" variant="ghost" size="small" onClick={discardBackup} className="text-red-650">Discard</Button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl flex items-center gap-3">
+          <X className="w-5 h-5 shrink-0" />
+          <span className="text-xs font-bold leading-relaxed">{error}</span>
+        </div>
+      )}
+
+      {success && (
+        <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl flex items-center gap-3">
+          <CheckCircle2 className="w-5 h-5 shrink-0" />
+          <span className="text-xs font-bold leading-relaxed">{success}</span>
+        </div>
+      )}
+
+      {/* Wizard Steps indicator */}
+      <div className="grid grid-cols-5 gap-2 bg-white p-3 rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
+        {FORM_STEPS.map(item => {
+          const isActive = activeStep === item.step;
+          const isCompleted = activeStep > item.step;
+
+          return (
+            <button
+              key={item.step}
+              type="button"
+              onClick={() => setActiveStep(item.step)}
+              className={`flex flex-col items-center justify-center py-2.5 rounded-xl transition cursor-pointer select-none ${
+                isActive 
+                  ? 'bg-blue-50 border border-blue-200 text-[#1e40af]' 
+                  : isCompleted 
+                    ? 'bg-emerald-50/50 border border-emerald-100 text-emerald-700' 
+                    : 'bg-transparent text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              <span className="text-[10px] font-black uppercase tracking-wider">Step {item.step}</span>
+              <span className="text-[11px] font-bold mt-1 text-center truncate w-full px-1">{item.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Main Wizard Form body */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        {/* Main Content (Left Column - 2 Columns wide on large screens) */}
-        <div className="lg:col-span-2 space-y-8">
+        {/* Active step panel */}
+        <div className="md:col-span-2 space-y-6">
           
-          {/* Card 1: General Information */}
-          <Card className="space-y-5">
-            <h2 className="text-base font-bold text-white border-b border-slate-900 pb-3 tracking-tight">General Information</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <Input
-                label="Brand *"
-                name="brand"
-                value={formData.brand}
-                onChange={handleChange}
-                placeholder="e.g. Tata Motors"
-                required
-              />
-              <Input
-                label="Model Name *"
-                name="model_name"
-                value={formData.model_name}
-                onChange={handleChange}
-                placeholder="e.g. Nexon EV"
-                required
-              />
-              <Input
-                label="Variant Name"
-                name="variant_name"
-                value={formData.variant_name}
-                onChange={handleChange}
-                placeholder="e.g. Empowered Plus"
-              />
-              <Input
-                label="Slug (URL)"
-                name="slug"
-                value={formData.slug}
-                onChange={handleChange}
-                placeholder="e.g. tata-nexon-ev"
-              />
-              <Input
-                label="Body Type"
-                name="body_type"
-                value={formData.body_type}
-                onChange={handleChange}
-                placeholder="e.g. SUV"
-              />
-              <Input
-                label="Segment"
-                name="segment"
-                value={formData.segment}
-                onChange={handleChange}
-                placeholder="e.g. Mid-size SUV"
-              />
-            </div>
-            
-            <Input
-              label="Detailed Display Name"
-              name="detailed_name"
-              value={formData.detailed_name}
-              onChange={handleChange}
-              placeholder="Tata Nexon EV Empowered Plus"
-            />
-          </Card>
-
-          {/* Card 2: Specifications */}
-          <Card className="space-y-5">
-            <h2 className="text-base font-bold text-white border-b border-slate-900 pb-3 tracking-tight">Technical Specifications</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <Input
-                label="Battery Capacity (kWh)"
-                name="battery_capacity"
-                value={formData.battery_capacity}
-                onChange={handleChange}
-                placeholder="e.g. 40.5"
-              />
-              <Input
-                label="Claimed Range (km)"
-                name="claimed_range"
-                value={formData.claimed_range}
-                onChange={handleChange}
-                placeholder="e.g. 465"
-              />
-              <Input
-                label="Real Range (km)"
-                name="real_range"
-                value={formData.real_range}
-                onChange={handleChange}
-                placeholder="e.g. 340"
-              />
-              <Input
-                label="Motor Type"
-                name="motor"
-                value={formData.motor}
-                onChange={handleChange}
-                placeholder="e.g. PMSM"
-              />
-              <Input
-                label="Torque (Nm)"
-                name="torque"
-                value={formData.torque}
-                onChange={handleChange}
-                placeholder="e.g. 215 Nm"
-              />
-              <Input
-                label="Power (PS)"
-                name="power"
-                value={formData.power}
-                onChange={handleChange}
-                placeholder="e.g. 143 PS"
-              />
-              <Input
-                label="Drive Type"
-                name="drive_type"
-                value={formData.drive_type}
-                onChange={handleChange}
-                placeholder="e.g. FWD"
-              />
-              <Input
-                label="Top Speed (km/h)"
-                name="top_speed"
-                value={formData.top_speed}
-                onChange={handleChange}
-                placeholder="e.g. 150"
-              />
-              <Input
-                label="0-100 Acceleration (s)"
-                name="acceleration"
-                value={formData.acceleration}
-                onChange={handleChange}
-                placeholder="e.g. 8.9"
-              />
-            </div>
-            
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider pt-2">Chassis & Practicality</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <Input
-                label="Ground Clearance (mm)"
-                name="ground_clearance"
-                value={formData.ground_clearance}
-                onChange={handleChange}
-                placeholder="e.g. 190 mm"
-              />
-              <Input
-                label="Wheelbase (mm)"
-                name="wheelbase"
-                value={formData.wheelbase}
-                onChange={handleChange}
-                placeholder="e.g. 2498 mm"
-              />
-              <Input
-                label="Boot Space (L)"
-                name="boot_space"
-                value={formData.boot_space}
-                onChange={handleChange}
-                placeholder="e.g. 350 L"
-              />
-              <Input
-                label="Tyres Size"
-                name="tyres"
-                value={formData.tyres}
-                onChange={handleChange}
-                placeholder="e.g. 215/60 R16"
-              />
-            </div>
-          </Card>
-
-          {/* Card 3: Charging Information */}
-          <Card className="space-y-5">
-            <h2 className="text-base font-bold text-white border-b border-slate-900 pb-3 tracking-tight">Charging Parameters</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <Input
-                label="Charging Standard"
-                name="charging"
-                value={formData.charging}
-                onChange={handleChange}
-                placeholder="e.g. CCS Type 2"
-              />
-              <Input
-                label="AC Charging Specs"
-                name="ac_charging"
-                value={formData.ac_charging}
-                onChange={handleChange}
-                placeholder="e.g. 7.2 kW AC"
-              />
-              <Input
-                label="DC Fast Charging Specs"
-                name="dc_charging"
-                value={formData.dc_charging}
-                onChange={handleChange}
-                placeholder="e.g. 50 kW DC"
-              />
-              <Input
-                label="Charging Time duration"
-                name="charging_time"
-                value={formData.charging_time}
-                onChange={handleChange}
-                placeholder="e.g. 10-80% in 56 min"
-              />
-            </div>
-          </Card>
-
-          {/* Card 4: Image Media Manager */}
-          <Card className="space-y-5">
-            <h2 className="text-base font-bold text-white border-b border-slate-900 pb-3 tracking-tight">Images & Assets</h2>
-            
-            {/* Main vehicle image upload */}
-            <div className="space-y-3">
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Main Vehicle Image</label>
-              <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+          {/* STEP 1: Basic Info */}
+          {activeStep === 1 && (
+            <Card className="space-y-4">
+              <h2 className="text-sm font-extrabold text-slate-800 border-b border-slate-100 pb-3 uppercase tracking-wider">Basic Vehicle Specs</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Input
-                  name="vehicle_image"
-                  value={formData.vehicle_image}
+                  label="Brand *"
+                  name="brand"
+                  value={formData.brand}
                   onChange={handleChange}
-                  placeholder="https://supabase-storage-url.com/image.png"
+                  placeholder="e.g. Tata"
+                  required
                 />
-                <label className="cursor-pointer inline-flex items-center justify-center gap-1.5 bg-slate-900 border border-slate-800 hover:border-slate-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl h-10 transition shrink-0 select-none">
-                  <Upload className="w-4.5 h-4.5" /> Upload File
-                  <input 
-                    type="file" 
-                    accept="image/*"
-                    onChange={(e) => handleImageUpload(e, 'vehicle_image')}
-                    className="hidden" 
-                  />
-                </label>
+                <Input
+                  label="Model Name *"
+                  name="model_name"
+                  value={formData.model_name}
+                  onChange={handleChange}
+                  placeholder="e.g. Nexon EV"
+                  required
+                />
+                <Input
+                  label="Variant Name"
+                  name="variant_name"
+                  value={formData.variant_name}
+                  onChange={handleChange}
+                  placeholder="e.g. Empowered Plus"
+                />
+                <Input
+                  label="Body Type"
+                  name="body_type"
+                  value={formData.body_type}
+                  onChange={handleChange}
+                  placeholder="e.g. SUV, Hatchback"
+                />
+                <Input
+                  label="Segment"
+                  name="segment"
+                  value={formData.segment}
+                  onChange={handleChange}
+                  placeholder="e.g. SUV"
+                />
               </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 pt-4">
+                <Input
+                  label="Display Name (Auto-Generated)"
+                  name="detailed_name"
+                  value={formData.detailed_name}
+                  readOnly
+                  className="bg-slate-50 cursor-not-allowed text-slate-500 font-semibold"
+                />
+                <Input
+                  label="URL Slug (Auto-Generated)"
+                  name="slug"
+                  value={formData.slug}
+                  readOnly
+                  className="bg-slate-50 cursor-not-allowed text-slate-500 font-semibold"
+                />
+              </div>
+            </Card>
+          )}
+
+          {/* STEP 2: Images Management */}
+          {activeStep === 2 && (
+            <div className="space-y-6">
               
-              {formData.vehicle_image && (
-                <div className="relative w-40 aspect-video rounded-xl border border-slate-800 bg-slate-950/40 p-2 overflow-hidden group">
-                  <img src={formData.vehicle_image} alt="Vehicle Main" className="w-full h-full object-contain" />
-                  <button
-                    type="button"
-                    onClick={() => setFormData(prev => ({ ...prev, vehicle_image: '' }))}
-                    className="absolute top-1.5 right-1.5 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-150 cursor-pointer shadow-md"
+              {/* Main Thumbnail Selector Panel */}
+              <Card className="space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <h3 className="text-sm font-extrabold text-slate-800 uppercase tracking-wider">Main Vehicle Thumbnail</h3>
+                  {formData.vehicle_image && (
+                    <Button 
+                      type="button" 
+                      variant="secondary" 
+                      size="small" 
+                      icon={Crop}
+                      onClick={() => setCropperSrc(getImageUrl(formData.vehicle_image))}
+                    >
+                      Crop Image
+                    </Button>
+                  )}
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center gap-6">
+                  {/* Visual Frame */}
+                  <div className="relative w-44 aspect-[3/2] rounded-xl bg-slate-50 border border-slate-200 overflow-hidden flex items-center justify-center flex-shrink-0 shadow-sm">
+                    {formData.vehicle_thumbnail ? (
+                      <img src={getImageUrl(formData.vehicle_thumbnail)} alt="Thumbnail Preview" className="w-full h-full object-cover" />
+                    ) : formData.vehicle_image ? (
+                      <div className="text-center p-3 text-slate-400">
+                        <ImageIcon className="w-6 h-6 mx-auto mb-1" />
+                        <span className="text-[10px] font-bold block">Need to Crop</span>
+                      </div>
+                    ) : (
+                      <ImageIcon className="w-8 h-8 text-slate-300" />
+                    )}
+                  </div>
+
+                  <div className="space-y-1.5 text-center sm:text-left">
+                    <p className="text-xs font-bold text-slate-800">Vehicle Thumbnail (600x400)</p>
+                    <p className="text-[10px] text-slate-400 font-semibold max-w-sm leading-relaxed">
+                      Select an image from the **Exterior Images** list below and click &ldquo;Make Main&rdquo; or click Crop to adjust.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Exterior Images */}
+              <ModularImageManager
+                label="Exterior Images"
+                images={exteriorImages}
+                onChange={setExteriorImages}
+                carName={formData.detailed_name || 'Vehicle'}
+                section="exterior"
+                mainImagePath={formData.vehicle_image}
+                onSetMainImage={handleSetMainImage}
+              />
+
+              {/* Interior Images */}
+              <ModularImageManager
+                label="Interior Images"
+                images={interiorImages}
+                onChange={setInteriorImages}
+                carName={formData.detailed_name || 'Vehicle'}
+                section="interior"
+              />
+
+            </div>
+          )}
+
+          {/* STEP 3: Specifications */}
+          {activeStep === 3 && (
+            <div className="space-y-6">
+              <Card className="space-y-4">
+                <h2 className="text-sm font-extrabold text-slate-800 border-b border-slate-100 pb-3 uppercase tracking-wider">Technical Specs</h2>
+                <Input
+                  label="Battery Capacity (kWh)"
+                  name="battery_capacity"
+                  type="number"
+                  step="0.01"
+                  value={formData.battery_capacity}
+                  onChange={handleChange}
+                  placeholder="e.g. 40.5"
+                />
+              </Card>
+
+              <Card className="space-y-4">
+                <h2 className="text-sm font-extrabold text-slate-800 border-b border-slate-100 pb-3 uppercase tracking-wider">Search & Review Summary</h2>
+                <TextArea
+                  label="Web Search Summary"
+                  name="web_search_summary"
+                  value={formData.web_search_summary}
+                  onChange={handleChange}
+                  placeholder="Provide a detailed summary of the vehicle specifications, battery details, range, pricing in India, and overall reviews to assist comparisons and the AI Chat agent..."
+                  className="h-44"
+                />
+              </Card>
+            </div>
+          )}
+
+          {/* STEP 4: SEO Configurations */}
+          {activeStep === 4 && (
+            <Card className="space-y-4">
+              <h2 className="text-sm font-extrabold text-slate-800 border-b border-slate-100 pb-3 uppercase tracking-wider">SEO Meta Information</h2>
+              <Input
+                label="SEO Meta Title"
+                name="seo_title"
+                value={formData.seo_title}
+                onChange={handleChange}
+                placeholder="Meta title used by search engines..."
+              />
+              <TextArea
+                label="SEO Meta Description"
+                name="seo_description"
+                value={formData.seo_description}
+                onChange={handleChange}
+                placeholder="Meta description summarizing page content..."
+                className="h-32"
+              />
+            </Card>
+          )}
+
+          {/* STEP 5: Publish & Preview */}
+          {activeStep === 5 && (
+            <Card className="space-y-6">
+              <div>
+                <h2 className="text-sm font-extrabold text-slate-800 border-b border-slate-100 pb-3 uppercase tracking-wider">Review & Publish</h2>
+                <p className="text-xs text-slate-500 font-semibold mt-1">Review the vehicle specifications and images summary before launching live.</p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 border border-slate-200/60 p-4 rounded-2xl text-xs font-bold text-slate-700">
+                <div className="space-y-2">
+                  <p><span className="text-slate-400">Brand / Name:</span> {formData.detailed_name || 'N/A'}</p>
+                  <p><span className="text-slate-400">Slug:</span> /{formData.slug || 'N/A'}</p>
+                  <p><span className="text-slate-400">Battery:</span> {formData.battery_capacity || 'N/A'} kWh</p>
+                </div>
+                <div className="space-y-2">
+                  <p><span className="text-slate-400">Exterior Images:</span> {exteriorImages.length}</p>
+                  <p><span className="text-slate-400">Interior Images:</span> {interiorImages.length}</p>
+                  <p><span className="text-slate-400">Thumbnail cropped:</span> {formData.vehicle_thumbnail ? '✅ Yes' : '❌ No'}</p>
+                </div>
+              </div>
+
+              {formData.slug && (
+                <div className="flex gap-2">
+                  <a 
+                    href={`/cars/${formData.slug}`} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="flex-1 flex items-center justify-center gap-1 bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs font-bold py-2 rounded-xl transition cursor-pointer"
                   >
-                    <X className="w-3 h-3" />
-                  </button>
+                    <Eye className="w-4 h-4" /> Preview Live Car Page
+                  </a>
                 </div>
               )}
-            </div>
+            </Card>
+          )}
 
-            {/* Gallery folders */}
-            {[
-              { label: 'Interior Images', field: 'interior_images' },
-              { label: 'Exterior Images', field: 'exterior_images' },
-              { label: 'Gallery Images', field: 'gallery_images' }
-            ].map(gallery => (
-              <div key={gallery.field} className="space-y-3 pt-4 border-t border-slate-900">
-                <div className="flex items-center justify-between">
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">{gallery.label}</label>
-                  <label className="cursor-pointer inline-flex items-center gap-1.5 bg-slate-950 border border-slate-800 hover:bg-slate-750 text-[10px] font-bold uppercase tracking-wider py-1.5 px-3 rounded-lg transition select-none">
-                    <Upload className="w-3.5 h-3.5" /> Upload
-                    <input 
-                      type="file" 
-                      accept="image/*"
-                      onChange={(e) => handleImageUpload(e, gallery.field)}
-                      className="hidden" 
-                    />
-                  </label>
-                </div>
+          {/* Wizard step navigation footer controls */}
+          <div className="flex items-center justify-between border-t border-slate-200 pt-4">
+            <Button
+              type="button"
+              variant="secondary"
+              size="medium"
+              onClick={handlePrev}
+              disabled={activeStep === 1}
+            >
+              Previous Step
+            </Button>
 
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                  {formData[gallery.field].map((url, idx) => (
-                    <div key={idx} className="relative aspect-video rounded-lg border border-slate-850 bg-slate-950/30 overflow-hidden group p-1">
-                      <img src={url} alt="Gallery item" className="w-full h-full object-cover rounded-md" />
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveListItem(gallery.field, idx)}
-                        className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer shadow-sm"
-                      >
-                        <X className="w-2.5 h-2.5" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </Card>
+            {activeStep < 5 ? (
+              <Button
+                type="button"
+                variant="primary"
+                size="medium"
+                icon={ArrowRight}
+                onClick={handleNext}
+              >
+                Next Step
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                variant="primary"
+                size="medium"
+                icon={Save}
+                disabled={loading}
+                onClick={handleSubmit}
+              >
+                {loading ? 'Saving...' : 'Save & Publish EV'}
+              </Button>
+            )}
+          </div>
+
         </div>
 
-        {/* Side Panel (Right Column - 1 Column wide) */}
-        <div className="space-y-8">
-          
-          {/* Card 5: Publishing & Actions */}
+        {/* Sidebar Controls (Publish status configuration) */}
+        <div className="space-y-6">
           <Card className="space-y-4">
-            <h2 className="text-base font-bold text-white border-b border-slate-900 pb-3 tracking-tight">Publishing</h2>
+            <h2 className="text-sm font-extrabold text-slate-800 border-b border-slate-100 pb-3 uppercase tracking-wider">Status Settings</h2>
             
             <Select
               label="Publication Status"
@@ -606,161 +797,37 @@ export default function CarForm({ carId = null }) {
               value={formData.status}
               onChange={handleChange}
             >
-              <option value="draft" className="bg-slate-950">Draft</option>
-              <option value="published" className="bg-slate-950">Published</option>
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
             </Select>
 
-            <Input
-              label="Safety Rating"
-              name="safety"
-              value={formData.safety}
-              onChange={handleChange}
-              placeholder="e.g. 5 Star (Bharat NCAP)"
-            />
-
-            <Input
-              label="Warranty Summary"
-              name="warranty"
-              value={formData.warranty}
-              onChange={handleChange}
-              placeholder="e.g. 8 Years / 1,600,000 km"
-            />
-
-            <Input
-              label="Brochure Document URL"
-              name="brochure"
-              value={formData.brochure}
-              onChange={handleChange}
-              placeholder="https://supabase.co/pdf-link.pdf"
-            />
-
-            <div className="pt-2 flex flex-col gap-3">
+            <div className="pt-2">
               <Button
-                type="submit"
+                type="button"
                 disabled={loading}
                 variant="primary"
                 size="large"
                 className="w-full"
                 icon={Save}
+                onClick={handleSubmit}
               >
-                {loading ? 'Saving specs...' : 'Save Specifications'}
-              </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                size="large"
-                className="w-full"
-                onClick={() => router.push('/admin/cars')}
-              >
-                Cancel
+                {loading ? 'Saving EV...' : 'Save Changes'}
               </Button>
             </div>
           </Card>
-
-          {/* Card 6: Lists & Practicality */}
-          <Card className="space-y-5">
-            <h2 className="text-base font-bold text-white border-b border-slate-900 pb-3 tracking-tight">Pros & Cons lists</h2>
-            
-            {/* Pros/Cons/Features/Colors */}
-            {[
-              { label: 'Features List', state: newFeature, setState: setNewFeature, field: 'features', placeholder: 'e.g. ADAS Level 2' },
-              { label: 'Pros', state: newPro, setState: setNewPro, field: 'pros', placeholder: 'e.g. Quiet Cabin' },
-              { label: 'Cons', state: newCon, setState: setNewCon, field: 'cons', placeholder: 'e.g. High Starting Price' },
-              { label: 'Available Colors', state: newColor, setState: setNewColor, field: 'colors', placeholder: 'e.g. Nebula Blue' }
-            ].map(list => (
-              <div key={list.field} className="space-y-2 border-b border-slate-950 pb-3 last:border-0 last:pb-0">
-                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">{list.label}</label>
-                <div className="flex gap-2">
-                  <Input
-                    value={list.state}
-                    onChange={(e) => list.setState(e.target.value)}
-                    placeholder={list.placeholder}
-                  />
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="px-3"
-                    onClick={() => handleAddListItem(list.field, list.state, list.setState)}
-                  >
-                    <Plus className="w-4 h-4" />
-                  </Button>
-                </div>
-                
-                <div className="flex flex-wrap gap-1.5 mt-2 max-h-36 overflow-y-auto custom-scrollbar">
-                  {formData[list.field].map((item, idx) => (
-                    <span key={idx} className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-slate-950 border border-slate-900 text-xs text-slate-300 rounded-full font-medium">
-                      {item}
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveListItem(list.field, idx)}
-                        className="text-slate-500 hover:text-red-400 transition cursor-pointer"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </Card>
-
-          {/* Card 7: SEO Configuration */}
-          <Card className="space-y-4">
-            <h2 className="text-base font-bold text-white border-b border-slate-900 pb-3 tracking-tight">SEO Parameters</h2>
-            
-            <Input
-              label="SEO Title"
-              name="seo_title"
-              value={formData.seo_title}
-              onChange={handleChange}
-              placeholder="Title for search engines..."
-            />
-
-            <TextArea
-              label="SEO Meta Description"
-              name="seo_description"
-              value={formData.seo_description}
-              onChange={handleChange}
-              placeholder="Short description under 160 characters..."
-            />
-
-            {/* SEO Keywords */}
-            <div className="space-y-2">
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">SEO Keywords</label>
-              <div className="flex gap-2">
-                <Input
-                  value={newKeyword}
-                  onChange={(e) => setNewKeyword(e.target.value)}
-                  placeholder="e.g. budget, nexon, specs"
-                />
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="px-3"
-                  onClick={() => handleAddListItem('meta_keywords', newKeyword, setNewKeyword)}
-                >
-                  <Plus className="w-4 h-4" />
-                </Button>
-              </div>
-              <div className="flex flex-wrap gap-1.5 mt-2">
-                {formData.meta_keywords.map((kw, idx) => (
-                  <span key={idx} className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-slate-950 border border-slate-900 text-xs text-slate-350 rounded-full font-medium">
-                    {kw}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveListItem('meta_keywords', idx)}
-                      className="text-slate-500 hover:text-red-400 transition cursor-pointer"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
-              </div>
-            </div>
-          </Card>
-
         </div>
-      </form>
+
+      </div>
+
+      {/* Cropper Modal overlay */}
+      {cropperSrc && (
+        <CustomCropper
+          imageSrc={cropperSrc}
+          onCrop={handleCropComplete}
+          onCancel={() => setCropperSrc(null)}
+        />
+      )}
+
     </div>
   );
 }

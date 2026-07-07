@@ -51,8 +51,8 @@ export default function AdminLayout({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Loader2 className="w-6 h-6 text-[#1e40af] animate-spin" />
       </div>
     );
   }
@@ -62,13 +62,13 @@ export default function AdminLayout({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col lg:flex-row font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col lg:flex-row font-sans overflow-x-hidden">
       {/* Sidebar - statically placed on desktop, absolute on mobile */}
       <Sidebar />
       
       {/* Content wrapper */}
       <div className="flex-1 min-w-0 pt-16 lg:pt-0 min-h-screen flex flex-col">
-        <main className="flex-1 p-6 md:p-10 max-w-7xl w-full mx-auto space-y-8">
+        <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto space-y-6">
           {children}
         </main>
       </div>

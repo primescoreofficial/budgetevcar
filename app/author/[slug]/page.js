@@ -29,7 +29,8 @@ export default async function AuthorProfilePage({ params }) {
 
   const brands = await getUniqueBrands();
   const bodyTypes = await getUniqueBodyTypes();
-  const { blogs = [], news = [] } = getAuthorContributions(slug);
+  const { blogs = [], news = [] } = await getAuthorContributions(slug);
+
 
   return (
     <div className="min-h-screen bg-slate-50/50">
