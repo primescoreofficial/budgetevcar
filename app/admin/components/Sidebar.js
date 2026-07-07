@@ -82,7 +82,7 @@ export default function Sidebar() {
         {/* Logo Section */}
         <div className="hidden lg:flex items-center gap-2.5 px-1 mb-8">
           <img src="/logo/2.png" alt="BudgetEV Logo" className="h-10 object-contain shrink-0" />
-          <div className="flex flex-col min-w-0">
+          <div className="flex flex-col gap-1 min-w-0">
             <span className="text-slate-950 font-black text-sm tracking-tight font-sans leading-tight">BudgetEV</span>
             <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none">Admin Panel</span>
           </div>
