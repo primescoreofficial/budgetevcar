@@ -219,3 +219,7 @@ ALTER TABLE public.cars ADD COLUMN IF NOT EXISTS exterior_images JSONB DEFAULT '
 ALTER TABLE public.cars ADD COLUMN IF NOT EXISTS interior_images JSONB DEFAULT '[]'::jsonb;
 ALTER TABLE public.cars ADD COLUMN IF NOT EXISTS seo_title TEXT;
 ALTER TABLE public.cars ADD COLUMN IF NOT EXISTS seo_description TEXT;
+
+-- 6. GRANT ALL PERMISSIONS ON ACTIVITY LOGS TABLE
+GRANT ALL ON TABLE public.activity_logs TO authenticated, anon, service_role;
+
