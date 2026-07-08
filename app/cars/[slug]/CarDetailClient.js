@@ -8,7 +8,7 @@ import { Share2 } from 'lucide-react';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { getCarUrl } from '@/lib/queries';
-import { getVehicleImage, getExteriorImages, getInteriorImages } from '@/lib/imageHelpers';
+import { getVehicleImage, getVehicleThumbnail, getExteriorImages, getInteriorImages } from '@/lib/imageHelpers';
 
 
 const MotionImage = motion(Image);
@@ -543,7 +543,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                   >
                     <div>
                       <div className="w-full h-36 bg-slate-50 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
-                        <img src={simCar.vehicle_image} alt={simCar.model_name || simCar.detailed_name} className="w-full h-full object-cover" />
+                        <img src={getVehicleThumbnail(simCar)} alt={simCar.model_name || simCar.detailed_name} className="w-full h-full object-cover" />
                       </div>
                       <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">{simCar.model_name || simCar.detailed_name}</h4>
                       <p className="text-xs text-slate-400 font-medium mt-0.5">{simCar.variant_name || simCar.body_type || ''}</p>
@@ -597,7 +597,7 @@ export default function CarDetailClient({ car, relatedCars, localImages = [], al
                   >
                     <div>
                       <div className="w-full h-36 bg-slate-50 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
-                        <img src={relCar.vehicle_image} alt={relCar.model_name || relCar.detailed_name} className="w-full h-full object-cover" />
+                        <img src={getVehicleThumbnail(relCar)} alt={relCar.model_name || relCar.detailed_name} className="w-full h-full object-cover" />
                       </div>
                       <h4 className="text-sm font-extrabold text-slate-900 tracking-tight">{relCar.model_name || relCar.detailed_name}</h4>
                       <p className="text-xs text-slate-400 font-medium mt-0.5">{relCar.variant_name || relCar.body_type || ''}</p>

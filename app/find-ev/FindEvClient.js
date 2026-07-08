@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { getCarUrl } from '@/lib/queries';
+import { getVehicleThumbnail } from '@/lib/imageHelpers';
 
 // -------------------- SPEC / PRICE MAP HELPER --------------------
 function getCarSpecs(car) {
@@ -516,7 +517,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                       {/* Enforced premium proportional image thumbnail frame */}
                       <div className="w-full aspect-[16/10] bg-slate-50 rounded-xl overflow-hidden mb-4 relative">
                         <img
-                          src={car.vehicle_image}
+                          src={getVehicleThumbnail(car)}
                           alt={car.model_name || car.detailed_name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                           loading="lazy"

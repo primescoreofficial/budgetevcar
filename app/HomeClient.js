@@ -2,6 +2,7 @@
 
 import { subscribeNewsletter } from '@/lib/newsletter';
 import { getCarUrl } from '@/lib/queries';
+import { getVehicleThumbnail } from '@/lib/imageHelpers';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -54,7 +55,7 @@ function CarCard({ car, index, variant = 'grid' }) {
         <div>
           <div className="w-full h-40 bg-slate-50 rounded-xl overflow-hidden mb-4 relative">
             <img
-              src={car.vehicle_image}
+              src={getVehicleThumbnail(car)}
               alt={car.model_name || car.detailed_name}
               className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
               loading="lazy"
@@ -85,7 +86,7 @@ function CarCard({ car, index, variant = 'grid' }) {
     >
       <div className="h-44 bg-slate-50 overflow-hidden">
         <img
-          src={car.vehicle_image}
+          src={getVehicleThumbnail(car)}
           alt={car.model_name || car.detailed_name}
           className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
           loading="lazy"

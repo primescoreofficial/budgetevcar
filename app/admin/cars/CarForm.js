@@ -221,8 +221,6 @@ export default function CarForm({ carId = null }) {
   // Main Image Set Handler (from uploaded list)
   const handleSetMainImage = (imagePath) => {
     setIsDirty(true);
-    // Open cropper to generate thumbnail.webp at 600x400
-    setCropperSrc(getImageUrl(imagePath));
     setFormData(prev => ({
       ...prev,
       vehicle_image: imagePath
@@ -275,6 +273,12 @@ export default function CarForm({ carId = null }) {
       }
 
       const slug = formData.slug;
+
+      // Find the index of the main vehicle image in the exterior images list before renaming
+      let mainImageIndex = -1;
+      if (formData.vehicle_image) {
+        mainImageIndex = exteriorImages.findIndex(img => img.path === formData.vehicle_image);
+      }
 
       // Sequential renaming of files in storage based on sorting order
       // 1. Exterior
@@ -362,7 +366,7 @@ export default function CarForm({ carId = null }) {
         serialNo = maxCar && maxCar[0] ? (maxCar[0].serial_no || 0) + 1 : 1;
       }
 
-      setAutosaveMsg('Saving database record...');
+       setAutosaveMsg('Saving database record...');
       const submissionPayload = {
         brand: formData.brand.trim(),
         model_name: formData.model_name.trim(),
@@ -373,7 +377,7 @@ export default function CarForm({ carId = null }) {
         battery_capacity: formData.battery_capacity ? parseFloat(formData.battery_capacity) : null,
         segment: formData.segment.trim() || null,
         web_search_summary: formData.web_search_summary.trim() || null,
-        vehicle_image: formData.vehicle_image || null,
+        vehicle_image: mainImageIndex !== -1 ? `cars/${slug}/${mainImageIndex + 1}.webp` : (formData.vehicle_image || null),
         vehicle_thumbnail: formData.vehicle_thumbnail || null,
         exterior_images: finalExterior,
         interior_images: finalInterior,
@@ -595,43 +599,26 @@ export default function CarForm({ carId = null }) {
           {/* STEP 2: Images Management */}
           {activeStep === 2 && (
             <div className="space-y-6">
-              
-              {/* Main Thumbnail Selector Panel */}
+                            {/* Main Image Selector Panel */}
               <Card className="space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <h3 className="text-sm font-extrabold text-slate-800 uppercase tracking-wider">Main Vehicle Thumbnail</h3>
-                  {formData.vehicle_image && (
-                    <Button 
-                      type="button" 
-                      variant="secondary" 
-                      size="small" 
-                      icon={Crop}
-                      onClick={() => setCropperSrc(getImageUrl(formData.vehicle_image))}
-                    >
-                      Crop Image
-                    </Button>
-                  )}
+                  <h3 className="text-sm font-extrabold text-slate-800 uppercase tracking-wider">Main Vehicle Image</h3>
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center gap-6">
                   {/* Visual Frame */}
                   <div className="relative w-44 aspect-[3/2] rounded-xl bg-slate-50 border border-slate-200 overflow-hidden flex items-center justify-center flex-shrink-0 shadow-sm">
-                    {formData.vehicle_thumbnail ? (
-                      <img src={getImageUrl(formData.vehicle_thumbnail)} alt="Thumbnail Preview" className="w-full h-full object-cover" />
-                    ) : formData.vehicle_image ? (
-                      <div className="text-center p-3 text-slate-400">
-                        <ImageIcon className="w-6 h-6 mx-auto mb-1" />
-                        <span className="text-[10px] font-bold block">Need to Crop</span>
-                      </div>
+                    {formData.vehicle_image ? (
+                      <img src={getImageUrl(formData.vehicle_image)} alt="Vehicle Preview" className="w-full h-full object-cover" />
                     ) : (
                       <ImageIcon className="w-8 h-8 text-slate-300" />
                     )}
                   </div>
 
                   <div className="space-y-1.5 text-center sm:text-left">
-                    <p className="text-xs font-bold text-slate-800">Vehicle Thumbnail (600x400)</p>
+                    <p className="text-xs font-bold text-slate-800">Main Vehicle Image</p>
                     <p className="text-[10px] text-slate-400 font-semibold max-w-sm leading-relaxed">
-                      Select an image from the **Exterior Images** list below and click &ldquo;Make Main&rdquo; or click Crop to adjust.
+                      Select an image from the **Exterior Images** list below and click &ldquo;Make Main&rdquo; to set the primary display image.
                     </p>
                   </div>
                 </div>

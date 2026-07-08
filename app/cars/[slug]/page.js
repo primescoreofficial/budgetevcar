@@ -97,8 +97,12 @@ export default async function CarDetailPage({ params, searchParams }) {
 
   const allCars = await getAllCars();
   const enrichedAllCars = enrichCarsWithLocalImages(allCars);
+  const currentBrandNorm = (car.brand || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   const relatedCars = enrichedAllCars
-    .filter(c => c.brand === car.brand && c.serial_no !== car.serial_no)
+    .filter(c => {
+      const bNorm = (c.brand || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      return (bNorm.includes(currentBrandNorm) || currentBrandNorm.includes(bNorm)) && c.serial_no !== car.serial_no;
+    })
     .slice(0, 4);
 
   const localImages = getCarLocalImages(car.brand, car.model_name || car.detailed_name);

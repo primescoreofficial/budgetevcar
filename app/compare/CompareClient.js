@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { getCarUrl } from '@/lib/queries';
+import { getVehicleThumbnail } from '@/lib/imageHelpers';
 
 export default function CompareClient({ cars }) {
   const [selectedCar1, setSelectedCar1] = useState('');
@@ -85,7 +86,7 @@ export default function CompareClient({ cars }) {
                   className="bg-white border border-slate-100 rounded-2xl p-4 text-center shadow-sm"
                 >
                   <div className="w-full h-28 sm:h-44 bg-slate-50 rounded-xl overflow-hidden mb-4 flex items-center justify-center">
-                    <img src={car.vehicle_image} alt={car.model_name || car.detailed_name} className="w-full h-full object-cover" />
+                    <img src={getVehicleThumbnail(car)} alt={car.model_name || car.detailed_name} className="w-full h-full object-cover" />
                   </div>
                   <h4 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">{car.model_name || car.detailed_name}</h4>
                   <p className="text-xs text-slate-400 font-medium mt-0.5">{car.brand}</p>
