@@ -6,11 +6,31 @@ import Image from 'next/image';
 import { MapPin, Zap, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FooterQueryForm from './FooterQueryForm';
+import { supabase } from '@/lib/supabase';
 
 export default function Footer({ brands = [], bodyTypes = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const triggerRef = useRef(null);
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data } = await supabase
+          .from('website_settings')
+          .select('*')
+          .eq('id', 'default')
+          .single();
+        if (data) {
+          setSettings(data);
+        }
+      } catch (e) {
+        console.warn('Failed to load website settings in Footer:', e);
+      }
+    };
+    fetchSettings();
+  }, []);
 
   const displayBrands = brands.length > 0
     ? brands.slice(0, 5)
@@ -95,7 +115,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             >
               <div className="relative w-24 h-12 sm:w-28 sm:h-14 md:w-32 md:h-16 flex-shrink-0">
                 <Image
-                  src="/logo/1.png"
+                  src={settings?.logo || "/logo/1.png"}
                   alt="BudgetEV Logo"
                   fill
                   className="object-contain"
@@ -109,11 +129,21 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             </p>
             {/* Social Links */}
             <div className="flex items-center gap-3.5 pt-2">
-              {['twitter', 'facebook', 'linkedin', 'instagram'].map((platform) => (
-                <a key={platform} href={`#${platform}`} className="text-slate-500 hover:text-white transition-colors duration-200" aria-label={platform}>
-                  <span className="capitalize text-xs font-bold">{platform}</span>
-                </a>
-              ))}
+              {['twitter', 'facebook', 'linkedin', 'instagram'].map((platform) => {
+                const url = settings?.social_links?.[platform] || `#${platform}`;
+                return (
+                  <a 
+                    key={platform} 
+                    href={url} 
+                    target={url.startsWith('http') ? '_blank' : undefined}
+                    rel="noreferrer"
+                    className="text-slate-500 hover:text-white transition-colors duration-200" 
+                    aria-label={platform}
+                  >
+                    <span className="capitalize text-xs font-bold">{platform}</span>
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -245,7 +275,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-500">
-          <p>© {new Date().getFullYear()} BudgetEV. All rights reserved.</p>
+          <p>{settings?.footer || `© ${new Date().getFullYear()} BudgetEV. All rights reserved.`}</p>
 
           <div className="relative group">
             <button

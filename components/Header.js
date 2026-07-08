@@ -6,12 +6,34 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { supabase } from '@/lib/supabase';
+
 export default function Header({ extraMobileActions, menuOpen: customMenuOpen, setMenuOpen: customSetMenuOpen }) {
   const pathname = usePathname();
   const [localMenuOpen, setLocalMenuOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [newsBlogsOpen, setNewsBlogsOpen] = useState(false);
   const headerRef = useRef(null);
+
+  const [logoUrl, setLogoUrl] = useState('/logo/2.png');
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data } = await supabase
+          .from('website_settings')
+          .select('logo')
+          .eq('id', 'default')
+          .single();
+        if (data && data.logo) {
+          setLogoUrl(data.logo);
+        }
+      } catch (e) {
+        console.warn('Failed to load website logo in Header:', e);
+      }
+    };
+    fetchSettings();
+  }, []);
 
   const menuOpen = customMenuOpen !== undefined ? customMenuOpen : localMenuOpen;
   const setMenuOpen = customSetMenuOpen !== undefined ? customSetMenuOpen : setLocalMenuOpen;
@@ -90,7 +112,7 @@ export default function Header({ extraMobileActions, menuOpen: customMenuOpen, s
         <Link href="/" className="flex items-center gap-1 text-xl sm:text-2xl font-black text-[#1e3a8a] tracking-tight hover:opacity-90 transition">
           <div className="relative w-24 h-14 sm:w-32 sm:h-16 md:w-32 md:h-16 lg:w-32 lg:h-16 overflow-hidden flex-shrink-0">
             <Image
-              src="/logo/2.png"
+              src={logoUrl}
               alt="BudgetEV Logo"
               fill
               className="object-contain"

@@ -77,7 +77,23 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+import { supabase } from "@/lib/supabase";
+
+export default async function RootLayout({ children }) {
+  let faviconUrl = "/logo/favicon.png";
+  try {
+    const { data } = await supabase
+      .from('website_settings')
+      .select('favicon')
+      .eq('id', 'default')
+      .single();
+    if (data && data.favicon) {
+      faviconUrl = data.favicon;
+    }
+  } catch (e) {
+    console.warn("Failed to load favicon:", e);
+  }
+
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -173,6 +189,7 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+        <link rel="icon" href={faviconUrl} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
