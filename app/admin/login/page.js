@@ -99,7 +99,7 @@ export default function AdminLogin() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@budgetev.com"
+              placeholder="budgetev@superadmin.com"
               icon={Mail}
             />
 
