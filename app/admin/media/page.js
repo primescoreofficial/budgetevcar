@@ -26,7 +26,7 @@ const BUCKETS = [
 ];
 
 export default function MediaLibrary() {
-  const [selectedBucket, setSelectedBucket] = useState('media');
+  const [selectedBucket, setSelectedBucket] = useState('cars');
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
