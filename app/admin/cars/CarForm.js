@@ -374,7 +374,7 @@ export default function CarForm({ carId = null }) {
         detailed_name: formData.detailed_name.trim(),
         slug: formData.slug.trim(),
         body_type: formData.body_type.trim() || null,
-        battery_capacity: (formData.battery_capacity && !isNaN(parseFloat(formData.battery_capacity))) ? parseFloat(formData.battery_capacity) : null,
+        battery_capacity: formData.battery_capacity ? String(formData.battery_capacity).trim() : null,
         segment: formData.segment.trim() || null,
         web_search_summary: formData.web_search_summary.trim() || null,
         vehicle_image: mainImageIndex !== -1 ? `cars/${slug}/${mainImageIndex + 1}.webp` : (formData.vehicle_image || null),

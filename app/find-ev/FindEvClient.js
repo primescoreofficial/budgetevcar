@@ -539,7 +539,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                             <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                               <path d="M11 21l-1-7H4l9-11 1 7h6l-9 11z" />
                             </svg>
-                            {car.battery_capacity} 
+                            {car.battery_capacity}
                           </span>
                         )}
                         {car.body_type && (
@@ -590,7 +590,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
             <p>
               Navigating the transition to electric mobility requires understanding key features like battery size, range expectations, charging standardizations, and pricing models. Utilizing a comprehensive <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">electric vehicle finder</Link> simplifies this selection process. If you want to <Link href="/find-ev" className="text-[#0249ad] font-bold hover:underline">find electric car</Link> options that suit your specific lifestyle, balancing your budget with real-world requirements is the first step.
             </p>
-            
+
             <h3 className="text-lg font-bold text-slate-800 tracking-tight mt-6">Choosing the Best EV in India by Budget & Driving Profile</h3>
             <p>
               Depending on where and how far you drive daily, different vehicle classes will offer the most practical value:
