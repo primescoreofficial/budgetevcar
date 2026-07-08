@@ -408,7 +408,10 @@ ${JSON.stringify(relatedPosts, null, 2)}
   }));
 
   // Append system instructions inside payload config
-  const modelName = aiSettings.gemini_model || "gemini-2.5-flash";
+  let modelName = aiSettings.gemini_model || "gemini-2.5-flash";
+  if (modelName === "gemini-1.5-flash") {
+    modelName = "gemini-2.5-flash";
+  }
   const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
   const geminiPayload = {
     contents,
