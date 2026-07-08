@@ -77,6 +77,8 @@ export const metadata = {
   },
 };
 
+export const dynamic = 'force-dynamic';
+
 import { supabase } from "@/lib/supabase";
 
 export default async function RootLayout({ children }) {
@@ -84,11 +86,12 @@ export default async function RootLayout({ children }) {
   try {
     const { data } = await supabase
       .from('website_settings')
-      .select('favicon')
+      .select('favicon, updated_at')
       .eq('id', 'default')
       .single();
     if (data && data.favicon) {
-      faviconUrl = data.favicon;
+      const timestamp = data.updated_at ? new Date(data.updated_at).getTime() : Date.now();
+      faviconUrl = `${data.favicon}?t=${timestamp}`;
     }
   } catch (e) {
     console.warn("Failed to load favicon:", e);
