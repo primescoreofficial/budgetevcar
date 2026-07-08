@@ -539,7 +539,7 @@ export default function FindEvClient({ cars, brands, segments, bodyTypes }) {
                             <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                               <path d="M11 21l-1-7H4l9-11 1 7h6l-9 11z" />
                             </svg>
-                            {car.battery_capacity} kWh
+                            {car.battery_capacity} 
                           </span>
                         )}
                         {car.body_type && (

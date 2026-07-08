@@ -374,7 +374,7 @@ export default function CarForm({ carId = null }) {
         detailed_name: formData.detailed_name.trim(),
         slug: formData.slug.trim(),
         body_type: formData.body_type.trim() || null,
-        battery_capacity: formData.battery_capacity ? parseFloat(formData.battery_capacity) : null,
+        battery_capacity: (formData.battery_capacity && !isNaN(parseFloat(formData.battery_capacity))) ? parseFloat(formData.battery_capacity) : null,
         segment: formData.segment.trim() || null,
         web_search_summary: formData.web_search_summary.trim() || null,
         vehicle_image: mainImageIndex !== -1 ? `cars/${slug}/${mainImageIndex + 1}.webp` : (formData.vehicle_image || null),
@@ -655,8 +655,7 @@ export default function CarForm({ carId = null }) {
                 <Input
                   label="Battery Capacity (kWh)"
                   name="battery_capacity"
-                  type="number"
-                  step="0.01"
+                  type="text"
                   value={formData.battery_capacity}
                   onChange={handleChange}
                   placeholder="e.g. 40.5"
