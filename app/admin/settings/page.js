@@ -319,7 +319,7 @@ export default function WebsiteSettings() {
                   <input 
                     type="file" 
                     accept="image/*"
-                    onChange={(e) => handleUpload(e, 'logo', 'logos')}
+                    onChange={(e) => handleUpload(e, 'logo', 'cars')}
                     className="hidden" 
                   />
                 </label>
@@ -346,7 +346,7 @@ export default function WebsiteSettings() {
                   <input 
                     type="file" 
                     accept="image/*"
-                    onChange={(e) => handleUpload(e, 'favicon', 'favicons')}
+                    onChange={(e) => handleUpload(e, 'favicon', 'cars')}
                     className="hidden" 
                   />
                 </label>
