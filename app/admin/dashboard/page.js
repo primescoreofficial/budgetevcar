@@ -28,7 +28,12 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const res = await fetch('/api/admin/stats');
+        const { data: { session } } = await supabase.auth.getSession();
+        const headers = {};
+        if (session) {
+          headers['Authorization'] = `Bearer ${session.access_token}`;
+        }
+        const res = await fetch('/api/admin/stats', { headers });
         const json = await res.json();
         if (json.success) {
           setData(json);

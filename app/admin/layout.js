@@ -67,7 +67,7 @@ export default function AdminLayout({ children }) {
       <Sidebar />
       
       {/* Content wrapper */}
-      <div className="flex-1 min-w-0 pt-16 lg:pt-0 min-h-screen flex flex-col">
+      <div className="flex-1 min-w-0 pt-16 lg:pt-0 lg:pl-64 min-h-screen flex flex-col">
         <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto space-y-6">
           {children}
         </main>
