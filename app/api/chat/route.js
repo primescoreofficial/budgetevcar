@@ -166,6 +166,31 @@ export async function POST(req) {
   const startTime = Date.now();
   const apiKey = process.env.GEMINI_API_KEY;
 
+  let aiSettings = {
+    system_prompt: "You are BudgetEV AI, India's smartest AI-powered EV Consultant.",
+    temperature: 0.7,
+    max_tokens: 1000,
+    gemini_model: "gemini-2.5-flash",
+    enabled: true
+  };
+
+  try {
+    const { data } = await supabase
+      .from('ai_settings')
+      .select('*')
+      .eq('id', 'default')
+      .single();
+    if (data) {
+      aiSettings = data;
+    }
+  } catch (e) {
+    console.warn('Failed to load AI settings from Supabase:', e.message);
+  }
+
+  if (aiSettings.enabled === false) {
+    return NextResponse.json({ error: 'AI Assistant is currently offline.' }, { status: 503 });
+  }
+
   if (!apiKey) {
     console.error("GEMINI_API_KEY environment variable is not defined");
     return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
@@ -321,7 +346,8 @@ export async function POST(req) {
   }
 
   // 5. Construct AI Prompt with context
-  const systemInstruction = `You are BudgetEV AI, India's smartest AI-powered EV Consultant.
+  const baseInstruction = aiSettings.system_prompt || "You are BudgetEV AI, India's smartest AI-powered EV Consultant.";
+  const systemInstruction = `${baseInstruction}
 Speak strictly as BudgetEV. Never mention Gemini, Google, ChatGPT, OpenAI, or LLMs.
 Always be professional, friendly, objective, helpful, and concise unless detailed specifications are requested.
 
@@ -382,14 +408,17 @@ ${JSON.stringify(relatedPosts, null, 2)}
   }));
 
   // Append system instructions inside payload config
-  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const modelName = aiSettings.gemini_model || "gemini-2.5-flash";
+  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
   const geminiPayload = {
     contents,
     systemInstruction: {
       parts: [{ text: systemInstruction }]
     },
     generationConfig: {
-      responseMimeType: "application/json"
+      responseMimeType: "application/json",
+      temperature: aiSettings.temperature ? parseFloat(aiSettings.temperature) : 0.7,
+      maxOutputTokens: aiSettings.max_tokens ? parseInt(aiSettings.max_tokens) : 1000
     }
   };
 

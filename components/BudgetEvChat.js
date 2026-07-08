@@ -6,6 +6,7 @@ import {
   ExternalLink, Compass
 } from 'lucide-react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
 // Suggested questions for initial welcome state
 const SUGGESTED_QUESTIONS = [
@@ -26,6 +27,36 @@ export default function BudgetEvChat() {
   const [isLoading, setIsLoading] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [errorState, setErrorState] = useState(null); // 'busy' | 'error' | null
+  
+  const [aiSettings, setAiSettings] = useState({
+    welcome_message: "Hello! I am your BudgetEV assistant. Ask me anything about electric cars.",
+    suggested_questions: SUGGESTED_QUESTIONS,
+    enabled: true
+  });
+
+  useEffect(() => {
+    const fetchAiSettings = async () => {
+      try {
+        const { data } = await supabase
+          .from('ai_settings')
+          .select('*')
+          .eq('id', 'default')
+          .single();
+        if (data) {
+          setAiSettings({
+            welcome_message: data.welcome_message || "Hello! I am your BudgetEV assistant. Ask me anything about electric cars.",
+            suggested_questions: Array.isArray(data.suggested_questions) && data.suggested_questions.length > 0
+              ? data.suggested_questions
+              : SUGGESTED_QUESTIONS,
+            enabled: data.enabled !== false
+          });
+        }
+      } catch (e) {
+        console.warn('Failed to load AI settings:', e);
+      }
+    };
+    fetchAiSettings();
+  }, []);
 
   const messagesEndRef = useRef(null);
   const chatWindowRef = useRef(null);
@@ -269,7 +300,7 @@ export default function BudgetEvChat() {
     );
   };
 
-  if (!showButton) return null;
+  if (!showButton || !aiSettings.enabled) return null;
 
   return (
     <>
@@ -411,14 +442,14 @@ export default function BudgetEvChat() {
                 <div className="space-y-1">
                   <h3 className="text-base font-extrabold text-slate-800">Hi, I'm BudgetEV AI</h3>
                   <p className="text-xs text-slate-400 font-medium max-w-[260px] mx-auto leading-relaxed">
-                    Your personal EV Expert. Ask me anything about Electric Vehicles, batteries, ranges, or comparisons.
+                    {aiSettings.welcome_message}
                   </p>
                 </div>
 
                 <div className="w-full pt-4 space-y-2">
                   <p className="text-[10px] uppercase font-bold tracking-wider text-slate-400 text-left mb-2 px-1">Suggested Questions</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-left">
-                    {SUGGESTED_QUESTIONS.map((item, idx) => (
+                    {aiSettings.suggested_questions.map((item, idx) => (
                       <button
                         key={idx}
                         onClick={() => handleSend(item.text)}
