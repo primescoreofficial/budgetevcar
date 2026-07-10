@@ -303,6 +303,9 @@ export default function BudgetEvChat() {
     );
   };
 
+  // Temporarily hidden for now
+  return null;
+
   if (!showButton || !aiSettings.enabled) return null;
 
   return (
