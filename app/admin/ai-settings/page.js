@@ -2,8 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Save, Loader2, AlertCircle, Plus, X, CheckCircle2 } from 'lucide-react';
+import { Save, Loader2, AlertCircle, Plus, X, CheckCircle2, Upload, RefreshCw, Trash2, RotateCcw } from 'lucide-react';
+
 import { PageHeader, Card, Button, Input, TextArea, Select } from '@/app/admin/components/DesignSystem';
+import { getBotLogo } from '@/lib/imageHelpers';
+import dynamic from 'next/dynamic';
+
+const CustomCropper = dynamic(() => import('../components/CustomCropper'), {
+  ssr: false,
+  loading: () => <div className="p-4 text-center text-xs font-semibold text-slate-500">Loading Image Editor...</div>
+});
 
 export default function AISettings() {
   const [loading, setLoading] = useState(false);
@@ -19,10 +27,14 @@ export default function AISettings() {
     temperature: 0.7,
     max_tokens: 1000,
     gemini_model: 'gemini-2.5-flash',
-    enabled: true
+    enabled: true,
+    bot_logo_path: ''
   });
 
   const [newQuestion, setNewQuestion] = useState('');
+  const [cropperSrc, setCropperSrc] = useState(null);
+  const [uploadError, setUploadError] = useState('');
+  const [lastCroppedBlob, setLastCroppedBlob] = useState(null);
 
   // Fetch AI settings (ID = 'default')
   useEffect(() => {
@@ -42,7 +54,8 @@ export default function AISettings() {
             temperature: data.temperature !== undefined ? parseFloat(data.temperature) : 0.7,
             max_tokens: data.max_tokens !== undefined ? parseInt(data.max_tokens, 10) : 1000,
             gemini_model: data.gemini_model || 'gemini-1.5-flash',
-            enabled: data.enabled !== undefined ? data.enabled : true
+            enabled: data.enabled !== undefined ? data.enabled : true,
+            bot_logo_path: data.bot_logo_path || ''
           });
         }
       } catch (err) {
@@ -95,6 +108,7 @@ export default function AISettings() {
         max_tokens: parseInt(settings.max_tokens, 10),
         gemini_model: settings.gemini_model.trim(),
         enabled: settings.enabled,
+        bot_logo_path: settings.bot_logo_path || null,
         updated_at: new Date().toISOString()
       };
 
@@ -122,6 +136,122 @@ export default function AISettings() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate format (PNG, JPG, JPEG, WebP)
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      setUploadError('Invalid format. Only PNG, JPG, JPEG, and WebP are allowed.');
+      return;
+    }
+
+    // Validate size (max 2 MB)
+    if (file.size > 2 * 1024 * 1024) {
+      setUploadError('File size exceeds the 2 MB limit.');
+      return;
+    }
+
+    setUploadError('');
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setCropperSrc(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const uploadBlob = async (blob) => {
+    setLoading(true);
+    setUploadError('');
+    try {
+      const fileName = `budgetev-ai-${Date.now()}.webp`;
+      const filePath = `${fileName}`;
+
+      const { data, error: uploadErr } = await supabase.storage
+        .from('logos')
+        .upload(filePath, blob, {
+          contentType: 'image/webp',
+          upsert: true
+        });
+
+      if (uploadErr) {
+        throw new Error(uploadErr.message + `. Please ensure a public "logos" bucket exists in Supabase Storage.`);
+      }
+
+      const relativePath = `logos/${filePath}`;
+
+      setSettings(prev => ({
+        ...prev,
+        bot_logo_path: relativePath
+      }));
+
+      // Log activity
+      try {
+        await supabase.from('activity_logs').insert({
+          admin_name: (await supabase.auth.getUser()).data.user?.email || 'admin',
+          action: 'Updated AI Bot Logo',
+          details: 'Uploaded and cropped new AI Bot logo'
+        });
+      } catch (logErr) {
+        console.warn('Logging failed:', logErr);
+      }
+
+      setSuccess('AI Bot Logo uploaded successfully!');
+      setTimeout(() => setSuccess(''), 3000);
+      setLastCroppedBlob(null);
+    } catch (err) {
+      setUploadError(err.message || 'Upload failed');
+      setLastCroppedBlob(blob);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCropComplete = (croppedBlob) => {
+    setCropperSrc(null);
+    uploadBlob(croppedBlob);
+  };
+
+  const handleRetryUpload = () => {
+    if (lastCroppedBlob) {
+      uploadBlob(lastCroppedBlob);
+    }
+  };
+
+  const handleRemoveLogo = async () => {
+    setSettings(prev => ({ ...prev, bot_logo_path: '' }));
+    setUploadError('');
+    try {
+      await supabase.from('activity_logs').insert({
+        admin_name: (await supabase.auth.getUser()).data.user?.email || 'admin',
+        action: 'Removed AI Bot Logo',
+        details: 'Removed custom AI Bot logo'
+      });
+    } catch (err) {
+      console.warn('Logging failed:', err);
+    }
+    setSuccess('AI Bot Logo removed.');
+    setTimeout(() => setSuccess(''), 3000);
+  };
+
+  const handleResetLogo = async () => {
+    setSettings(prev => ({ ...prev, bot_logo_path: '/logo/budgetev-ai-assistant.jpg' }));
+    setUploadError('');
+    try {
+      await supabase.from('activity_logs').insert({
+        admin_name: (await supabase.auth.getUser()).data.user?.email || 'admin',
+        action: 'Reset AI Bot Logo',
+        details: 'Reset AI Bot logo to default fallback'
+      });
+    } catch (err) {
+      console.warn('Logging failed:', err);
+    }
+    setSuccess('AI Bot Logo reset to default.');
+    setTimeout(() => setSuccess(''), 3000);
   };
 
   if (fetching) {
@@ -213,6 +343,133 @@ export default function AISettings() {
 
         {/* Right Column: Model Parameters */}
         <div className="space-y-6">
+          {/* Logo Manager */}
+          <Card className="space-y-4">
+            <h2 className="text-sm font-extrabold text-slate-800 border-b border-slate-100 pb-3 uppercase tracking-wider">AI Bot Logo</h2>
+            
+            {uploadError && (
+              <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-xl space-y-2">
+                <p className="text-xs font-semibold">{uploadError}</p>
+                {lastCroppedBlob && (
+                  <Button 
+                    type="button" 
+                    variant="secondary" 
+                    size="small" 
+                    onClick={handleRetryUpload}
+                    icon={RefreshCw}
+                    className="w-full text-xs"
+                  >
+                    Retry Upload
+                  </Button>
+                )}
+              </div>
+            )}
+
+            <div className="flex flex-col items-center gap-4">
+              <div className="relative group w-24 h-24 rounded-full overflow-hidden bg-slate-100 border border-slate-200 flex items-center justify-center">
+                <img 
+                  src={getBotLogo(settings.bot_logo_path)} 
+                  alt="AI Bot Logo Preview" 
+                  className="w-full h-full object-cover transition duration-300 group-hover:scale-105" 
+                />
+              </div>
+
+              <div className="w-full space-y-2">
+                <div className="flex gap-2">
+                  <label className="flex-1 cursor-pointer inline-flex items-center justify-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2.5 rounded-xl transition border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500">
+                    <Upload className="w-4 h-4" /> 
+                    {settings.bot_logo_path ? 'Replace' : 'Upload'}
+                    <input 
+                      type="file" 
+                      accept="image/png, image/jpeg, image/jpg, image/webp"
+                      onChange={handleFileChange}
+                      className="sr-only" 
+                      aria-label="Upload AI Bot Logo"
+                    />
+                  </label>
+
+                  {settings.bot_logo_path && (
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      onClick={handleRemoveLogo}
+                      className="px-3"
+                      aria-label="Remove Custom AI Bot Logo"
+                    >
+                      <Trash2 className="w-4 h-4 text-red-500" />
+                    </Button>
+                  )}
+
+                  {settings.bot_logo_path && settings.bot_logo_path !== '/logo/budgetev-ai-assistant.jpg' && (
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      onClick={handleResetLogo}
+                      className="px-3"
+                      aria-label="Reset AI Bot Logo to Default"
+                    >
+                      <RotateCcw className="w-4 h-4 text-slate-500" />
+                    </Button>
+                  )}
+                </div>
+
+                <p className="text-[10px] text-slate-400 font-medium text-center">
+                  Only PNG, JPG, JPEG, or WebP. Max 2 MB. Fixed square crop.
+                </p>
+
+                <div className="border-t border-slate-100 pt-3 space-y-2 w-full">
+                  <Input
+                    label="Or Paste Image Link"
+                    name="bot_logo_path"
+                    value={(settings.bot_logo_path || '').startsWith('logos/') ? '' : settings.bot_logo_path}
+                    onChange={handleChange}
+                    placeholder="e.g. https://example.com/logo.png"
+                  />
+                </div>
+              </div>
+            </div>
+
+
+            {/* Live Preview Mockup */}
+            <div className="mt-4 p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Live Chatbot Preview</span>
+              
+              {/* Preview 1: Floating Button & Header Mock */}
+              <div className="flex items-center gap-4 bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                {/* Floating Button Mock */}
+                <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-[#0249ad] to-[#1e40af] p-0.5 flex items-center justify-center shadow-md">
+                  <img 
+                    src={getBotLogo(settings.bot_logo_path)} 
+                    alt="Bot Logo Mock" 
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                  <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border border-white" />
+                </div>
+
+                {/* Header Mock */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-bold text-slate-800 truncate">BudgetEV AI</span>
+                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                  </div>
+                  <p className="text-[9px] text-slate-400 font-semibold truncate">Flagship EV Expert</p>
+                </div>
+              </div>
+
+              {/* Preview 2: Message Bubble Mock */}
+              <div className="flex items-start gap-2 bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                <img 
+                  src={getBotLogo(settings.bot_logo_path)} 
+                  alt="Bot Logo Message Mock" 
+                  className="w-6 h-6 rounded-full object-cover shadow-sm mt-0.5" 
+                />
+                <div className="flex-1 bg-slate-50 border border-slate-100 rounded-xl rounded-tl-none p-2 text-[10px] text-slate-600 font-semibold leading-relaxed">
+                  Hi! I'm your custom EV assistant.
+                </div>
+              </div>
+            </div>
+          </Card>
+
           <Card className="space-y-4">
             <h2 className="text-sm font-extrabold text-slate-800 border-b border-slate-100 pb-3 uppercase tracking-wider">Assistant Status</h2>
             
@@ -287,6 +544,15 @@ export default function AISettings() {
         </div>
 
       </form>
+
+      {cropperSrc && (
+        <CustomCropper 
+          imageSrc={cropperSrc}
+          aspectRatio={1}
+          onCrop={handleCropComplete}
+          onCancel={() => setCropperSrc(null)}
+        />
+      )}
     </div>
   );
 }

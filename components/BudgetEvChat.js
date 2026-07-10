@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import { getBotLogo } from '@/lib/imageHelpers';
 
 // Suggested questions for initial welcome state
 const SUGGESTED_QUESTIONS = [
@@ -31,7 +32,8 @@ export default function BudgetEvChat() {
   const [aiSettings, setAiSettings] = useState({
     welcome_message: "Hello! I am your BudgetEV assistant. Ask me anything about electric cars.",
     suggested_questions: SUGGESTED_QUESTIONS,
-    enabled: true
+    enabled: true,
+    bot_logo_path: ''
   });
 
   useEffect(() => {
@@ -48,7 +50,8 @@ export default function BudgetEvChat() {
             suggested_questions: Array.isArray(data.suggested_questions) && data.suggested_questions.length > 0
               ? data.suggested_questions
               : SUGGESTED_QUESTIONS,
-            enabled: data.enabled !== false
+            enabled: data.enabled !== false,
+            bot_logo_path: data.bot_logo_path || ''
           });
         }
       } catch (e) {
@@ -362,7 +365,7 @@ export default function BudgetEvChat() {
           }}
           aria-label={isOpen ? "Close BudgetEV AI Consultant" : "Chat with BudgetEV AI Consultant"}
         >
-          {isOpen ? <X style={{ width: '24px', height: '24px' }} /> : <img src="/logo/budgetev-ai-assistant.jpg" alt="BudgetEV AI Logo" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />}
+          {isOpen ? <X style={{ width: '24px', height: '24px' }} /> : <img src={getBotLogo(aiSettings.bot_logo_path)} alt="BudgetEV AI Logo" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />}
           <span style={{
             position: 'absolute',
             top: '2px',
@@ -401,7 +404,7 @@ export default function BudgetEvChat() {
           {/* Header */}
           <div className="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
             <div className="flex items-center gap-2.5">
-              <img src="/logo/budgetev-ai-assistant.jpg" alt="BudgetEV AI Avatar" className="w-9 h-9 rounded-full object-cover shadow-md" />
+              <img src={getBotLogo(aiSettings.bot_logo_path)} alt="BudgetEV AI Avatar" className="w-9 h-9 rounded-full object-cover shadow-md" />
               <div>
                 <div className="flex items-center gap-1.5">
                   <span className="text-sm font-extrabold text-slate-800 tracking-tight">BudgetEV AI</span>
@@ -438,7 +441,7 @@ export default function BudgetEvChat() {
           >
             {messages.length === 0 ? (
               <div className="h-full flex flex-col justify-center items-center text-center space-y-4 py-6 animate-fadeIn">
-                <img src="/logo/budgetev-ai-assistant.jpg" alt="BudgetEV AI Logo" className="w-16 h-16 rounded-2xl object-cover shadow-md" />
+                <img src={getBotLogo(aiSettings.bot_logo_path)} alt="BudgetEV AI Logo" className="w-16 h-16 rounded-2xl object-cover shadow-md" />
                 <div className="space-y-1">
                   <h3 className="text-base font-extrabold text-slate-800">Hi, I'm BudgetEV AI</h3>
                   <p className="text-xs text-slate-400 font-medium max-w-[260px] mx-auto leading-relaxed">
@@ -481,7 +484,7 @@ export default function BudgetEvChat() {
 
                   return (
                     <div key={index} className="flex justify-start items-start gap-2.5 animate-fadeIn">
-                      <img src="/logo/budgetev-ai-assistant.jpg" alt="AI" className="w-7 h-7 rounded-full object-cover shadow-sm flex-shrink-0 mt-0.5" />
+                      <img src={getBotLogo(aiSettings.bot_logo_path)} alt="AI" className="w-7 h-7 rounded-full object-cover shadow-sm flex-shrink-0 mt-0.5" />
                       <div className="max-w-[85%] space-y-2">
                         <div className="bg-slate-50 border border-slate-100 text-slate-800 rounded-2xl rounded-tl-sm px-4 py-3 text-xs leading-relaxed font-semibold shadow-inner relative group/msg">
                           <div className="prose prose-sm text-slate-700 whitespace-pre-line font-medium">
@@ -508,7 +511,7 @@ export default function BudgetEvChat() {
 
                 {isLoading && (
                   <div className="flex justify-start items-start gap-2.5 animate-fadeIn">
-                    <img src="/logo/budgetev-ai-assistant.jpg" alt="AI" className="w-7 h-7 rounded-full object-cover shadow-sm flex-shrink-0 mt-0.5" />
+                    <img src={getBotLogo(aiSettings.bot_logo_path)} alt="AI" className="w-7 h-7 rounded-full object-cover shadow-sm flex-shrink-0 mt-0.5" />
                     <div 
                       className="bg-slate-50 border border-slate-100 rounded-2xl rounded-tl-sm shadow-inner flex items-center justify-center"
                       style={{ padding: '14px' }}
@@ -520,7 +523,7 @@ export default function BudgetEvChat() {
 
                 {errorState && (
                   <div className="flex justify-start items-start gap-2.5 animate-fadeIn">
-                    <img src="/logo/budgetev-ai-assistant.jpg" alt="AI" className="w-7 h-7 rounded-full object-cover shadow-sm flex-shrink-0 mt-0.5" />
+                    <img src={getBotLogo(aiSettings.bot_logo_path)} alt="AI" className="w-7 h-7 rounded-full object-cover shadow-sm flex-shrink-0 mt-0.5" />
                     <div className="bg-red-50 border border-red-100 text-red-800 rounded-2xl rounded-tl-sm px-4 py-3 text-xs leading-relaxed font-semibold shadow-inner space-y-2">
                       <p>
                         {errorState === 'busy' 

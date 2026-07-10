@@ -76,8 +76,10 @@ CREATE TABLE IF NOT EXISTS public.ai_settings (
     max_tokens INTEGER DEFAULT 1000,
     gemini_model TEXT DEFAULT 'gemini-1.5-flash',
     enabled BOOLEAN DEFAULT TRUE,
+    bot_logo_path TEXT,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
 
 -- Insert default row for website_settings and ai_settings if not present
 INSERT INTO public.website_settings (id, website_name) 

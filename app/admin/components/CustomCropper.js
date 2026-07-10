@@ -45,8 +45,10 @@ export default function CustomCropper({ imageSrc, onCrop, onCancel, aspectRatio 
     const img = imgRef.current;
 
     const canvas = document.createElement('canvas');
-    canvas.width = 600;
-    canvas.height = 400;
+    const targetWidth = aspectRatio === 1 ? 512 : 600;
+    const targetHeight = aspectRatio === 1 ? 512 : Math.round(600 / aspectRatio);
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
     const ctx = canvas.getContext('2d');
 
     // Container dimensions
@@ -88,13 +90,13 @@ export default function CustomCropper({ imageSrc, onCrop, onCancel, aspectRatio 
     // Source coordinates on the natural image to crop
     const sx = -centerX * scaleX;
     const sy = -centerY * scaleY;
-    const sWidth = 600 * (cWidth / finalWidth) * (nWidth / cWidth);
-    const sHeight = 400 * (cHeight / finalHeight) * (nHeight / cHeight);
+    const sWidth = targetWidth * (cWidth / finalWidth) * (nWidth / cWidth);
+    const sHeight = targetHeight * (cHeight / finalHeight) * (nHeight / cHeight);
 
     ctx.drawImage(
       img,
       sx, sy, sWidth, sHeight,  // Source crop rect
-      0, 0, 600, 400            // Destination canvas rect
+      0, 0, targetWidth, targetHeight // Destination canvas rect
     );
 
     // Convert canvas content to webp blob
@@ -113,7 +115,7 @@ export default function CustomCropper({ imageSrc, onCrop, onCancel, aspectRatio 
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2 text-slate-800">
             <Crop className="w-5 h-5 text-[#1e40af]" />
-            <h3 className="font-extrabold text-sm uppercase tracking-wider">Crop Main Vehicle Image</h3>
+            <h3 className="font-extrabold text-sm uppercase tracking-wider">{aspectRatio === 1 ? 'Crop AI Bot Logo' : 'Crop Main Vehicle Image'}</h3>
           </div>
           <button 
             type="button" 
@@ -131,8 +133,8 @@ export default function CustomCropper({ imageSrc, onCrop, onCancel, aspectRatio 
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerUp}
-          className="relative aspect-[3/2] w-full bg-slate-950 rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing select-none border border-slate-200"
-          style={{ touchAction: 'none' }}
+          className="relative w-full bg-slate-950 rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing select-none border border-slate-200"
+          style={{ touchAction: 'none', aspectRatio: aspectRatio }}
         >
           {/* Grid Guideline Overlay */}
           <div className="absolute inset-0 border border-white/20 pointer-events-none z-10">
