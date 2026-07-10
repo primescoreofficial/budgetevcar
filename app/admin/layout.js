@@ -21,11 +21,40 @@ export default function AdminLayout({ children }) {
 
       if (pathname !== '/admin/login' && !currentSession) {
         router.replace('/admin/login');
-      } else if (pathname === '/admin/login' && currentSession) {
-        router.replace('/admin/dashboard');
-      } else {
-        setLoading(false);
+        return;
+      } 
+      
+      if (pathname === '/admin/login' && currentSession) {
+        const email = currentSession.user?.email || '';
+        const role = currentSession.user?.user_metadata?.role;
+        const superAdmins = ['admin@budgetev.com', 'sawais2000@gmail.com'];
+        const isEditor = role === 'editor' || !superAdmins.includes(email.toLowerCase());
+
+        if (isEditor) {
+          router.replace('/admin/blogs');
+        } else {
+          router.replace('/admin/dashboard');
+        }
+        return;
       }
+
+      if (currentSession) {
+        const email = currentSession.user?.email || '';
+        const role = currentSession.user?.user_metadata?.role;
+        const superAdmins = ['admin@budgetev.com', 'sawais2000@gmail.com'];
+        const isEditor = role === 'editor' || !superAdmins.includes(email.toLowerCase());
+
+        if (isEditor) {
+          const allowedPaths = ['/admin/blogs', '/admin/news', '/admin/media'];
+          const isAllowed = allowedPaths.some(path => pathname.startsWith(path));
+          if (!isAllowed && pathname !== '/admin/login') {
+            router.replace('/admin/blogs');
+            return;
+          }
+        }
+      }
+
+      setLoading(false);
     };
 
     checkSession();
@@ -35,7 +64,29 @@ export default function AdminLayout({ children }) {
       if (pathname !== '/admin/login' && !currentSession) {
         router.replace('/admin/login');
       } else if (pathname === '/admin/login' && currentSession) {
-        router.replace('/admin/dashboard');
+        const email = currentSession.user?.email || '';
+        const role = currentSession.user?.user_metadata?.role;
+        const superAdmins = ['admin@budgetev.com', 'sawais2000@gmail.com'];
+        const isEditor = role === 'editor' || !superAdmins.includes(email.toLowerCase());
+
+        if (isEditor) {
+          router.replace('/admin/blogs');
+        } else {
+          router.replace('/admin/dashboard');
+        }
+      } else if (currentSession) {
+        const email = currentSession.user?.email || '';
+        const role = currentSession.user?.user_metadata?.role;
+        const superAdmins = ['admin@budgetev.com', 'sawais2000@gmail.com'];
+        const isEditor = role === 'editor' || !superAdmins.includes(email.toLowerCase());
+
+        if (isEditor) {
+          const allowedPaths = ['/admin/blogs', '/admin/news', '/admin/media'];
+          const isAllowed = allowedPaths.some(path => pathname.startsWith(path));
+          if (!isAllowed && pathname !== '/admin/login') {
+            router.replace('/admin/blogs');
+          }
+        }
       }
       setLoading(false);
     });

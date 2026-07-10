@@ -32,12 +32,21 @@ export default function Sidebar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const [isEditor, setIsEditor] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        setUserEmail(user.email || '');
+        const email = user.email || '';
+        setUserEmail(email);
+        
+        // Define superadmin emails
+        const superAdmins = ['admin@budgetev.com', 'sawais2000@gmail.com'];
+        const role = user.user_metadata?.role;
+        
+        // Editor if role metadata is 'editor' or email is not in superAdmins
+        setIsEditor(role === 'editor' || !superAdmins.includes(email.toLowerCase()));
       }
     };
     fetchUser();
@@ -90,10 +99,17 @@ export default function Sidebar() {
 
         {/* Navigation Menu Links */}
         <nav className="flex-1 space-y-1.5 overflow-y-auto custom-scrollbar">
-          {menuItems.map((item) => {
-            const isActive = pathname.startsWith(item.path);
-            const Icon = item.icon;
-            return (
+          {menuItems
+            .filter(item => {
+              if (isEditor) {
+                return ['Blogs', 'News', 'Media Library'].includes(item.name);
+              }
+              return true;
+            })
+            .map((item) => {
+              const isActive = pathname.startsWith(item.path);
+              const Icon = item.icon;
+              return (
               <Link
                 key={item.name}
                 href={item.path}
@@ -124,7 +140,7 @@ export default function Sidebar() {
             </div>
             <div className="overflow-hidden flex-1 min-w-0">
               <p className="text-[11px] font-bold text-slate-800 truncate leading-none">{userEmail || 'Administrator'}</p>
-              <p className="text-[9px] text-slate-500 font-semibold tracking-wider uppercase mt-1">Superuser</p>
+              <p className="text-[9px] text-slate-500 font-semibold tracking-wider uppercase mt-1">{isEditor ? 'Superwriter' : 'Superuser'}</p>
             </div>
           </div>
 
