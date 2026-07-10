@@ -127,24 +127,7 @@ export default function Footer({ brands = [], bodyTypes = [] }) {
             <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-sm">
               {"India's"} most trusted platform for finding, comparing, and analyzing electric vehicles within your budget. Simplifying your switch to green energy.
             </p>
-            {/* Social Links */}
-            <div className="flex items-center gap-3.5 pt-2">
-              {['twitter', 'facebook', 'linkedin', 'instagram'].map((platform) => {
-                const url = settings?.social_links?.[platform] || `#${platform}`;
-                return (
-                  <a 
-                    key={platform} 
-                    href={url} 
-                    target={url.startsWith('http') ? '_blank' : undefined}
-                    rel="noreferrer"
-                    className="text-slate-500 hover:text-white transition-colors duration-200" 
-                    aria-label={platform}
-                  >
-                    <span className="capitalize text-xs font-bold">{platform}</span>
-                  </a>
-                );
-              })}
-            </div>
+            {/* Social Links Removed */}
           </div>
 
           {/* Links Wrapper Grid */}
